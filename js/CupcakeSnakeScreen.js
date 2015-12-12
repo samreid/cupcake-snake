@@ -14,13 +14,14 @@ define( function( require ) {
   var Screen = require( 'JOIST/Screen' );
   var Text = require( 'SCENERY/nodes/Text' );
   var CupcakeSnakeScreenView = require( 'CUPCAKE_SNAKE/CupcakeSnakeScreenView' );
+  var CupcakeSnakeModel = require( 'CUPCAKE_SNAKE/CupcakeSnakeModel' );
 
   /**
    * @constructor
    */
   function CupcakeSnakeScreen() {
     Screen.call( this, 'Cupcake Snake', new Text( 'hello' ),
-      function() { return {}; },
+      function() { return new CupcakeSnakeModel(); },
       function( model ) {
         return new CupcakeSnakeScreenView( model );
       }, {
