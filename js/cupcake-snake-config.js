@@ -1,10 +1,7 @@
-// Copyright 2015, University of Colorado Boulder
-
 /**
  * RequireJS configuration file for the sim.
  *
- * @author Sam Reid (PhET Interactive Simulations)
- * @author Chandrashekar Bemagoni (Actual Concepts)
+ * @author Sam Reid
  */
 require.config( {
 

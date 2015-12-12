@@ -1,11 +1,3 @@
-// Copyright 2015, University of Colorado Boulder
-
-/**
- * Main entry point for the sim.
- *
- * @author Sam Reid (PhET Interactive Simulations)
- * @author Chandrashekar Bemagoni (Actual Concepts)
- */
 define( function( require ) {
   'use strict';
 
