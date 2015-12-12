@@ -576,7 +576,7 @@ define( function( require ) {
       sim.navigationBar.y = height - navBarHeight;
       sim.display.setSize( new Dimension2( width, height ) );
 
-      var screenHeight = height - sim.navigationBar.height;
+      var screenHeight = height;
 
       // Layout each of the screens
       _.each( sim.screens, function( m ) {

@@ -11,20 +11,44 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   // images
-  var titleImage = require( 'image!CUPCAKE_SNAKE/cupcake-title.png' );
+  var snakeImage = require( 'image!CUPCAKE_SNAKE/snake.png' );
+  var cupcakeImage = require( 'image!CUPCAKE_SNAKE/cupcake-large.png' );
 
-  function HomeScreen( options ) {
-    var homeScreenContents = new Node( {
+  function HomeScreen( bounds, options ) {
+    var startGameButton = new RectangularPushButton( {
+      content: new Text( 'Start Game', {
+        font: new PhetFont( { size: 40, weight: 'bold' } )
+      } ),
+      baseColor: '#a63137',
+      centerX: bounds.centerX,
+      bottom: bounds.maxY - 10
+    } );
+
+    var instructions = new Text( 'use arrow keys', { font: new PhetFont( { size: 28 } ) } );
+    instructions.left = startGameButton.right + 80;
+    instructions.centerY = startGameButton.centerY;
+
+    var subtitle = new Text( 'Ludum Dare 34', { font: new PhetFont( { size: 28 } ) } );
+    subtitle.right = startGameButton.left - 80;
+    subtitle.centerY = startGameButton.centerY;
+
+    var titleText = new Text( 'Cupcake Snake', {
+      font: new PhetFont( { size: 105 } ),
+      centerX: bounds.centerX,
+      top: 10
+    } );
+
+    Node.call( this, {
       children: [
-        new Text( 'hello' ),
-        new Image( titleImage ),
-        new RectangularPushButton( {
-          content: new Text( 'Start Game', { font: new PhetFont( { size: 30, weight: 'bold' } ) } )
-        } )
+        startGameButton,
+        instructions,
+        titleText,
+        subtitle,
+        new Image( snakeImage, { scale: 0.8, right: bounds.maxX - 50, bottom: startGameButton.top - 10 } ),
+        new Image( cupcakeImage, { scale: 0.8, left: bounds.minX + 200, bottom: startGameButton.top - 10 } )
       ]
     } );
-    Panel.call( this, homeScreenContents, options );
   }
 
-  return inherit( Panel, HomeScreen, {} );
+  return inherit( Node, HomeScreen, {} );
 } );
