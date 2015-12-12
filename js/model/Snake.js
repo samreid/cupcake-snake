@@ -15,7 +15,7 @@ define( function( require ) {
 
   function Snake( initialPosition, initialDirection, initialLength, initialRadius ) {
     this.position = initialPosition;
-    this.direction = initialDirection;
+    this.direction = initialDirection; // unit vector
 
     this.radius = initialRadius;
     this.motion = Snake.STRAIGHT;
@@ -46,10 +46,10 @@ define( function( require ) {
           this.currentSegment = new LineSegment( this.position, this.direction, this.elapsedLength );
         }
         else if ( this.motion === Snake.LEFT ) {
-          this.currentSegment = new ArcSegment( this.position, this.direction, this.elapsedLength, this.radius, false );
+          this.currentSegment = new ArcSegment( this.position, this.direction, this.elapsedLength, this.radius, true );
         }
         else if ( this.motion === Snake.RIGHT ) {
-          this.currentSegment = new ArcSegment( this.position, this.direction, this.elapsedLength, this.radius, true );
+          this.currentSegment = new ArcSegment( this.position, this.direction, this.elapsedLength, this.radius, false );
         }
         this.addSegment( this.currentSegment );
       }

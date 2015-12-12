@@ -39,6 +39,10 @@ define( function( require ) {
 
     toString: function() {
       return 'Line(' + this.length + ',' + this.start.toString() + ',' + this.end.toString() + ')';
+    },
+
+    drawContext: function( context ) {
+      context.lineTo( this.end.x, this.end.y );
     }
   } );
 } );

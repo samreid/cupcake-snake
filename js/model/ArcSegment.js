@@ -55,6 +55,10 @@ define( function( require ) {
 
     toString: function() {
       return 'Arc(' + this.length + ',' + this.start.toString() + ',' + this.end.toString() + ')';
+    },
+
+    drawContext: function( context ) {
+      context.arc( this.center.x, this.center.y, this.radius, this.startAngle, this.endAngle, this.anticlockwise );
     }
   } );
 } );
