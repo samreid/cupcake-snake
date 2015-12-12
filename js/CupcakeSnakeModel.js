@@ -3,6 +3,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var Snake = require( 'CUPCAKE_SNAKE/model/Snake' );
 
   function CupcakeSnakeModel() {
 
