@@ -9,6 +9,11 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
+  var Color = require( 'SCENERY/util/Color' );
+  var Shape = require( 'KITE/Shape' );
 
   // images
   var snakeImage = require( 'image!CUPCAKE_SNAKE/snake.png' );
@@ -38,14 +43,37 @@ define( function( require ) {
       top: 10
     } );
 
+    var cupcake = new Image( cupcakeImage, { scale: 0.8, left: bounds.minX + 200, bottom: startGameButton.top - 10 } );
+    var circle = new Circle( 1000, {
+      centerX: cupcake.centerX,
+      centerY: cupcake.centerY + cupcake.height / 4,
+      fill: new Color( 255, 250, 115, 1 )
+
+      //new RadialGradient( 0, 0, 0, 0, 0, 1000 )
+      //.addColorStop( 0, new Color( 204, 13, 15, 1.0 ) )
+      //.addColorStop( 0.5,  )
+    } );
+
+    //var triangle = new Path( new Shape()
+    //  .moveTo( 0, 0 )
+    //  .lineTo( 800, 0 )
+    //  .lineTo( 800, 100 )
+    //  .close(), { fill: 'white' } );
+    //
+    //var triangleFan = new Node( {
+    //  children: [ triangle ]
+    //} );
     Node.call( this, {
       children: [
+        circle,
+        //triangle,
         startGameButton,
         instructions,
         titleText,
         subtitle,
         new Image( snakeImage, { scale: 0.8, right: bounds.maxX - 50, bottom: startGameButton.top - 10 } ),
-        new Image( cupcakeImage, { scale: 0.8, left: bounds.minX + 200, bottom: startGameButton.top - 10 } )
+
+        cupcake
       ]
     } );
   }
