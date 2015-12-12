@@ -11,6 +11,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
 
   function CupcakeSnakeModel() {
+
   }
 
   return inherit( Object, CupcakeSnakeModel, {} );
