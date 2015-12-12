@@ -12,11 +12,12 @@ define( function( require ) {
   var ScreenView = require( 'JOIST/ScreenView' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   function CupcakeSnakeScreenView( cupcakeSnakeModel ) {
-    ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 834, 504 ) } );
+    ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 1024, 618 ) } );
 
-    this.addChild( new Text( 'hello', { x: 100, y: 100 } ) );
+    this.addChild( new Text( 'Level 1', { top: 10, left: 10, font: new PhetFont( { size: 30, weight: 'bold' } ) } ) );
   }
 
   return inherit( ScreenView, CupcakeSnakeScreenView, {} );
