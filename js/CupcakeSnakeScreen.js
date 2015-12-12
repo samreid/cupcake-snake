@@ -1,0 +1,33 @@
+// Copyright 2015, University of Colorado Boulder
+
+/**
+ * The 'Intro' screen.
+ *
+ * @author Sam Reid (PhET Interactive Simulations)
+ * @author Chandrashekar Bemagoni (Actual Concepts)
+ */
+define( function( require ) {
+  'use strict';
+
+  // modules
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Screen = require( 'JOIST/Screen' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var CupcakeSnakeScreenView = require( 'CUPCAKE_SNAKE/CupcakeSnakeScreenView' );
+
+  /**
+   * @constructor
+   */
+  function CupcakeSnakeScreen() {
+    Screen.call( this, 'Cupcake Snake', new Text( 'hello' ),
+      function() { return {}; },
+      function( model ) {
+        return new CupcakeSnakeScreenView( model );
+      }, {
+        backgroundColor: 'white'
+      }
+    );
+  }
+
+  return inherit( Screen, CupcakeSnakeScreen );
+} );

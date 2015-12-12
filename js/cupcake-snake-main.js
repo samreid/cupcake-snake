@@ -1,31 +1,26 @@
 // Copyright 2015, University of Colorado Boulder
 
+/**
+ * Main entry point for the sim.
+ *
+ * @author Sam Reid (PhET Interactive Simulations)
+ * @author Chandrashekar Bemagoni (Actual Concepts)
+ */
 define( function( require ) {
   'use strict';
 
   // modules
+  var CupcakeSnakeScreen = require( 'CUPCAKE_SNAKE/CupcakeSnakeScreen' );
+  var App = require( 'CUPCAKE_SNAKE/App' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Display = require( 'SCENERY/display/Display' );
-  var Text = require( 'SCENERY/nodes/Text' );
 
-  var rootNode = new Node();
-  var display = new Display( rootNode, {
-    allowSceneOverflow: true,
-    isApplication: true,
-    accessibility: false
-  } );
-
-  var simDiv = display.domElement;
-  simDiv.id = 'sim';
-  document.body.appendChild( simDiv );
+  // strings
+  var simOptions = {
+    credits: {}
+  };
 
   SimLauncher.launch( function() {
-    console.log( 'hello' );
-    var callback = function() {
-      console.log( 'again' );
-      rootNode.addChild( new Text( 'hello', { fill: 'white', centerX: 200, centerY: 200 } ) );
-    };
-    display.updateOnRequestAnimationFrame( callback );
+    var app = new App( 'Cupcake Snake', [ new CupcakeSnakeScreen() ], simOptions );
+    app.start();
   } );
 } );
