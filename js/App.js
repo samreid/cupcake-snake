@@ -430,7 +430,7 @@ define( function( require ) {
       screen.view.layerSplit = true;
       sim.rootNode.addChild( screen.view );
     } );
-    this.rootNode.addChild( this.navigationBar );
+    //this.rootNode.addChild( this.navigationBar );
 
     if ( this.homeScreen ) {
       // Once both the navbar and homescreen have been added, link the PhET button positions together.
@@ -571,7 +571,7 @@ define( function( require ) {
       this.barrierRectangle.rectHeight = height / scale;
 
       // 40 px high on iPad Mobile Safari
-      var navBarHeight = scale * NavigationBar.NAVIGATION_BAR_SIZE.height;
+      var navBarHeight = scale * 0;
       sim.navigationBar.layout( scale, width, navBarHeight );
       sim.navigationBar.y = height - navBarHeight;
       sim.display.setSize( new Dimension2( width, height ) );
