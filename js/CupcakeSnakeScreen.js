@@ -5,8 +5,8 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Screen = require( 'JOIST/Screen' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var CupcakeSnakeScreenView = require( 'CUPCAKE_SNAKE/CupcakeSnakeScreenView' );
-  var CupcakeSnakeModel = require( 'CUPCAKE_SNAKE/CupcakeSnakeModel' );
+  var CupcakeSnakeScreenView = require( 'CUPCAKE_SNAKE/view/CupcakeSnakeScreenView' );
+  var CupcakeSnakeModel = require( 'CUPCAKE_SNAKE/model/CupcakeSnakeModel' );
 
   /**
    * @constructor
