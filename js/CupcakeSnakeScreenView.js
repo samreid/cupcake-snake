@@ -9,6 +9,10 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var HomeScreen = require( 'CUPCAKE_SNAKE/HomeScreen' );
   var SnakeView = require( 'CUPCAKE_SNAKE/view/SnakeView' );
+  var Wall = require( 'CUPCAKE_SNAKE/model/Wall' );
+  var MultiWallView = require( 'CUPCAKE_SNAKE/view/MultiWallView' );
+  var Vector2 = require( 'DOT/Vector2' );
+  var LineSegment = require( 'CUPCAKE_SNAKE/model/LineSegment' );
 
   function CupcakeSnakeScreenView( cupcakeSnakeModel ) {
     this.cupcakeSnakeModel = cupcakeSnakeModel;
@@ -63,7 +67,12 @@ define( function( require ) {
     },
 
     startLevel: function( levelNumber ) {
+      var segment = new LineSegment( new Vector2( 0, 0 ), new Vector2( 1, 0 ), 100 );
+      var wall = new Wall( [ segment ] );
 
+      // TODO: This should probably be behind
+      var wallView = new MultiWallView( [ wall ] );
+      this.addChild( wallView );
     },
 
     step: function( dt ) {

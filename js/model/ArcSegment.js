@@ -2,7 +2,7 @@
 
 /**
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
- * @author Sam Reid (PhET Interactive Simulations)
+ * @author Sam Reid
  */
 define( function( require ) {
   'use strict';

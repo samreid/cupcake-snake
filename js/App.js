@@ -5,7 +5,7 @@
  * Provides default initialization, such as polyfills as well.
  * If the simulation has only one screen, then there is no homescreen, home icon or screen icon in the navigation bar.
  *
- * @author Sam Reid (PhET Interactive Simulations)
+ * @author Sam Reid
  */
 define( function( require ) {
   'use strict';
