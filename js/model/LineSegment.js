@@ -46,6 +46,10 @@ define( function( require ) {
 
     drawContext: function( context ) {
       context.lineTo( this.end.x, this.end.y );
+    },
+
+    drawReverseContext: function( context ) {
+      context.lineTo( this.start.x, this.start.y );
     }
   } );
 } );

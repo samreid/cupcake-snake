@@ -17,6 +17,7 @@ define( function( require ) {
       remainingLengthToGrow: 0,
       motion: Snake.STRAIGHT
     } );
+    window.model = this;
 
     this.walls = [];
     this.cupcakes = new ObservableArray();

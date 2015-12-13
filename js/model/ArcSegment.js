@@ -60,6 +60,10 @@ define( function( require ) {
       context.arc( this.center.x, this.center.y, this.radius, this.startAngle, this.endAngle, this.anticlockwise );
     },
 
+    drawReverseContext: function( context ) {
+      context.arc( this.center.x, this.center.y, this.radius, this.endAngle, this.startAngle, !this.anticlockwise );
+    },
+
     set radius( value ) {
       this.segment.radius = value;
     },
