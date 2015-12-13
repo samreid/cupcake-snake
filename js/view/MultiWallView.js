@@ -75,33 +75,6 @@ define( function( require ) {
         } );
       }
 
-      if ( showDebugIntersections ) {
-        for ( var j = 0; j < snake.segments.length; j++ ) {
-          var jSegment = snake.segments[ j ].segment;
-
-          // self-intersection (loop) test
-          if ( jSegment.radius && Math.abs( jSegment.startAngle - jSegment.endAngle ) >= Math.PI * 2 - 0.000001 ) {
-            hits.push( {
-              intersection: jSegment.end
-            } );
-          }
-
-          // other segment test
-          for ( var k = 0; k < snake.segments.length; k++ ) {
-            if ( Math.abs( j - k ) > 1 && j < k ) {
-              var kSegment = snake.segments[ k ].segment;
-
-              var segmentHits = Intersection.intersect( jSegment, kSegment );
-              if ( segmentHits ) {
-                // debugger;
-                // Intersection.intersect( wallSegment, snakeSegment.segment );
-                hits = hits.concat( segmentHits );
-              }
-            }
-          }
-        }
-      }
-
       // context.fillStyle = '#fff';
       context.fillStyle = backgroundPattern;
       context.strokeStyle = '#666';
