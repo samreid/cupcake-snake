@@ -12,11 +12,12 @@ define( function( require ) {
   var cupcakeSnake = require( 'CUPCAKE_SNAKE/cupcakeSnake' );
   var SnakeSegment = require( 'CUPCAKE_SNAKE/model/SnakeSegment' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Line = require( 'KITE/segments/Line' );
 
   var scratchVector = new Vector2();
 
   function LineSegment( initialPosition, initialDirection, startLength ) {
-    SnakeSegment.call( this, initialPosition, initialDirection, startLength );
+    SnakeSegment.call( this, new Line( initialPosition.copy(), initialPosition.copy() ), initialPosition, initialDirection, startLength );
   }
   cupcakeSnake.register( 'LineSegment', LineSegment );
 
@@ -25,6 +26,7 @@ define( function( require ) {
       // end = end + endTangent * growLength
       scratchVector.set( this.endTangent ).multiplyScalar( growLength );
       this.end.add( scratchVector );
+      this.segment.invalidate();
 
       this.endLength += growLength;
     },
@@ -33,6 +35,7 @@ define( function( require ) {
       // start = start + startTangent * shrinkLength
       scratchVector.set( this.startTangent ).multiplyScalar( shrinkLength );
       this.start.add( scratchVector );
+      this.segment.invalidate();
 
       this.startLength += shrinkLength;
     },

@@ -14,8 +14,10 @@ define( function( require ) {
     assert && assert( segments.length > 0, 'should have segments' );
 
     // @public
-    this.segments = segments;
+    this.segments = segments; // kite segments
   }
 
-  return inherit( Object, Wall, {} );
+  return inherit( Object, Wall, {
+
+  } );
 } );

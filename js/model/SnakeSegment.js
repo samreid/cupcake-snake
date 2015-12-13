@@ -11,9 +11,8 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var cupcakeSnake = require( 'CUPCAKE_SNAKE/cupcakeSnake' );
 
-  function SnakeSegment( initialPosition, initialDirection, initialLength ) {
-    this.start = initialPosition.copy();
-    this.end = initialPosition.copy();
+  function SnakeSegment( segment, initialPosition, initialDirection, initialLength ) {
+    this.segment = segment;
 
     this.startTangent = initialDirection.copy();
     this.endTangent = initialDirection.copy();
@@ -26,6 +25,20 @@ define( function( require ) {
   return inherit( Object, SnakeSegment, {
     get length() {
       return this.endLength - this.startLength;
+    },
+
+    get start() {
+      return this.segment.start;
+    },
+    set start( value ) {
+      this.segment.start = value;
+    },
+
+    get end() {
+      return this.segment.end;
+    },
+    set end( value ) {
+      this.segment.end = value;
     }
   } );
 } );

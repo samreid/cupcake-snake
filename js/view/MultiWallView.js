@@ -28,24 +28,34 @@ define( function( require ) {
 
   inherit( CanvasNode, MultiWallView, {
     paintCanvas: function( context ) {
-      context.translate( -this.snake.position.x, -this.snake.position.y );
+      context.save();
+
+      // context.translate( -this.snake.position.x, -this.snake.position.y );
+
+      context.fillStyle = '#99f';
+      context.fillRect( -10000, -10000, 20000, 20000 );
+
+      context.beginPath();
 
       for ( var i = 0; i < this.walls.length; i++ ) {
         var wall = this.walls[ i ];
 
-        context.beginPath();
-
         context.moveTo( wall.segments[ 0 ].start.x, wall.segments[ 0 ].start.y );
 
         wall.segments.forEach( function( segment ) {
-          segment.drawContext( context );
+          segment.writeToContext( context );
         } );
 
-        context.strokeStyle = 'green';
-        context.lineWidth = 3;
-        context.lineCap = 'round';
-        context.stroke();
       }
+
+      context.fillStyle = '#ccf';
+      context.strokeStyle = '#00f';
+      context.lineWidth = 1;
+      context.lineCap = 'round';
+      context.fill();
+      context.stroke();
+
+      context.restore();
     }
   } );
 

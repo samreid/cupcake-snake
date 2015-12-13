@@ -11,18 +11,15 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var cupcakeSnake = require( 'CUPCAKE_SNAKE/cupcakeSnake' );
   var SnakeSegment = require( 'CUPCAKE_SNAKE/model/SnakeSegment' );
+  var Arc = require( 'KITE/segments/Arc' );
 
   function ArcSegment( initialPosition, initialDirection, startLength, radius, anticlockwise ) {
-    SnakeSegment.call( this, initialPosition, initialDirection, startLength );
-
-    this.radius = radius;
-    this.anticlockwise = anticlockwise;
-
     var directionToCenter = anticlockwise ? initialDirection.perpendicular() : initialDirection.perpendicular().negate();
-    this.center = initialPosition.plus( directionToCenter.timesScalar( radius ) );
+    var center = initialPosition.plus( directionToCenter.timesScalar( radius ) );
+    var startAngle = directionToCenter.negated().angle();
+    var endAngle = startAngle;
 
-    this.startAngle = directionToCenter.negated().angle();
-    this.endAngle = this.startAngle;
+    SnakeSegment.call( this, new Arc( center, radius, startAngle, endAngle, anticlockwise ), initialPosition, initialDirection, startLength );
   }
   cupcakeSnake.register( 'ArcSegment', ArcSegment );
 
@@ -36,6 +33,7 @@ define( function( require ) {
       this.endAngle += angleDelta;
       this.end.setPolar( this.radius, this.endAngle ).add( this.center ); // center + offset from center
       this.endTangent.setPolar( 1, this.endAngle + ( this.anticlockwise ? -Math.PI / 2 : Math.PI / 2 ) );
+      this.segment.invalidate();
 
       this.endLength += growLength;
     },
@@ -49,6 +47,7 @@ define( function( require ) {
       this.startAngle += angleDelta;
       this.start.setPolar( this.radius, this.startAngle ).add( this.center ); // center + offset from center
       this.startTangent.setPolar( 1, this.startAngle + ( this.anticlockwise ? -Math.PI / 2 : Math.PI / 2 ) );
+      this.segment.invalidate();
 
       this.startLength += shrinkLength;
     },
@@ -59,6 +58,41 @@ define( function( require ) {
 
     drawContext: function( context ) {
       context.arc( this.center.x, this.center.y, this.radius, this.startAngle, this.endAngle, this.anticlockwise );
+    },
+
+    set radius( value ) {
+      this.segment.radius = value;
+    },
+    get radius() {
+      return this.segment.radius;
+    },
+
+    set center( value ) {
+      this.segment.center = value;
+    },
+    get center() {
+      return this.segment.center;
+    },
+
+    set anticlockwise( value ) {
+      this.segment.anticlockwise = value;
+    },
+    get anticlockwise() {
+      return this.segment.anticlockwise;
+    },
+
+    set startAngle( value ) {
+      this.segment.startAngle = value;
+    },
+    get startAngle() {
+      return this.segment.startAngle;
+    },
+
+    set endAngle( value ) {
+      this.segment.endAngle = value;
+    },
+    get endAngle() {
+      return this.segment.endAngle;
     }
   } );
 } );

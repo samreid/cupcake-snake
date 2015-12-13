@@ -26,7 +26,9 @@ define( function( require ) {
 
   inherit( CanvasNode, SnakeView, {
     paintCanvas: function( context ) {
-      context.translate( -this.snake.position.x, -this.snake.position.y );
+      context.save();
+
+      // context.translate( -this.snake.position.x, -this.snake.position.y );
 
       context.beginPath();
 
@@ -47,6 +49,8 @@ define( function( require ) {
       context.arc( this.snake.position.x, this.snake.position.y, 3, 0, Math.PI * 2, false );
       context.closePath();
       context.fill();
+
+      context.restore();
     }
   } );
 

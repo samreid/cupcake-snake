@@ -16,7 +16,8 @@ define( function( require ) {
       remainingLengthToGrow: 0,
       motion: Snake.STRAIGHT
     } );
-    window.model = this;
+
+    this.walls = [];
 
     this.snake = new Snake( new Vector2( 0, 0 ), new Vector2( 0, -1 ), 100, 30 );
 
