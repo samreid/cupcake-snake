@@ -23,6 +23,30 @@ define( function( require ) {
     } );
     this.addChild( this.homeScreen );
 
+    this.snakeView = new SnakeView( cupcakeSnakeModel.snake );
+    this.snakeView.center = bounds.center;
+    this.addChild( this.snakeView );
+
+    var KEY_LEFT = 37;
+    var KEY_RIGHT = 39;
+
+    document.addEventListener( 'keydown', function( event ) {
+      if ( event.keyCode === KEY_LEFT ) {
+        cupcakeSnakeModel.left = true;
+      }
+      if ( event.keyCode === KEY_RIGHT ) {
+        cupcakeSnakeModel.right = true;
+      }
+    } );
+
+    document.addEventListener( 'keyup', function( event ) {
+      if ( event.keyCode === KEY_LEFT ) {
+        cupcakeSnakeModel.left = false;
+      }
+      if ( event.keyCode === KEY_RIGHT ) {
+        cupcakeSnakeModel.right = false;
+      }
+    } );
     if ( phet.chipper.getQueryParameter( 'level' ) ) {
       var level = parseInt( phet.chipper.getQueryParameter( 'level' ) );
       this.closeHomeScreenAndStartLevel( level );
