@@ -14,8 +14,13 @@ define( function( require ) {
     ScreenView.call( this, { layoutBounds: bounds } );
 
     //this.addChild( new Text( 'Level 1', { top: 10, left: 10, font: new PhetFont( { size: 30, weight: 'bold' } ) } ) );
-    this.addChild( new HomeScreen( bounds, { centerX: bounds.centerX, centerY: bounds.centerY } ) );
+    this.homeScreen = new HomeScreen( bounds, { centerX: bounds.centerX, centerY: bounds.centerY } );
+    this.addChild( this.homeScreen );
   }
 
-  return inherit( ScreenView, CupcakeSnakeScreenView, {} );
+  return inherit( ScreenView, CupcakeSnakeScreenView, {
+    step: function( dt ) {
+      this.homeScreen.step( dt );
+    }
+  } );
 } );

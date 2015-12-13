@@ -14,6 +14,7 @@ define( function( require ) {
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var Color = require( 'SCENERY/util/Color' );
   var Shape = require( 'KITE/Shape' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // images
   var snakeImage = require( 'image!CUPCAKE_SNAKE/snake.png' );
@@ -54,19 +55,26 @@ define( function( require ) {
       //.addColorStop( 0.5,  )
     } );
 
-    //var triangle = new Path( new Shape()
-    //  .moveTo( 0, 0 )
-    //  .lineTo( 800, 0 )
-    //  .lineTo( 800, 100 )
-    //  .close(), { fill: 'white' } );
-    //
-    //var triangleFan = new Node( {
-    //  children: [ triangle ]
-    //} );
+    var children = [];
+    for ( var angle = 0; angle < Math.PI * 2; angle += Math.PI * 2 / 20 ) {
+      var startPoint = Vector2.createPolar( 1000, angle - Math.PI * 2 / 40 );
+      var endPoint = Vector2.createPolar( 1000, angle + Math.PI * 2 / 40 );
+      var triangle = new Path( new Shape()
+        .moveTo( circle.centerX, circle.centerY )
+        .lineToRelative( startPoint.x, startPoint.y )
+        .lineToRelative( endPoint.x, endPoint.y )
+        .close(), { fill: 'white' } );
+      children.push( triangle );
+    }
+
+    var triangleFan = new Node( {
+      children: children
+    } );
+    this.triangleFan = triangleFan;
     Node.call( this, {
       children: [
         circle,
-        //triangle,
+        triangleFan,
         startGameButton,
         instructions,
         titleText,
@@ -78,5 +86,9 @@ define( function( require ) {
     } );
   }
 
-  return inherit( Node, HomeScreen, {} );
+  return inherit( Node, HomeScreen, {
+    step: function( dt ) {
+      this.triangleFan.rotateAround( this.triangleFan.center, Math.PI / 32 * dt );
+    }
+  } );
 } );
