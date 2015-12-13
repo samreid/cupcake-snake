@@ -20,14 +20,15 @@ define( function( require ) {
   var snakeImage = require( 'image!CUPCAKE_SNAKE/snake.png' );
   var cupcakeImage = require( 'image!CUPCAKE_SNAKE/cupcake-large.png' );
 
-  function HomeScreen( bounds, options ) {
+  function HomeScreen( bounds, startButtonPressed ) {
     var startGameButton = new RectangularPushButton( {
       content: new Text( 'Start Game', {
         font: new PhetFont( { size: 40, weight: 'bold' } )
       } ),
       baseColor: '#a63137',
       centerX: bounds.centerX,
-      bottom: bounds.maxY - 10
+      bottom: bounds.maxY - 10,
+      listener: startButtonPressed
     } );
 
     var instructions = new Text( 'use arrow keys', { font: new PhetFont( { size: 28 } ) } );
