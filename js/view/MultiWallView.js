@@ -32,7 +32,7 @@ define( function( require ) {
 
       // context.translate( -this.snake.position.x, -this.snake.position.y );
 
-      context.fillStyle = '#99f';
+      context.fillStyle = 'rgb(255,250,115)';
       context.fillRect( -10000, -10000, 20000, 20000 );
 
       context.beginPath();
@@ -48,8 +48,8 @@ define( function( require ) {
 
       }
 
-      context.fillStyle = '#ccf';
-      context.strokeStyle = '#00f';
+      context.fillStyle = '#fff';
+      context.strokeStyle = '#666';
       context.lineWidth = 1;
       context.lineCap = 'round';
       context.fill();

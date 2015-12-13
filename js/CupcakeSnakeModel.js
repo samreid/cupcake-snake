@@ -19,7 +19,7 @@ define( function( require ) {
 
     this.walls = [];
 
-    this.snake = new Snake( new Vector2( 0, 0 ), new Vector2( 0, -1 ), 100, 30 );
+    this.snake = new Snake( new Vector2( 0, 0 ), new Vector2( 0, -1 ), 200, 30 );
 
     this.multilink( [ 'left', 'right' ], function() {
       self.motion = ( self.left === self.right ) ? Snake.STRAIGHT : ( self.left ? Snake.LEFT : Snake.RIGHT );
