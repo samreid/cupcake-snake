@@ -23,10 +23,6 @@ define( function( require ) {
     } );
     this.addChild( this.homeScreen );
 
-    this.snakeView = new SnakeView( cupcakeSnakeModel.snake );
-    this.snakeView.center = bounds.center;
-    this.addChild( this.snakeView );
-
     var KEY_LEFT = 37;
     var KEY_RIGHT = 39;
 
@@ -62,6 +58,7 @@ define( function( require ) {
 
     startLevel: function( levelNumber ) {
       this.snakeView = new SnakeView( this.cupcakeSnakeModel.snake );
+      this.snakeView.center = this.layoutBounds.center;
       this.addChild( this.snakeView );
     },
     step: function( dt ) {
