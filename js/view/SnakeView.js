@@ -32,8 +32,6 @@ define( function( require ) {
     paintCanvas: function( context ) {
       context.save();
 
-      // context.translate( -this.snake.position.x, -this.snake.position.y );
-
       context.beginPath();
 
       var snake = this.snake;
@@ -66,26 +64,20 @@ define( function( require ) {
 
       // head
       context.beginPath();
-      context.moveTo( this.snake.position.x - this.snake.direction.x * 5 - this.snake.direction.y * 3,
-                      this.snake.position.y - this.snake.direction.y * 5 + this.snake.direction.x * 3 );
-      context.lineTo( this.snake.position.x + this.snake.direction.x * 0 - this.snake.direction.y * 6,
-                      this.snake.position.y + this.snake.direction.y * 0 + this.snake.direction.x * 6 );
-      context.lineTo( this.snake.position.x + this.snake.direction.x * 2 - this.snake.direction.y * 6,
-                      this.snake.position.y + this.snake.direction.y * 2 + this.snake.direction.x * 6 );
-      context.lineTo( this.snake.position.x + this.snake.direction.x * 7 - this.snake.direction.y * 3,
-                      this.snake.position.y + this.snake.direction.y * 7 + this.snake.direction.x * 3 );
-      context.lineTo( this.snake.position.x + this.snake.direction.x * 9 - this.snake.direction.y * 1,
-                      this.snake.position.y + this.snake.direction.y * 9 + this.snake.direction.x * 1 );
-      context.lineTo( this.snake.position.x + this.snake.direction.x * 9 + this.snake.direction.y * 1,
-                      this.snake.position.y + this.snake.direction.y * 9 - this.snake.direction.x * 1 );
-      context.lineTo( this.snake.position.x + this.snake.direction.x * 7 + this.snake.direction.y * 3,
-                      this.snake.position.y + this.snake.direction.y * 7 - this.snake.direction.x * 3 );
-      context.lineTo( this.snake.position.x + this.snake.direction.x * 2 + this.snake.direction.y * 6,
-                      this.snake.position.y + this.snake.direction.y * 2 - this.snake.direction.x * 6 );
-      context.lineTo( this.snake.position.x + this.snake.direction.x * 0 + this.snake.direction.y * 6,
-                      this.snake.position.y + this.snake.direction.y * 0 - this.snake.direction.x * 6 );
-      context.lineTo( this.snake.position.x - this.snake.direction.x * 5 + this.snake.direction.y * 3,
-                      this.snake.position.y - this.snake.direction.y * 5 - this.snake.direction.x * 3 );
+      var px = snake.position.x;
+      var py = snake.position.y;
+      var dx = snake.direction.x;
+      var dy = snake.direction.y;
+      context.moveTo( px - dx * 5 - dy * 3, py - dy * 5 + dx * 3 ); // "left" base at neck
+      context.lineTo( px + dx * 0 - dy * 6, py + dy * 0 + dx * 6 ); // head expands
+      context.lineTo( px + dx * 2 - dy * 6, py + dy * 2 + dx * 6 ); // forward
+      context.lineTo( px + dx * 7 - dy * 3, py + dy * 7 + dx * 3 ); // narrowing
+      context.lineTo( px + dx * 9 - dy * 1, py + dy * 9 + dx * 1 ); // almost a point
+      context.lineTo( px + dx * 9 + dy * 1, py + dy * 9 - dx * 1 ); // almost a point
+      context.lineTo( px + dx * 7 + dy * 3, py + dy * 7 - dx * 3 ); // narrowing
+      context.lineTo( px + dx * 2 + dy * 6, py + dy * 2 - dx * 6 ); // forward
+      context.lineTo( px + dx * 0 + dy * 6, py + dy * 0 - dx * 6 ); // head expands
+      context.lineTo( px - dx * 5 + dy * 3, py - dy * 5 - dx * 3 ); // "right" base at neck
       context.fillStyle = '#a7cb4d';
       context.fill();
       context.lineWidth = 1;

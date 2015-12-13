@@ -30,8 +30,6 @@ define( function( require ) {
     paintCanvas: function( context ) {
       context.save();
 
-      // context.translate( -this.snake.position.x, -this.snake.position.y );
-
       context.fillStyle = 'rgb(255,250,115)';
       context.fillRect( -10000, -10000, 20000, 20000 );
 
