@@ -85,6 +85,7 @@ define( function( require ) {
       this.addChild( this.buttonControls );
 
       this.startLevel( level );
+      this.cupcakeSnakeModel.running = true;
     },
 
     startLevel: function( levelNumber ) {

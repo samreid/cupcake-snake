@@ -27,14 +27,18 @@ define( function( require ) {
     this.multilink( [ 'left', 'right' ], function() {
       self.motion = ( self.left === self.right ) ? Snake.STRAIGHT : ( self.left ? Snake.LEFT : Snake.RIGHT );
     } );
+
+    this.running = false;
   }
 
   return inherit( PropertySet, CupcakeSnakeModel, {
     step: function( dt ) {
-      var growLength = 150 * dt;
-      var shrinkLength = Math.max( growLength - this.remainingLengthToGrow, 0 );
-      this.snake.step( growLength, shrinkLength, this.motion );
-      this.remainingLengthToGrow = Math.max( this.remainingLengthToGrow - growLength, 0 );
+      if ( this.running ) {
+        var growLength = 150 * dt;
+        var shrinkLength = Math.max( growLength - this.remainingLengthToGrow, 0 );
+        this.snake.step( growLength, shrinkLength, this.motion );
+        this.remainingLengthToGrow = Math.max( this.remainingLengthToGrow - growLength, 0 );
+      }
     }
   } );
 } );
