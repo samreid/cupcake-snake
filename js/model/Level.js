@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var cupcakeSnake = require( 'CUPCAKE_SNAKE/cupcakeSnake' );
   var Cupcake = require( 'CUPCAKE_SNAKE/model/Cupcake' );
   var Wall = require( 'CUPCAKE_SNAKE/model/Wall' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -72,6 +73,7 @@ define( function( require ) {
       return this; // chaining
     }
   } );
+  cupcakeSnake.register( 'Level', Level );
 
   Level.levels = [
     new Level().addWallShape( Shape.roundRect( -200, -600, 400, 700, 80, 80 ) )

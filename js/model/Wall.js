@@ -9,6 +9,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var cupcakeSnake = require( 'CUPCAKE_SNAKE/cupcakeSnake' );
 
   function Wall( segments ) {
     assert && assert( segments.length > 0, 'should have segments' );
@@ -16,6 +17,8 @@ define( function( require ) {
     // @public (immutable, see copy function)
     this.segments = segments; // kite segments
   }
+
+  cupcakeSnake.register( 'Wall', Wall );
 
   return inherit( Object, Wall, {
     copy: function() {

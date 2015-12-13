@@ -10,6 +10,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var cupcakeSnake = require( 'CUPCAKE_SNAKE/cupcakeSnake' );
+  var Intersection = require( 'CUPCAKE_SNAKE/model/Intersection' );
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
 
@@ -24,6 +25,8 @@ define( function( require ) {
   backgroundPatternContext.fillRect( 0, 0, checkerSize, checkerSize );
   backgroundPatternContext.fillRect( checkerSize, checkerSize, checkerSize, checkerSize );
   var backgroundPattern = backgroundPatternContext.createPattern( backgroundPatternCanvas, 'repeat' );
+
+  var showDebugIntersections = !!phet.chipper.getQueryParameter( 'debugIntersections' );
 
   function MultiWallView( snake, walls ) {
     this.snake = snake;
@@ -40,6 +43,8 @@ define( function( require ) {
 
   inherit( CanvasNode, MultiWallView, {
     paintCanvas: function( context ) {
+      var snake = this.snake;
+
       context.save();
 
       context.fillStyle = 'rgb(255,250,115)';
@@ -47,15 +52,54 @@ define( function( require ) {
 
       context.beginPath();
 
+      var hits = [];
+
       for ( var i = 0; i < this.walls.length; i++ ) {
         var wall = this.walls[ i ];
 
         context.moveTo( wall.segments[ 0 ].start.x, wall.segments[ 0 ].start.y );
 
-        wall.segments.forEach( function( segment ) {
-          segment.writeToContext( context );
-        } );
+        wall.segments.forEach( function( wallSegment ) {
+          wallSegment.writeToContext( context );
 
+          if ( showDebugIntersections ) {
+            snake.segments.forEach( function( snakeSegment ) {
+              var segmentHits = Intersection.intersect( wallSegment, snakeSegment.segment );
+              if ( segmentHits ) {
+                // debugger;
+                // Intersection.intersect( wallSegment, snakeSegment.segment );
+                hits = hits.concat( segmentHits );
+              }
+            } );
+          }
+        } );
+      }
+
+      if ( showDebugIntersections ) {
+        for ( var j = 0; j < snake.segments.length; j++ ) {
+          var jSegment = snake.segments[ j ].segment;
+
+          // self-intersection (loop) test
+          if ( jSegment.radius && Math.abs( jSegment.startAngle - jSegment.endAngle ) >= Math.PI * 2 - 0.000001 ) {
+            hits.push( {
+              intersection: jSegment.end
+            } );
+          }
+
+          // other segment test
+          for ( var k = 0; k < snake.segments.length; k++ ) {
+            if ( Math.abs( j - k ) > 1 && j < k ) {
+              var kSegment = snake.segments[ k ].segment;
+
+              var segmentHits = Intersection.intersect( jSegment, kSegment );
+              if ( segmentHits ) {
+                // debugger;
+                // Intersection.intersect( wallSegment, snakeSegment.segment );
+                hits = hits.concat( segmentHits );
+              }
+            }
+          }
+        }
       }
 
       // context.fillStyle = '#fff';
@@ -65,6 +109,16 @@ define( function( require ) {
       context.lineCap = 'round';
       context.fill();
       context.stroke();
+
+      if ( showDebugIntersections ) {
+        hits.forEach( function( hit ) {
+          context.beginPath();
+          context.arc( hit.intersection.x, hit.intersection.y, 8, 0, Math.PI * 2, false );
+          context.closePath();
+          context.fillStyle = 'red';
+          context.fill();
+        } );
+      }
 
       context.restore();
     }
