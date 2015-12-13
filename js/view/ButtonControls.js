@@ -1,8 +1,8 @@
-// Copyright 2015, University of Colorado Boulder
+// Copyright 2015
 
 /**
  *
- * @author Sam Reid (PhET Interactive Simulations)
+ * @author Sam Reid
  */
 define( function( require ) {
   'use strict';
