@@ -16,7 +16,7 @@ define( function( require ) {
 
   function CupcakeNode( cupcake ) {
     Node.call( this );
-    this.addChild( new Image( cupcakeImage, { scale: 0.6 } ) );
+    this.addChild( new Image( cupcakeImage, { scale: 0.3 } ) );
     this.centerX = cupcake.x;
     this.centerY = cupcake.y;
   }

@@ -47,7 +47,7 @@ define( function( require ) {
           var dy = cupcake.y - this.snake.position.y;
 
           var distance = Math.sqrt( dx * dx + dy * dy );
-          if ( distance < 50 ) {
+          if ( distance < 30 ) {
             toRemove.push( cupcake );
             this.remainingLengthToGrow += 100;
           }
