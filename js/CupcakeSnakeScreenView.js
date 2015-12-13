@@ -24,9 +24,22 @@ define( function( require ) {
   function CupcakeSnakeScreenView( cupcakeSnakeModel ) {
     var cupcakeSnakeScreenView = this;
     this.cupcakeSnakeModel = cupcakeSnakeModel;
+
+    // When cupcakes are added to the model, show them on the screen
     this.cupcakeSnakeModel.cupcakes.addItemAddedListener( function( cupcake ) {
-      cupcakeSnakeScreenView.playArea.addChild( new CupcakeNode( cupcake ) );
+      var cupcakeNode = new CupcakeNode( cupcake );
+      cupcakeSnakeScreenView.playArea.addChild( cupcakeNode );
+
+      // When the same cupcake is eaten, remove it from the screen
+      var z = function( c ) {
+        if ( c === cupcake ) {
+          cupcakeSnakeScreenView.playArea.removeChild( cupcakeNode );
+          cupcakeSnakeScreenView.cupcakeSnakeModel.cupcakes.removeItemRemovedListener( z );
+        }
+      };
+      cupcakeSnakeScreenView.cupcakeSnakeModel.cupcakes.addItemRemovedListener( z );
     } );
+
     var bounds = new Bounds2( 0, 0, 1024, 618 );
     ScreenView.call( this, { layoutBounds: bounds } );
 
@@ -108,7 +121,11 @@ define( function( require ) {
       this.cupcakeSnakeModel.walls.push( boundary );
       this.cupcakeSnakeModel.walls.push( wall );
 
-      this.cupcakeSnakeModel.cupcakes.add( new Cupcake( 0, 0 ) );
+      this.cupcakeSnakeModel.cupcakes.add( new Cupcake( 0, -500 ) );
+      for ( var i = 0; i < 20; i++ ) {
+        var v = Vector2.createPolar( Math.random() * 100, Math.random() * Math.PI * 2 );
+        this.cupcakeSnakeModel.cupcakes.add( new Cupcake( v.x, v.y ) );
+      }
     },
 
     step: function( dt ) {

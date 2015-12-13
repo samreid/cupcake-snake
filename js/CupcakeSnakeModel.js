@@ -38,6 +38,21 @@ define( function( require ) {
         var shrinkLength = Math.max( growLength - this.remainingLengthToGrow, 0 );
         this.snake.step( growLength, shrinkLength, this.motion );
         this.remainingLengthToGrow = Math.max( this.remainingLengthToGrow - growLength, 0 );
+
+        var cupcakeArray = this.cupcakes.getArray();
+        var toRemove = [];
+        for ( var i = 0; i < cupcakeArray.length; i++ ) {
+          var cupcake = cupcakeArray[ i ];
+          var dx = cupcake.x - this.snake.position.x;
+          var dy = cupcake.y - this.snake.position.y;
+
+          var distance = Math.sqrt( dx * dx + dy * dy );
+          if ( distance < 50 ) {
+            toRemove.push( cupcake );
+            this.remainingLengthToGrow += 100;
+          }
+        }
+        this.cupcakes.removeAll( toRemove );
       }
     }
   } );
