@@ -13,7 +13,8 @@ define( function( require ) {
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
 
-  function MultiWallView( walls ) {
+  function MultiWallView( snake, walls ) {
+    this.snake = snake;
     CanvasNode.call( this, {
       preventFit: true
     } );
@@ -27,6 +28,7 @@ define( function( require ) {
 
   inherit( CanvasNode, MultiWallView, {
     paintCanvas: function( context ) {
+      context.translate( -this.snake.position.x, -this.snake.position.y );
 
       for ( var i = 0; i < this.walls.length; i++ ) {
         var wall = this.walls[ i ];

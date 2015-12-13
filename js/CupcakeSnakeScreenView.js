@@ -67,11 +67,17 @@ define( function( require ) {
     },
 
     startLevel: function( levelNumber ) {
-      var segment = new LineSegment( new Vector2( 0, 0 ), new Vector2( 1, 0 ), 100 );
-      var wall = new Wall( [ segment ] );
+
+      var segments = [];
+      for ( var i = 0; i < 100; i++ ) {
+        var segment = new LineSegment( new Vector2( i * 10, i * 10 ), new Vector2( 1, 1 ), 10000 );
+        segments.push( segment );
+      }
+
+      var wall = new Wall( segments );
 
       // TODO: This should probably be behind
-      var wallView = new MultiWallView( [ wall ] );
+      var wallView = new MultiWallView( this.cupcakeSnakeModel.snake, [ wall ] );
       this.addChild( wallView );
     },
 
