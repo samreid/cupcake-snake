@@ -59,7 +59,8 @@ define( function( require ) {
       context.lineCap = 'butt';
       context.strokeStyle = '#a7cb4d';
       context.lineWidth = 5;
-      context.setLineDash( [ 10, 10 ] );
+      var stripeSize = snake.length / 20;
+      context.setLineDash( [ stripeSize, stripeSize ] );
       context.stroke();
       context.setLineDash( [] );
 
@@ -69,7 +70,7 @@ define( function( require ) {
       var dy = snake.direction.y;
 
       // tongue
-      console.log( snake.tongueExtension );
+      // console.log( snake.tongueExtension );
       var tongueOffset = snake.tongueExtension - 9;
       context.fillStyle = '#f00';
       context.beginPath();

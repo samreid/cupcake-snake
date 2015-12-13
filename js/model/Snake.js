@@ -104,6 +104,16 @@ define( function( require ) {
       this.segments.shift();
     },
 
+    get length() {
+      var numSegments = this.segments.length;
+      if ( numSegments === 0 ) {
+        return 0;
+      }
+      else {
+        return this.segments[ numSegments - 1 ].endLength - this.segments[ 0 ].startLength;
+      }
+    },
+
     toString: function() {
       return this.segments.map( function( segment ) { return segment.toString(); } ).join( '\n' );
     }
