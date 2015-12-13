@@ -15,6 +15,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Line = require( 'KITE/segments/Line' );
   var LineSegment = require( 'CUPCAKE_SNAKE/model/LineSegment' );
+  var ButtonControls = require( 'CUPCAKE_SNAKE/view/ButtonControls' );
 
   var scratchVector = new Vector2();
 
@@ -72,6 +73,8 @@ define( function( require ) {
       // The snake is always there, he just navigates to different levels.
       this.snakeView = new SnakeView( this.cupcakeSnakeModel.snake );
       this.playArea.addChild( this.snakeView );
+
+      this.addChild( new ButtonControls( this, this.cupcakeSnakeModel.leftProperty, this.cupcakeSnakeModel.rightProperty ) );
 
       this.startLevel( level );
     },
