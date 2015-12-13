@@ -16,12 +16,17 @@ define( function( require ) {
   var Line = require( 'KITE/segments/Line' );
   var LineSegment = require( 'CUPCAKE_SNAKE/model/LineSegment' );
   var ButtonControls = require( 'CUPCAKE_SNAKE/view/ButtonControls' );
+  var Cupcake = require( 'CUPCAKE_SNAKE/model/Cupcake' );
+  var CupcakeNode = require( 'CUPCAKE_SNAKE/view/CupcakeNode' );
 
   var scratchVector = new Vector2();
 
   function CupcakeSnakeScreenView( cupcakeSnakeModel ) {
-    this.cupcakeSnakeModel = cupcakeSnakeModel;
     var cupcakeSnakeScreenView = this;
+    this.cupcakeSnakeModel = cupcakeSnakeModel;
+    this.cupcakeSnakeModel.cupcakes.addItemAddedListener( function( cupcake ) {
+      cupcakeSnakeScreenView.playArea.addChild( new CupcakeNode( cupcake ) );
+    } );
     var bounds = new Bounds2( 0, 0, 1024, 618 );
     ScreenView.call( this, { layoutBounds: bounds } );
 
@@ -101,6 +106,8 @@ define( function( require ) {
       this.cupcakeSnakeModel.walls.length = 0;
       this.cupcakeSnakeModel.walls.push( boundary );
       this.cupcakeSnakeModel.walls.push( wall );
+
+      this.cupcakeSnakeModel.cupcakes.add( new Cupcake( 0, 0 ) );
     },
 
     step: function( dt ) {

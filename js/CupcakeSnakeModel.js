@@ -6,6 +6,7 @@ define( function( require ) {
   var PropertySet = require( 'AXON/PropertySet' );
   var Snake = require( 'CUPCAKE_SNAKE/model/Snake' );
   var Vector2 = require( 'DOT/Vector2' );
+  var ObservableArray = require( 'AXON/ObservableArray' );
 
   function CupcakeSnakeModel() {
     var self = this;
@@ -18,6 +19,7 @@ define( function( require ) {
     } );
 
     this.walls = [];
+    this.cupcakes = new ObservableArray();
 
     this.snake = new Snake( new Vector2( 0, 0 ), new Vector2( 0, -1 ), 200, 30 );
 
