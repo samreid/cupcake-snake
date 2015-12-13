@@ -15,6 +15,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
 
   var scratchVector = new Vector2();
+  var scratchVector2 = new Vector2();
 
   function SnakeView( snake ) {
     CanvasNode.call( this, {
@@ -64,23 +65,40 @@ define( function( require ) {
       context.fillStyle = '#fff';
       context.strokeStyle = '#000';
       context.lineWidth = 0.5;
-      var eyeOffsetMagnitude = 4;
-      var eyeRadius = 2;
-      var eyeOffsetAngle = Math.PI / 3.5;
+      var eyeOffsetMagnitude = 3;
+      var eyeRadius = 2.5;
+      var pupilOffsetMagnitude = 1; // from the eye
+      var pupilRadius = 1;
+      var eyeOffsetAngle = Math.PI / 3;
 
       var faceAngle = this.snake.direction.angle();
-      var eyeCenter = scratchVector.setPolar( eyeOffsetMagnitude, faceAngle + eyeOffsetAngle ).add( this.snake.position );
+      var center;
+
+      center = scratchVector.setPolar( eyeOffsetMagnitude, faceAngle + eyeOffsetAngle ).add( this.snake.position );
       context.beginPath();
-      context.arc( eyeCenter.x, eyeCenter.y, eyeRadius, 0, Math.PI * 2, false );
+      context.arc( center.x, center.y, eyeRadius, 0, Math.PI * 2, false );
       context.closePath();
       context.fill();
       context.stroke();
-      eyeCenter = scratchVector.setPolar( eyeOffsetMagnitude, faceAngle - eyeOffsetAngle ).add( this.snake.position );
+      center = scratchVector.setPolar( eyeOffsetMagnitude, faceAngle - eyeOffsetAngle ).add( this.snake.position );
       context.beginPath();
-      context.arc( eyeCenter.x, eyeCenter.y, eyeRadius, 0, Math.PI * 2, false );
+      context.arc( center.x, center.y, eyeRadius, 0, Math.PI * 2, false );
       context.closePath();
       context.fill();
       context.stroke();
+
+      context.fillStyle = '#000';
+      var pupilOffset = scratchVector2.setPolar( pupilOffsetMagnitude, faceAngle );
+      center = scratchVector.setPolar( eyeOffsetMagnitude, faceAngle + eyeOffsetAngle ).add( pupilOffset ).add( this.snake.position );
+      context.beginPath();
+      context.arc( center.x, center.y, pupilRadius, 0, Math.PI * 2, false );
+      context.closePath();
+      context.fill();
+      center = scratchVector.setPolar( eyeOffsetMagnitude, faceAngle - eyeOffsetAngle ).add( pupilOffset ).add( this.snake.position );
+      context.beginPath();
+      context.arc( center.x, center.y, pupilRadius, 0, Math.PI * 2, false );
+      context.closePath();
+      context.fill();
 
 
       context.restore();
