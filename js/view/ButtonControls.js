@@ -20,7 +20,7 @@ define( function( require ) {
 
     var s = 1.5;
     var buttonScaleVector = new Vector2( 1.4 * s, 2 * s );
-    var leftButton = new RectangularMomentaryButton( leftButtonProperty, {
+    var leftButton = new RectangularMomentaryButton( false, true, leftButtonProperty, {
       content: new ArrowNode( 0, 0, -20, -0, {
         scale: buttonScaleVector
       } )
@@ -28,7 +28,7 @@ define( function( require ) {
     var dilationTouchAreaDelta = 250;
     leftButton.touchArea = leftButton.localBounds.dilatedXY( dilationTouchAreaDelta, dilationTouchAreaDelta );
 
-    var rightButton = new RectangularMomentaryButton( rightButtonProperty, {
+    var rightButton = new RectangularMomentaryButton( false, true, rightButtonProperty, {
       content: new ArrowNode( 0, 0, 20, -0, {
         scale: buttonScaleVector
       } )
