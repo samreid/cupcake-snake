@@ -48,6 +48,7 @@ define( function( require ) {
       for ( var i = snake.segments.length - 1; i >= 0; i-- ) {
         snake.segments[ i ].drawReverseContext( context );
       }
+      context.lineJoin = 'round';
       context.lineCap = 'round';
       context.strokeStyle = '#000';
       context.lineWidth = 7;
@@ -62,12 +63,27 @@ define( function( require ) {
       context.stroke();
       context.setLineDash( [] );
 
-      // head
-      context.beginPath();
       var px = snake.position.x;
       var py = snake.position.y;
       var dx = snake.direction.x;
       var dy = snake.direction.y;
+
+      // tongue
+      console.log( snake.tongueExtension );
+      var tongueOffset = snake.tongueExtension - 9;
+      context.fillStyle = '#f00';
+      context.beginPath();
+      context.moveTo( px + dx * ( tongueOffset + 9 ) - dy * 1, py + dy * ( tongueOffset + 9 ) + dx * 1 );
+      context.lineTo( px + dx * ( tongueOffset + 12 ) - dy * 1, py + dy * ( tongueOffset + 12 ) + dx * 1 );
+      context.lineTo( px + dx * ( tongueOffset + 16 ) - dy * 3, py + dy * ( tongueOffset + 16 ) + dx * 3 );
+      context.lineTo( px + dx * ( tongueOffset + 13 ) - dy * 0, py + dy * ( tongueOffset + 13 ) + dx * 0 );
+      context.lineTo( px + dx * ( tongueOffset + 16 ) + dy * 3, py + dy * ( tongueOffset + 16 ) - dx * 3 );
+      context.lineTo( px + dx * ( tongueOffset + 12 ) + dy * 1, py + dy * ( tongueOffset + 12 ) - dx * 1 );
+      context.lineTo( px + dx * ( tongueOffset + 9 ) + dy * 1, py + dy * ( tongueOffset + 9 ) - dx * 1 );
+      context.fill();
+
+      // head
+      context.beginPath();
       context.moveTo( px - dx * 5 - dy * 3, py - dy * 5 + dx * 3 ); // "left" base at neck
       context.lineTo( px + dx * 0 - dy * 6, py + dy * 0 + dx * 6 ); // head expands
       context.lineTo( px + dx * 2 - dy * 6, py + dy * 2 + dx * 6 ); // forward
@@ -122,7 +138,6 @@ define( function( require ) {
       context.arc( center.x, center.y, pupilRadius, 0, Math.PI * 2, false );
       context.closePath();
       context.fill();
-
 
       context.restore();
     }

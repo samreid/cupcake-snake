@@ -20,6 +20,9 @@ define( function( require ) {
     this.radius = initialRadius;
     this.motion = Snake.STRAIGHT;
 
+    this.tongueExtension = 0; // 0 to 8
+    this.tongueExtending = false;
+
     var firstSegment = new LineSegment( initialPosition, initialDirection, 0 );
     firstSegment.growStep( initialLength );
     this.currentSegment = firstSegment;
@@ -71,6 +74,25 @@ define( function( require ) {
       }
 
       this.elapsedLength += growLength;
+
+      if ( this.tongueExtending || this.tongueExtension !== 0 ) {
+        this.tongueExtension += Math.max( this.tongueExtending ? growLength : -growLength, 0 );
+        if ( this.tongueExtension > 8 ) {
+          this.tongueExtension = Math.max( 16 - this.tongueExtension, 0 );
+          this.tongueExtending = false;
+        }
+      }
+    },
+
+    triggerTongue: function() {
+      if ( this.tongueExtension === 0 ) {
+        this.tongueExtending = true;
+      }
+    },
+
+    resetTongue: function() {
+      this.tongueExtension = 0;
+      this.tongueExtending = false;
     },
 
     addSegment: function( segment ) {
