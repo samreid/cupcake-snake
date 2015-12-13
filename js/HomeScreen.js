@@ -25,7 +25,7 @@ define( function( require ) {
       content: new Text( 'Start Game', {
         font: new PhetFont( { size: 40, weight: 'bold' } )
       } ),
-      baseColor: '#a63137',
+      baseColor: '#f8515d',
       centerX: bounds.centerX,
       bottom: bounds.maxY - 10,
       listener: startButtonPressed
