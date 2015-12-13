@@ -60,21 +60,23 @@ define( function( require ) {
 
     var KEY_LEFT = 37;
     var KEY_RIGHT = 39;
+    var KEY_A = 65;
+    var KEY_D = 68;
 
     document.addEventListener( 'keydown', function( event ) {
-      if ( event.keyCode === KEY_LEFT ) {
+      if ( event.keyCode === KEY_LEFT || event.keyCode === KEY_A ) {
         cupcakeSnakeModel.left = true;
       }
-      if ( event.keyCode === KEY_RIGHT ) {
+      if ( event.keyCode === KEY_RIGHT || event.keyCode === KEY_D ) {
         cupcakeSnakeModel.right = true;
       }
     } );
 
     document.addEventListener( 'keyup', function( event ) {
-      if ( event.keyCode === KEY_LEFT ) {
+      if ( event.keyCode === KEY_LEFT || event.keyCode === KEY_A ) {
         cupcakeSnakeModel.left = false;
       }
-      if ( event.keyCode === KEY_RIGHT ) {
+      if ( event.keyCode === KEY_RIGHT || event.keyCode === KEY_D ) {
         cupcakeSnakeModel.right = false;
       }
     } );
