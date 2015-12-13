@@ -16,7 +16,8 @@ define( function( require ) {
 
     //this.addChild( new Text( 'Level 1', { top: 10, left: 10, font: new PhetFont( { size: 30, weight: 'bold' } ) } ) );
 
-    // this.addChild( new HomeScreen( bounds, { centerX: bounds.centerX, centerY: bounds.centerY } ) );
+    //this.homeScreen = new HomeScreen( bounds, { centerX: bounds.centerX, centerY: bounds.centerY } );
+    //this.addChild( this.homeScreen );
 
     this.snakeView = new SnakeView( cupcakeSnakeModel.snake );
     this.addChild( this.snakeView );
@@ -25,6 +26,9 @@ define( function( require ) {
   return inherit( ScreenView, CupcakeSnakeScreenView, {
     step: function( dt ) {
       this.snakeView.invalidatePaint();
+      if ( this.homeScreen ) {
+        this.homeScreen.step( dt );
+      }
     }
   } );
 } );
