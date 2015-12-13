@@ -13,6 +13,18 @@ define( function( require ) {
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
 
+  var checkerSize = 30;
+  var backgroundPatternCanvas = document.createElement( 'canvas' );
+  backgroundPatternCanvas.width = checkerSize * 2;
+  backgroundPatternCanvas.height = checkerSize * 2;
+  var backgroundPatternContext = backgroundPatternCanvas.getContext( '2d' );
+  backgroundPatternContext.fillStyle = '#fff';
+  backgroundPatternContext.fillRect( 0, 0, checkerSize * 2, checkerSize * 2 );
+  backgroundPatternContext.fillStyle = '#f3f3f3';
+  backgroundPatternContext.fillRect( 0, 0, checkerSize, checkerSize );
+  backgroundPatternContext.fillRect( checkerSize, checkerSize, checkerSize, checkerSize );
+  var backgroundPattern = backgroundPatternContext.createPattern( backgroundPatternCanvas, 'repeat' );
+
   function MultiWallView( snake, walls ) {
     this.snake = snake;
     CanvasNode.call( this, {
@@ -46,7 +58,8 @@ define( function( require ) {
 
       }
 
-      context.fillStyle = '#fff';
+      // context.fillStyle = '#fff';
+      context.fillStyle = backgroundPattern;
       context.strokeStyle = '#666';
       context.lineWidth = 1;
       context.lineCap = 'round';
