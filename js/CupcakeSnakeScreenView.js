@@ -53,14 +53,19 @@ define( function( require ) {
     closeHomeScreenAndStartLevel: function( level ) {
       this.removeChild( this.homeScreen );
       this.homeScreen = null;
+
+      // The snake is always there, he just navigates to different levels.
+      this.snakeView = new SnakeView( this.cupcakeSnakeModel.snake );
+      this.snakeView.center = this.layoutBounds.center;
+      this.addChild( this.snakeView );
+
       this.startLevel( level );
     },
 
     startLevel: function( levelNumber ) {
-      this.snakeView = new SnakeView( this.cupcakeSnakeModel.snake );
-      this.snakeView.center = this.layoutBounds.center;
-      this.addChild( this.snakeView );
+
     },
+
     step: function( dt ) {
       if ( this.snakeView ) {
         this.snakeView.invalidatePaint();
