@@ -15,5 +15,9 @@ define( function( require ) {
     this.y = y;
   }
 
-  return inherit( Object, Cupcake, {} );
+  return inherit( Object, Cupcake, {
+    copy: function() {
+      return new Cupcake( this.x, this.y );
+    }
+  } );
 } );

@@ -18,6 +18,7 @@ define( function( require ) {
   var ButtonControls = require( 'CUPCAKE_SNAKE/view/ButtonControls' );
   var Cupcake = require( 'CUPCAKE_SNAKE/model/Cupcake' );
   var CupcakeNode = require( 'CUPCAKE_SNAKE/view/CupcakeNode' );
+  var Level = require( 'CUPCAKE_SNAKE/model/Level' );
 
   var scratchVector = new Vector2();
 
@@ -81,7 +82,7 @@ define( function( require ) {
       }
     } );
     if ( phet.chipper.getQueryParameter( 'level' ) ) {
-      var level = parseInt( phet.chipper.getQueryParameter( 'level' ) );
+      var level = parseInt( phet.chipper.getQueryParameter( 'level' ), 10 );
       this.closeHomeScreenAndStartLevel( level );
     }
   }
@@ -104,30 +105,43 @@ define( function( require ) {
     },
 
     startLevel: function( levelNumber ) {
+      var model = this.cupcakeSnakeModel;
+      var level = Level.levels[ levelNumber - 1 ];
 
-      var segments = [];
-      for ( var i = 0; i < 100; i++ ) {
-        var step = 2 * Math.PI / 100;
-        var angle = step * i;
-        segments.push( new Line( Vector2.createPolar( 300, angle ), Vector2.createPolar( 300, angle + step ) ) );
-      }
-      var boundary = new Wall( segments );
-      var wall = new Wall( [
-        new Line( new Vector2( 50, 50 ), new Vector2( 50, -50 ) ),
-        new Line( new Vector2( 50, -50 ), new Vector2( -50, -50 ) ),
-        new Line( new Vector2( -50, -50 ), new Vector2( -50, 50 ) ),
-        new Line( new Vector2( -50, 50 ), new Vector2( 50, 50 ) )
-      ] );
+      model.walls.length = 0;
+      level.walls.forEach( function( wall ) {
+        model.walls.push( wall.copy() );
+      } );
 
-      this.cupcakeSnakeModel.walls.length = 0;
-      this.cupcakeSnakeModel.walls.push( boundary );
-      this.cupcakeSnakeModel.walls.push( wall );
+      model.cupcakes.clear();
+      level.cupcakes.forEach( function( cupcake ) {
+        model.cupcakes.push( cupcake.copy() );
+      } );
 
-      this.cupcakeSnakeModel.cupcakes.add( new Cupcake( 0, -500 ) );
-      for ( var i = 0; i < 20; i++ ) {
-        var v = Vector2.createPolar( Math.random() * 100, Math.random() * Math.PI * 2 );
-        this.cupcakeSnakeModel.cupcakes.add( new Cupcake( v.x, v.y ) );
-      }
+
+      // var segments = [];
+      // for ( var i = 0; i < 100; i++ ) {
+      //   var step = 2 * Math.PI / 100;
+      //   var angle = step * i;
+      //   segments.push( new Line( Vector2.createPolar( 300, angle ), Vector2.createPolar( 300, angle + step ) ) );
+      // }
+      // var boundary = new Wall( segments );
+      // var wall = new Wall( [
+      //   new Line( new Vector2( 50, 50 ), new Vector2( 50, -50 ) ),
+      //   new Line( new Vector2( 50, -50 ), new Vector2( -50, -50 ) ),
+      //   new Line( new Vector2( -50, -50 ), new Vector2( -50, 50 ) ),
+      //   new Line( new Vector2( -50, 50 ), new Vector2( 50, 50 ) )
+      // ] );
+
+      // this.cupcakeSnakeModel.walls.length = 0;
+      // this.cupcakeSnakeModel.walls.push( boundary );
+      // this.cupcakeSnakeModel.walls.push( wall );
+
+      // this.cupcakeSnakeModel.cupcakes.add( new Cupcake( 0, -500 ) );
+      // for ( var i = 0; i < 20; i++ ) {
+      //   var v = Vector2.createPolar( Math.random() * 100, Math.random() * Math.PI * 2 );
+      //   this.cupcakeSnakeModel.cupcakes.add( new Cupcake( v.x, v.y ) );
+      // }
     },
 
     step: function( dt ) {

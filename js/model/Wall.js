@@ -13,11 +13,13 @@ define( function( require ) {
   function Wall( segments ) {
     assert && assert( segments.length > 0, 'should have segments' );
 
-    // @public
+    // @public (immutable, see copy function)
     this.segments = segments; // kite segments
   }
 
   return inherit( Object, Wall, {
-
+    copy: function() {
+      return new Wall( this.segments );
+    }
   } );
 } );
