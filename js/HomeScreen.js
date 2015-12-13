@@ -15,6 +15,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
+  var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
 
   // images
   var snakeImage = require( 'image!CUPCAKE_SNAKE/snake.png' );
@@ -31,7 +32,10 @@ define( function( require ) {
       listener: startButtonPressed
     } );
 
-    var instructions = new Text( 'use arrow keys', { font: new PhetFont( { size: 28 } ) } );
+    var instructions = new MultiLineText( 'use keyboard arrows\nor touchscreen', {
+      align: 'left',
+      font: new PhetFont( { size: 28 } )
+    } );
     instructions.left = startGameButton.right + 80;
     instructions.centerY = startGameButton.centerY;
 

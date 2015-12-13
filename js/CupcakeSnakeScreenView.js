@@ -25,6 +25,9 @@ define( function( require ) {
     var bounds = new Bounds2( 0, 0, 1024, 618 );
     ScreenView.call( this, { layoutBounds: bounds } );
 
+    // create button controls early so it can register itself for screen size changes
+    this.buttonControls = new ButtonControls( this, this.cupcakeSnakeModel.leftProperty, this.cupcakeSnakeModel.rightProperty );
+
     this.layoutCenter = bounds.center;
 
     //this.addChild( new Text( 'Level 1', { top: 10, left: 10, font: new PhetFont( { size: 30, weight: 'bold' } ) } ) );
@@ -74,7 +77,7 @@ define( function( require ) {
       this.snakeView = new SnakeView( this.cupcakeSnakeModel.snake );
       this.playArea.addChild( this.snakeView );
 
-      this.addChild( new ButtonControls( this, this.cupcakeSnakeModel.leftProperty, this.cupcakeSnakeModel.rightProperty ) );
+      this.addChild( this.buttonControls );
 
       this.startLevel( level );
     },
