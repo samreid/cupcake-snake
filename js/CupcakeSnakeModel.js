@@ -13,10 +13,12 @@ define( function( require ) {
     PropertySet.call( this, {
       left: false,
       right: false,
+      remainingLengthToGrow: 0,
       motion: Snake.STRAIGHT
     } );
+    window.model = this;
 
-    this.snake = new Snake( new Vector2( 0, 0 ), new Vector2( 0, -1 ), 10, 30 );
+    this.snake = new Snake( new Vector2( 0, 0 ), new Vector2( 0, -1 ), 100, 30 );
 
     this.multilink( [ 'left', 'right' ], function() {
       self.motion = ( self.left === self.right ) ? Snake.STRAIGHT : ( self.left ? Snake.LEFT : Snake.RIGHT );
@@ -25,7 +27,10 @@ define( function( require ) {
 
   return inherit( PropertySet, CupcakeSnakeModel, {
     step: function( dt ) {
-      this.snake.step( 150 * dt, 75 * dt, this.motion );
+      var growLength = 150 * dt;
+      var shrinkLength = Math.max( growLength - this.remainingLengthToGrow, 0 );
+      this.snake.step( growLength, shrinkLength, this.motion );
+      this.remainingLengthToGrow = Math.max( this.remainingLengthToGrow - growLength, 0 );
     }
   } );
 } );
