@@ -13,6 +13,7 @@ define( function( require ) {
   var Wall = require( 'CUPCAKE_SNAKE/model/Wall' );
   var MultiWallView = require( 'CUPCAKE_SNAKE/view/MultiWallView' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Matrix3 = require( 'DOT/Matrix3' );
   var Line = require( 'KITE/segments/Line' );
   var LineSegment = require( 'CUPCAKE_SNAKE/model/LineSegment' );
 
@@ -79,8 +80,8 @@ define( function( require ) {
     startLevel: function( levelNumber ) {
 
       var segments = [];
-      for ( var i = 0; i < 100; i++ ) {
-        var step = 2 * Math.PI / 100;
+      for ( var i = 0; i < 8; i++ ) {
+        var step = 2 * Math.PI / 8;
         var angle = step * i;
         segments.push( new Line( Vector2.createPolar( 300, angle ), Vector2.createPolar( 300, angle + step ) ) );
       }
@@ -98,7 +99,9 @@ define( function( require ) {
     },
 
     step: function( dt ) {
-      this.playArea.setTranslation( scratchVector.set( this.cupcakeSnakeModel.snake.position ).negate().add( this.layoutCenter ) );
+      var angle = this.cupcakeSnakeModel.snake.direction.angle();
+      var translation = scratchVector.set( this.cupcakeSnakeModel.snake.position ).negate().add( this.layoutCenter );
+      this.playArea.setMatrix( Matrix3.translation( this.layoutCenter.x, this.layoutCenter.y ).timesMatrix( Matrix3.rotation2( -angle - Math.PI / 2 ).timesMatrix( Matrix3.translation( -this.cupcakeSnakeModel.snake.position.x, -this.cupcakeSnakeModel.snake.position.y ) ) ) );
 
       if ( this.snakeView ) {
         this.snakeView.invalidatePaint();
