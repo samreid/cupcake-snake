@@ -152,6 +152,11 @@ define( function( require ) {
         context.fill();
         context.stroke();
         context.setLineDash( [] );
+
+        for ( var i = 0; i < this.level.obstacles.length; i++ ) {
+          var obstacle = this.level.obstacles[ i ];
+          obstacle.draw( context );
+        }
       }
 
 

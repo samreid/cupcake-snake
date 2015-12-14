@@ -13,6 +13,7 @@ define( function( require ) {
   var PropertySet = require( 'AXON/PropertySet' );
   var cupcakeSnake = require( 'CUPCAKE_SNAKE/cupcakeSnake' );
   var Cupcake = require( 'CUPCAKE_SNAKE/model/Cupcake' );
+  var Slicer = require( 'CUPCAKE_SNAKE/model/Slicer' );
   var Door = require( 'CUPCAKE_SNAKE/model/Door' );
   var Wall = require( 'CUPCAKE_SNAKE/model/Wall' );
   var Button = require( 'CUPCAKE_SNAKE/model/Button' );
@@ -68,6 +69,7 @@ define( function( require ) {
     } );
     this.door = new Door( doorLeft, doorRight );
     this.walls = [];
+    this.obstacles = [];
     this.cupcakes = new ObservableArray();
     this.doorLeft = doorLeft; // Vector2
     this.doorRight = doorRight; // Vector2
@@ -94,6 +96,7 @@ define( function( require ) {
     copy: function() {
       var level = new Level( this.doorLeft, this.doorRight, this.startPosition );
       level.walls = this.walls;
+      level.obstacles = this.obstacles.map( function( obstacle ) { return obstacle.copy(); } );
       level.blueButton = this.blueButton;
       level.yellowButton = this.yellowButton;
       this.cupcakes.forEach( function( cupcake ) {
@@ -113,6 +116,12 @@ define( function( require ) {
 
     addYellowButton: function( shape ) {
       this.yellowButton = new Button( shapeToSegments( shape, false ) );
+
+      return this;
+    },
+
+    addObstacle: function( obstacle ) {
+      this.obstacles.push( obstacle );
 
       return this;
     },
@@ -254,19 +263,79 @@ define( function( require ) {
       .addBlueButton( Shape.circle( -100, -300, 30 ) )
       .addYellowButton( Shape.circle( 100, -300, 30 ) ),
 
-    new Level( v( -50, -10000 ), v( 50, -10000 ), v( 0, -450 ) )
+    new Level( v( 850, -1350 ), v( 850, -1250 ), v( 0, -450 ) )
       .addWall( new Wall( smooth( [
-        v( -50, -450 ),
-        c( -500, -1000, 100 ),
-        c( 0, -1500, 100 ),
-        c( 500, -1000, 100 ),
-        v( 50, -450 )
+        v( 50, -450 ),
+        c( 100, -500, 20 ),
+        c( 100, -1200, 50 ),
+        c( 300, -1200, 50 ),
+        c( 300, -1000, 50 ),
+        c( 800, -1000, 50 ),
+        v( 800, -1250 ),
+        v( 850, -1250 ),
+        // ...?
+        v( 850, -1350 ),
+        v( 800, -1350 ),
+        c( 800, -1600, 50 ),
+        c( 300, -1600, 50 ),
+        c( 300, -1400, 50 ),
+        c( -300, -1400, 50 ),
+        c( -300, -1200, 50 ),
+        c( -100, -1200, 50 ),
+        c( -100, -500, 20 ),
+        v( -50, -450 )
       ] ) ) )
-      .addWallShape( Shape.circle( 0, -1000, 200 ), true )
-      .addCupcake( new Cupcake( 300, -1000 ) )
-      .addCupcake( new Cupcake( -300, -1000 ) )
-      .addBlueButton( Shape.circle( -100, -10000, 50 ) )
-      .addYellowButton( Shape.circle( 100, -10000, 50 ) )
+
+      .addWall( new Wall( smooth( [
+        v( 530, -1500 ),
+        v( 570, -1500 ),
+        v( 570, -1100 ),
+        v( 530, -1100 ),
+        v( 530, -1500 )
+      ] ) ) )
+
+      .addWall( new Wall( smooth( [
+        v( 450, -1500 ),
+        v( 490, -1500 ),
+        v( 490, -1460 ),
+        v( 450, -1460 ),
+        v( 450, -1500 )
+      ] ) ) )
+      .addWall( new Wall( smooth( [
+        v( 450, -1140 ),
+        v( 490, -1140 ),
+        v( 490, -1100 ),
+        v( 450, -1100 ),
+        v( 450, -1140 )
+      ] ) ) )
+      .addWall( new Wall( smooth( [
+        v( 610, -1500 ),
+        v( 650, -1500 ),
+        v( 650, -1460 ),
+        v( 610, -1460 ),
+        v( 610, -1500 )
+      ] ) ) )
+      .addWall( new Wall( smooth( [
+        v( 610, -1140 ),
+        v( 650, -1140 ),
+        v( 650, -1100 ),
+        v( 610, -1100 ),
+        v( 610, -1140 )
+      ] ) ) )
+      // .addWallShape( Shape.roundRect( 500, -1500, 100, 400 ), false )
+      .addObstacle( new Slicer( v( 100, -800 ), v( -100, -800 ), 2 ) )
+      .addObstacle( new Slicer( v( 100, -1000 ), v( -100, -1000 ), 2 ) )
+      .addCupcake( new Cupcake( -200, -1300 ) )
+
+      .addCupcake( new Cupcake( 410, -1480 ) )
+      .addCupcake( new Cupcake( 690, -1480 ) )
+      .addCupcake( new Cupcake( 370, -1300 ) )
+      .addCupcake( new Cupcake( 730, -1300 ) )
+      .addCupcake( new Cupcake( 410, -1120 ) )
+      .addCupcake( new Cupcake( 690, -1120 ) )
+
+      .addBlueButton( Shape.circle( 470, -1300, 30 ) )
+      .addYellowButton( Shape.circle( 630, -1300, 30 ) )
   ];
 
   // Defines level.nextLevel, level.previousLevel

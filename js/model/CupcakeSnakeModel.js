@@ -145,6 +145,30 @@ define( function( require ) {
           }
         }
 
+        // check obstacles
+        for ( var m = 0; m < this.currentLevel.obstacles.length; m++ ) {
+          var obstacle = this.currentLevel.obstacles[ m ];
+
+          obstacle.step( dt );
+
+          for ( var p = 0; p < obstacle.segments.length; p++ ) {
+            var segment = obstacle.segments[ p ];
+
+            var hit = this.snake.intersectRange( segment, 0, this.snake.segments.length );
+            if ( hit ) {
+              // head hit?
+              if ( this.snake.endLength - hit.length < 4 ) {
+                hitObstable = true;
+                hitMessage = obstacle.message;
+              }
+              // otherwise cut body
+              else {
+                this.snake.cut( hit.length );
+              }
+            }
+          }
+        }
+
         if ( hitObstable ) {
           if ( !this.everTurned && this.currentLevel.number === 1 ) {
             hitMessage = 'Try the left/right arrow keys or the on-screen buttons';
