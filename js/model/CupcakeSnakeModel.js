@@ -22,6 +22,9 @@ define( function( require ) {
   var cut = require( 'audio!CUPCAKE_SNAKE/cut' );
   var cutSound = new Sound( cut );
 
+  var cheer = require( 'audio!CUPCAKE_SNAKE/cheer' );
+  var cheerSound = new Sound( cheer );
+
   var INITIAL_SNAKE_LENGTH = 150;
   var INITIAL_SNAKE_RADIUS = 30;
 
@@ -75,6 +78,8 @@ define( function( require ) {
         // Door intersection
         if ( Intersection.intersect( this.snake.currentSegment.segment, this.currentLevel.door.segment ) ) {
           this.currentLevel.active = false;
+
+          cheerSound.play();
 
           if ( this.currentLevel.nextLevel ) {
             var level = this.currentLevel.nextLevel.copy();
