@@ -59,7 +59,7 @@ define( function( require ) {
       var cupcakeSnakeModel = this;
 
       if ( this.running && this.alive ) {
-        var growLength = (150 + numberOfReplays * 70) * dt;
+        var growLength = ( 110 + numberOfReplays * 80 ) * dt;
         var shrinkLength = Math.max( growLength - this.remainingLengthToGrow, 0 );
         this.snake.step( growLength, shrinkLength, this.motion );
         this.remainingLengthToGrow = Math.max( this.remainingLengthToGrow - growLength, 0 );
