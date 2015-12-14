@@ -59,7 +59,7 @@ define( function( require ) {
       context.lineCap = 'butt';
       context.strokeStyle = '#a7cb4d';
       context.lineWidth = 5;
-      var stripeSize = ( snake.length + snake.totalLengthCut ) / 40;
+      var stripeSize = ( snake.length + snake.totalLengthCut ) / 40 * (200 / 150);
       context.setLineDash( [ stripeSize, stripeSize ] );
       context.stroke();
       context.setLineDash( [] );

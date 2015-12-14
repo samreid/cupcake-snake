@@ -11,16 +11,17 @@ define( function( require ) {
   var HomeScreen = require( 'CUPCAKE_SNAKE/HomeScreen' );
   var SnakeView = require( 'CUPCAKE_SNAKE/view/SnakeView' );
   var Wall = require( 'CUPCAKE_SNAKE/model/Wall' );
-  var MultiWallView = require( 'CUPCAKE_SNAKE/view/MultiWallView' );
+  var LevelView = require( 'CUPCAKE_SNAKE/view/LevelView' );
   var Vector2 = require( 'DOT/Vector2' );
   var Line = require( 'KITE/segments/Line' );
   var LineSegment = require( 'CUPCAKE_SNAKE/model/LineSegment' );
   var ButtonControls = require( 'CUPCAKE_SNAKE/view/ButtonControls' );
   var Cupcake = require( 'CUPCAKE_SNAKE/model/Cupcake' );
-  var CupcakeNode = require( 'CUPCAKE_SNAKE/view/CupcakeNode' );
   var Level = require( 'CUPCAKE_SNAKE/model/Level' );
   var GameOverPanel = require( 'CUPCAKE_SNAKE/view/GameOverPanel' );
+  var BackgroundNode = require( 'CUPCAKE_SNAKE/view/BackgroundNode' );
   var Sound = require( 'VIBE/Sound' );
+  var Emitter = require( 'AXON/Emitter' );
 
   // audio
   var death = require( 'audio!CUPCAKE_SNAKE/qubodupImpactMeat02' );
@@ -31,26 +32,15 @@ define( function( require ) {
   function CupcakeSnakeScreenView( cupcakeSnakeModel, level, restart ) {
     phet.joist.display.backgroundColor = '#000';
 
+    window.screenView = this;
+
     var cupcakeSnakeScreenView = this;
     this.cupcakeSnakeModel = cupcakeSnakeModel;
 
-    // When cupcakes are added to the model, show them on the screen
-    this.cupcakeSnakeModel.cupcakes.addItemAddedListener( function( cupcake ) {
-      var cupcakeNode = new CupcakeNode( cupcake );
-      cupcakeSnakeScreenView.playArea.addChild( cupcakeNode );
-
-      // When the same cupcake is eaten, remove it from the screen
-      var z = function( c ) {
-        if ( c === cupcake ) {
-          cupcakeSnakeScreenView.playArea.removeChild( cupcakeNode );
-          cupcakeSnakeScreenView.cupcakeSnakeModel.cupcakes.removeItemRemovedListener( z );
-        }
-      };
-      cupcakeSnakeScreenView.cupcakeSnakeModel.cupcakes.addItemRemovedListener( z );
-    } );
-
     var bounds = new Bounds2( 0, 0, 1024, 618 );
     ScreenView.call( this, { layoutBounds: bounds } );
+
+    this.preventFit = true;
 
     // create button controls early so it can register itself for screen size changes
     this.buttonControls = new ButtonControls( this, this.cupcakeSnakeModel.leftProperty, this.cupcakeSnakeModel.rightProperty );
@@ -64,15 +54,36 @@ define( function( require ) {
     } );
     this.addChild( this.homeScreen );
 
+    // Play area visual stacking order
     this.playArea = new Node();
+    this.levelLayer = new Node();
+    this.snakeView = new SnakeView( this.cupcakeSnakeModel.snake ); // The snake is always there, he just navigates to different levels.
+    this.playArea.addChild( new BackgroundNode( cupcakeSnakeModel ) );
+    this.playArea.addChild( this.levelLayer );
+    this.playArea.addChild( this.snakeView );
+
+    this.playArea.visible = false;
+    this.buttonControls.visible = false;
+
     this.addChild( this.playArea );
+    this.addChild( this.buttonControls );
 
     var KEY_LEFT = 37;
     var KEY_RIGHT = 39;
     var KEY_A = 65;
     var KEY_D = 68;
+    var KEY_ENTER = 13;
+    var KEY_SPACEBAR = 32;
+    var keyEnterEmitter = new Emitter();
+    var keySpacebarEmitter = new Emitter();
 
     document.addEventListener( 'keydown', function( event ) {
+      if ( event.keyCode === KEY_ENTER ) {
+        keyEnterEmitter.emit();
+      }
+      if ( event.keyCode === KEY_SPACEBAR ) {
+        keySpacebarEmitter.emit();
+      }
       if ( event.keyCode === KEY_LEFT || event.keyCode === KEY_A ) {
         cupcakeSnakeModel.left = true;
       }
@@ -93,47 +104,63 @@ define( function( require ) {
       this.closeHomeScreenAndStartLevel( level );
     }
 
-    cupcakeSnakeModel.deathEmitter.addListener( function() {
+    cupcakeSnakeScreenView.gameOverPanelShowing = false;
+    cupcakeSnakeModel.deathEmitter.addListener( function( message ) {
       deathSound.play();
 
-      var gameOverPanel = new GameOverPanel( cupcakeSnakeScreenView.cupcakeSnakeModel, restart );
+      cupcakeSnakeScreenView.gameOverPanelShowing = true;
+      var gameOverPanel = new GameOverPanel( message, cupcakeSnakeScreenView.cupcakeSnakeModel, restart );
       gameOverPanel.centerBottom = cupcakeSnakeScreenView.layoutBounds.center.plusXY( 0, -75 );
       cupcakeSnakeScreenView.addChild( gameOverPanel );
       cupcakeSnakeScreenView.playArea.opacity = 0.7;
     } );
+
+    var buttonListener = function() {
+      if ( cupcakeSnakeScreenView.homeScreen ) {
+        cupcakeSnakeScreenView.closeHomeScreenAndStartLevel( 1 );
+      }
+      else if ( cupcakeSnakeScreenView.gameOverPanelShowing ) {
+        restart( cupcakeSnakeModel.currentLevel.number );
+      }
+    };
+    keyEnterEmitter.addListener( buttonListener );
+    keySpacebarEmitter.addListener( buttonListener );
   }
 
   return inherit( ScreenView, CupcakeSnakeScreenView, {
     closeHomeScreenAndStartLevel: function( level ) {
+      var self = this;
+
       this.removeChild( this.homeScreen );
       this.homeScreen = null;
 
-      this.playArea.addChild( new MultiWallView( this.cupcakeSnakeModel.snake, this.cupcakeSnakeModel.walls ) );
+      this.playArea.visible = true;
+      this.buttonControls.visible = true;
 
-      // The snake is always there, he just navigates to different levels.
-      this.snakeView = new SnakeView( this.cupcakeSnakeModel.snake );
-      this.playArea.addChild( this.snakeView );
-
-      this.addChild( this.buttonControls );
+      // Listen to the model's visible levels, and add/remove the corresponding level views
+      this.levelViews = [];
+      this.cupcakeSnakeModel.visibleLevels.addItemAddedListener( function( level ) {
+        var levelView = new LevelView( level );
+        self.levelLayer.addChild( levelView );
+        self.levelViews.push( levelView );
+      } );
+      this.cupcakeSnakeModel.visibleLevels.addItemRemovedListener( function( level ) {
+        for ( var i = 0; i < self.levelViews.length; i++ ) {
+          var levelView = self.levelViews[ i ];
+          if ( levelView.level === level ) {
+            self.levelViews.splice( i, 1 );
+            self.levelLayer.removeChild( levelView );
+            break;
+          }
+        }
+      } );
 
       this.startLevel( level );
       this.cupcakeSnakeModel.running = true;
     },
 
     startLevel: function( levelNumber ) {
-      this.cupcakeSnakeModel.level = levelNumber;
-      var model = this.cupcakeSnakeModel;
-      var level = Level.levels[ levelNumber - 1 ];
-
-      model.walls.length = 0;
-      level.walls.forEach( function( wall ) {
-        model.walls.push( wall.copy() );
-      } );
-
-      model.cupcakes.clear();
-      level.cupcakes.forEach( function( cupcake ) {
-        model.cupcakes.push( cupcake.copy() );
-      } );
+      this.cupcakeSnakeModel.startLevel( Level.levels[ levelNumber - 1 ] );
     },
 
     step: function( dt ) {

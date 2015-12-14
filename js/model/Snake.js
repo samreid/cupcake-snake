@@ -16,27 +16,38 @@ define( function( require ) {
   var Intersection = require( 'CUPCAKE_SNAKE/model/Intersection' );
 
   function Snake( initialPosition, initialDirection, initialLength, initialRadius ) {
-    this.position = initialPosition;
-    this.direction = initialDirection; // unit vector
+    this.initialize( initialPosition, initialDirection, initialLength, initialRadius );
 
-    this.radius = initialRadius;
-    this.motion = Snake.STRAIGHT;
-
-    this.tongueExtension = 0; // 0 to 8
-    this.tongueExtending = false;
-    
-    this.totalLengthCut = 0;
-
-    var firstSegment = new LineSegment( initialPosition, initialDirection, 0 );
-    firstSegment.growStep( initialLength );
-    this.currentSegment = firstSegment;
-    this.segments = [ firstSegment ];
-
-    this.elapsedLength = initialLength; // includes parts that have disappeared
+    this.initialLength = initialLength;
+    this.initialRadius = initialRadius;
   }
   cupcakeSnake.register( 'Snake', Snake );
 
   inherit( Object, Snake, {
+    initialize: function( initialPosition, initialDirection, initialLength, initialRadius ) {
+      this.position = initialPosition;
+      this.direction = initialDirection; // unit vector
+
+      this.radius = initialRadius;
+      this.motion = Snake.STRAIGHT;
+
+      this.tongueExtension = 0; // 0 to 8
+      this.tongueExtending = false;
+
+      this.totalLengthCut = 0;
+
+      var firstSegment = new LineSegment( initialPosition, initialDirection, 0 );
+      firstSegment.growStep( initialLength );
+      this.currentSegment = firstSegment;
+      this.segments = [ firstSegment ];
+
+      this.elapsedLength = initialLength; // includes parts that have disappeared
+    },
+
+    reinitialize: function( initialPosition, initialDirection, initialLength, initialRadius ) {
+      this.initialize( initialPosition, initialDirection, initialLength, initialRadius );
+    },
+
     step: function( growLength, shrinkLength, direction ) {
       if ( direction !== this.motion ) {
         this.currentSegment = null;
@@ -64,7 +75,7 @@ define( function( require ) {
       this.currentSegment.growStep( growLength );
       this.position.set( this.currentSegment.end );
       this.direction.set( this.currentSegment.endTangent );
-      
+
       this.shrink( shrinkLength );
 
       this.elapsedLength += growLength;
@@ -76,19 +87,19 @@ define( function( require ) {
           this.tongueExtending = false;
         }
       }
-      
+
       // Check self-intersection of the current segment with the parts of the body it can intersect with.
       var selfIntersection = this.intersectRange( this.currentSegment.segment, 0, this.segments.length - 2 );
       if ( selfIntersection ) {
         this.cut( selfIntersection.length );
       }
-      
+
       // Check for a 360-degree loop, which will cut off everything but one loop's worth
       if ( this.currentSegment.segment.radius && Math.abs( this.currentSegment.segment.startAngle - this.currentSegment.segment.endAngle ) >= Math.PI * 2 - 0.00001 ) {
         this.cut( this.currentSegment.endLength - 2 * Math.PI * this.currentSegment.segment.radius );
       }
     },
-    
+
     shrink: function( length ) {
       while ( length > 0 ) {
         var segment = this.segments[ 0 ];
@@ -105,16 +116,17 @@ define( function( require ) {
 
     cut: function( atLength ) {
       assert && assert( atLength >= this.startLength && atLength < this.endLength );
-      
+
       var amountToCut = Math.max( atLength - this.startLength, 0 );
-      
+
       this.totalLengthCut += amountToCut;
-      
+
       this.shrink( amountToCut );
     },
 
     triggerTongue: function() {
       if ( this.tongueExtension === 0 ) {
+        this.tongueExtension = 2; // start it a bit further out
         this.tongueExtending = true;
       }
     },
@@ -132,12 +144,26 @@ define( function( require ) {
       assert && assert( this.segments[ 0 ] === segment );
       this.segments.shift();
     },
-    
+
+    intersectsSegments: function( segments, headOnly ) {
+      var hit = false;
+      var myLength = this.segments.length;
+      for ( var i = 0; i < segments.length; i++ ) {
+        var segment = segments[ i ];
+        var hits = this.intersectRange( segment, headOnly ? ( myLength - 1 ) : 0, myLength );
+        if ( hits ) {
+          hit = true;
+          break;
+        }
+      }
+      return hit;
+    },
+
     // only concerned with the intersection closest to the snake head
     intersectRange: function( segment, firstIndex, beforeIndex ) {
-      assert && assert( firstIndex >= 0 && firstIndex < this.segments.length );
-      assert && assert( beforeIndex >= 0 && beforeIndex <= this.segments.length );
-      
+      assert && assert( firstIndex >= 0 );
+      assert && assert( beforeIndex <= this.segments.length );
+
       var latestLength = Number.NEGATIVE_INFINITY;
       var latestT = 0;
       var latestPoint = null;
@@ -147,7 +173,7 @@ define( function( require ) {
         if ( hits ) {
           for ( var k = 0; k < hits.length; k++ ) {
             var hit = hits[ k ];
-            
+
             var intersectionLength = Util.linear( 0, 1, snakeSegment.startLength, snakeSegment.endLength, hit.tSecond );
             if ( intersectionLength > latestLength ) {
               latestLength = intersectionLength;
@@ -156,14 +182,14 @@ define( function( require ) {
             }
           }
         }
-        
+
         // Since we are traversing the segments array backwards (head to tail), if we get a hit we can bail and not
         // test segments further down the tail (since they are farther from the head).
         if ( latestPoint ) {
           break;
         }
       }
-      
+
       if ( latestPoint ) {
         return {
           point: latestPoint, // point of intersection
@@ -175,7 +201,7 @@ define( function( require ) {
         return null;
       }
     },
-    
+
     get startLength() {
       if ( this.segments.length === 0 ) {
         return 0;
@@ -184,7 +210,7 @@ define( function( require ) {
         return this.segments[ 0 ].startLength;
       }
     },
-    
+
     get endLength() {
       if ( this.segments.length === 0 ) {
         return 0;
