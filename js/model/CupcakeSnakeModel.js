@@ -117,7 +117,7 @@ define( function( require ) {
           var hit = this.snake.intersectsSegments( wall.segments, true );
           if ( hit ) {
             hitObstable = true;
-            hitMessage = 'Bumping into a wall didn\'t seem that dangerous!';
+            hitMessage = 'Thou hast been slain by a mere wall!';
             break;
           }
         }
