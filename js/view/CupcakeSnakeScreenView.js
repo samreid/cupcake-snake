@@ -95,7 +95,7 @@ define( function( require ) {
       deathSound.play();
 
       var gameOverPanel = new GameOverPanel( cupcakeSnakeScreenView.cupcakeSnakeModel, restart );
-      gameOverPanel.centerBottom = cupcakeSnakeScreenView.layoutBounds.center.plusXY( 0, -100 );
+      gameOverPanel.centerBottom = cupcakeSnakeScreenView.layoutBounds.center.plusXY( 0, -75 );
       cupcakeSnakeScreenView.addChild( gameOverPanel );
       cupcakeSnakeScreenView.playArea.opacity = 0.6;
     } );

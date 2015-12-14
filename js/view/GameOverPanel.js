@@ -24,7 +24,7 @@ define( function( require ) {
       content: new Text( 'Restart Level', {
         font: new PhetFont( { size: 40 } )
       } ),
-      baseColor: '#f8515d',
+      baseColor: '#71f84d',
       listener: function() {
         restart( cupcakeSnakeModel.level );
       }
@@ -34,7 +34,7 @@ define( function( require ) {
       content: new Text( 'Home', {
         font: new PhetFont( { size: 40 } )
       } ),
-      baseColor: '#f8515d',
+      baseColor: 'rgb(255,250,115)',
       listener: function() {
         restart( 0 );
       }
@@ -53,7 +53,10 @@ define( function( require ) {
         } )
       ]
     } );
-    this.addChild( new Panel( contents ) );
+    this.addChild( new Panel( contents, {
+      xMargin: 15,
+      yMargin: 15
+    } ) );
   }
 
   return inherit( Node, GameOverPanel, {} );
