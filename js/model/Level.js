@@ -143,6 +143,7 @@ define( function( require ) {
       else {
         // simple?
         result.push( new Line( position, point1 ) );
+        position = point1;
       }
 
     }
