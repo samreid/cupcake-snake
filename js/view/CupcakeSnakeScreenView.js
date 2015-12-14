@@ -21,6 +21,7 @@ define( function( require ) {
   var GameOverPanel = require( 'CUPCAKE_SNAKE/view/GameOverPanel' );
   var BackgroundNode = require( 'CUPCAKE_SNAKE/view/BackgroundNode' );
   var Sound = require( 'VIBE/Sound' );
+  var Emitter = require( 'AXON/Emitter' );
 
   // audio
   var death = require( 'audio!CUPCAKE_SNAKE/qubodupImpactMeat02' );
@@ -65,8 +66,18 @@ define( function( require ) {
     var KEY_RIGHT = 39;
     var KEY_A = 65;
     var KEY_D = 68;
+    var KEY_ENTER = 13;
+    var KEY_SPACEBAR = 32;
+    var keyEnterEmitter = new Emitter();
+    var keySpacebarEmitter = new Emitter();
 
     document.addEventListener( 'keydown', function( event ) {
+      if ( event.keyCode === KEY_ENTER ) {
+        keyEnterEmitter.emit();
+      }
+      if ( event.keyCode === KEY_SPACEBAR ) {
+        keySpacebarEmitter.emit();
+      }
       if ( event.keyCode === KEY_LEFT || event.keyCode === KEY_A ) {
         cupcakeSnakeModel.left = true;
       }
@@ -87,15 +98,27 @@ define( function( require ) {
       this.closeHomeScreenAndStartLevel( level );
     }
 
+    cupcakeSnakeScreenView.gameOverPanelShowing = false;
     cupcakeSnakeModel.deathEmitter.addListener( function() {
       deathSound.play();
 
+      cupcakeSnakeScreenView.gameOverPanelShowing = true;
       var gameOverPanel = new GameOverPanel( cupcakeSnakeScreenView.cupcakeSnakeModel, restart );
       gameOverPanel.centerBottom = cupcakeSnakeScreenView.layoutBounds.center.plusXY( 0, -75 );
       cupcakeSnakeScreenView.addChild( gameOverPanel );
       cupcakeSnakeScreenView.playArea.opacity = 0.7;
     } );
 
+    var buttonListener = function() {
+      if ( cupcakeSnakeScreenView.homeScreen ) {
+        cupcakeSnakeScreenView.closeHomeScreenAndStartLevel( 1 );
+      }
+      else if ( cupcakeSnakeScreenView.gameOverPanelShowing ) {
+        restart( cupcakeSnakeModel.level );
+      }
+    };
+    keyEnterEmitter.addListener( buttonListener );
+    keySpacebarEmitter.addListener( buttonListener );
   }
 
   return inherit( ScreenView, CupcakeSnakeScreenView, {
