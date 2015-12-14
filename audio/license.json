@@ -46,5 +46,37 @@
     "projectURL": "http://opengameart.org/content/impact",
     "license": "Public Domain",
     "notes": "http://opengameart.org/content/impact"
+  },
+  "zapThreeToneDown.mp3": {
+    "text": [
+      "Public Domain"
+    ],
+    "projectURL": "http://opengameart.org/content/63-digital-sound-effects-lasers-phasers-space-etc",
+    "license": "Public Domain",
+    "notes": "Thanks to Kenney.nl or www.kenney.nl"
+  },
+  "zapThreeToneDown.ogg": {
+    "text": [
+      "Public Domain"
+    ],
+    "projectURL": "http://opengameart.org/content/63-digital-sound-effects-lasers-phasers-space-etc",
+    "license": "Public Domain",
+    "notes": "Thanks to Kenney.nl or www.kenney.nl"
+  },
+  "zapThreeToneUp.mp3": {
+    "text": [
+      "Public Domain"
+    ],
+    "projectURL": "http://opengameart.org/content/63-digital-sound-effects-lasers-phasers-space-etc",
+    "license": "Public Domain",
+    "notes": "Thanks to Kenney.nl or www.kenney.nl"
+  },
+  "zapThreeToneUp.ogg": {
+    "text": [
+      "Public Domain"
+    ],
+    "projectURL": "http://opengameart.org/content/63-digital-sound-effects-lasers-phasers-space-etc",
+    "license": "Public Domain",
+    "notes": "Thanks to Kenney.nl or www.kenney.nl"
   }
 }
