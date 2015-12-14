@@ -18,6 +18,7 @@ define( function( require ) {
   var Image = require( 'SCENERY/nodes/Image' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var CupcakeSnakeModel = require( 'CUPCAKE_SNAKE/model/CupcakeSnakeModel' );
 
   function LevelReadout( cupcakeSnakeScreenView ) {
     Node.call( this );
@@ -28,11 +29,25 @@ define( function( require ) {
       font: new PhetFont( { size: 22, weight: 'bold' } )
     } );
 
-    cupcakeSnakeModel.currentLevelProperty.link( function( currentLevel ) {
+    var updateText = function() {
+      var currentLevel = cupcakeSnakeModel.currentLevelProperty.get();
       var number = currentLevel ? currentLevel.number : '?';
-      text.text = 'Level: ' + number;
+      var str = 'Level: ' + number;
+
+      if ( CupcakeSnakeModel.numberOfReplaysProperty.get() >= 1 ) {
+        str = str + '   World: ' + (CupcakeSnakeModel.numberOfReplaysProperty.get() + 1);
+      }
+
+      text.text = str;
+    };
+    cupcakeSnakeModel.currentLevelProperty.link( function( currentLevel ) {
+      updateText();
     } );
     this.addChild( text );
+
+    CupcakeSnakeModel.numberOfReplaysProperty.link( function( numberOfReplays ) {
+      updateText();
+    } );
 
     var levelReadout = this;
     cupcakeSnakeScreenView.events.on( 'layoutFinished', function( dx, dy, width, height ) {

@@ -9,11 +9,12 @@ define( function( require ) {
   var ObservableArray = require( 'AXON/ObservableArray' );
   var Intersection = require( 'CUPCAKE_SNAKE/model/Intersection' );
   var Emitter = require( 'AXON/Emitter' );
+  var Property = require( 'AXON/Property' );
 
   var Sound = require( 'VIBE/Sound' );
 
   var lastPlaySound = Date.now();
-  var numberOfReplays = 0;
+  var numberOfReplaysProperty = new Property( 0 );
 
   // audio
   var chomp = require( 'audio!CUPCAKE_SNAKE/chomp' );
@@ -57,6 +58,7 @@ define( function( require ) {
     this.running = false;
   }
 
+  CupcakeSnakeModel.numberOfReplaysProperty = numberOfReplaysProperty;
   return inherit( PropertySet, CupcakeSnakeModel, {
     step: function( dt ) {
       if ( dt > 0.5 ) {
@@ -66,7 +68,7 @@ define( function( require ) {
       var cupcakeSnakeModel = this;
 
       if ( this.running && this.alive ) {
-        var growLength = ( 110 + numberOfReplays * 80 ) * dt;
+        var growLength = ( 110 + numberOfReplaysProperty.get() * 80 ) * dt;
         var shrinkLength = Math.max( growLength - this.remainingLengthToGrow, 0 );
         this.snake.step( growLength, shrinkLength, this.motion );
         this.remainingLengthToGrow = Math.max( this.remainingLengthToGrow - growLength, 0 );
@@ -90,7 +92,7 @@ define( function( require ) {
           else {
 
             // reached the last level, cycle back to level 1, but faster
-            numberOfReplays++;
+            numberOfReplaysProperty.set( numberOfReplaysProperty.get() + 1 );
             this.running = false;
             this.restartEntireGame( 1 );
             return;
