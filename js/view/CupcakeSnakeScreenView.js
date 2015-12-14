@@ -24,6 +24,7 @@ define( function( require ) {
   var Sound = require( 'VIBE/Sound' );
   var Emitter = require( 'AXON/Emitter' );
   var ObservableArray = require( 'AXON/ObservableArray' );
+  var LevelReadout = require( 'CUPCAKE_SNAKE/view/LevelReadout' );
 
   // audio
   var death = require( 'audio!CUPCAKE_SNAKE/qubodupImpactMeat02' );
@@ -47,6 +48,8 @@ define( function( require ) {
 
     // create button controls early so it can register itself for screen size changes
     this.buttonControls = new ButtonControls( this, this.cupcakeSnakeModel.leftProperty, this.cupcakeSnakeModel.rightProperty );
+
+    this.levelReadout = new LevelReadout( this );
 
     this.layoutCenter = bounds.center;
 
@@ -76,9 +79,11 @@ define( function( require ) {
 
     this.playArea.visible = false;
     this.buttonControls.visible = false;
+    this.levelReadout.visible = false;
 
     this.addChild( this.playArea );
     this.addChild( this.buttonControls );
+    this.addChild( this.levelReadout );
 
     var KEY_LEFT = 37;
     var KEY_RIGHT = 39;
@@ -148,6 +153,7 @@ define( function( require ) {
 
       this.playArea.visible = true;
       this.buttonControls.visible = true;
+      this.levelReadout.visible = true;
 
       // Listen to the model's visible levels, and add/remove the corresponding level views
       this.levelViews = [];
