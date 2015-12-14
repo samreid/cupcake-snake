@@ -114,7 +114,7 @@ define( function( require ) {
         cupcakeSnakeScreenView.closeHomeScreenAndStartLevel( 1 );
       }
       else if ( cupcakeSnakeScreenView.gameOverPanelShowing ) {
-        restart( cupcakeSnakeModel.level );
+        restart( cupcakeSnakeModel.currentLevel.number );
       }
     };
     keyEnterEmitter.addListener( buttonListener );
