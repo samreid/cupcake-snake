@@ -12,6 +12,8 @@ define( function( require ) {
 
   var Sound = require( 'VIBE/Sound' );
 
+  var numberOfReplays = 0;
+
   // audio
   var chomp = require( 'audio!CUPCAKE_SNAKE/chomp' );
   var chompSound = new Sound( chomp );
@@ -19,7 +21,8 @@ define( function( require ) {
   var INITIAL_SNAKE_LENGTH = 150;
   var INITIAL_SNAKE_RADIUS = 30;
 
-  function CupcakeSnakeModel() {
+  function CupcakeSnakeModel( idontknowwhatthisis, restart ) {
+    this.restartEntireGame = restart;
     var self = this;
     this.deathEmitter = new Emitter();
 
@@ -56,7 +59,7 @@ define( function( require ) {
       var cupcakeSnakeModel = this;
 
       if ( this.running && this.alive ) {
-        var growLength = 150 * dt;
+        var growLength = (150 + numberOfReplays * 70) * dt;
         var shrinkLength = Math.max( growLength - this.remainingLengthToGrow, 0 );
         this.snake.step( growLength, shrinkLength, this.motion );
         this.remainingLengthToGrow = Math.max( this.remainingLengthToGrow - growLength, 0 );
@@ -68,10 +71,21 @@ define( function( require ) {
         // Door intersection
         if ( Intersection.intersect( this.snake.currentSegment.segment, this.currentLevel.door.segment ) ) {
           this.currentLevel.active = false;
-          var level = this.currentLevel.nextLevel.copy();
-          level.previousLevel = this.currentLevel; // hook for later
-          this.visibleLevels.push( level );
-          this.currentLevel = level;
+
+          if ( this.currentLevel.nextLevel ) {
+            var level = this.currentLevel.nextLevel.copy();
+            level.previousLevel = this.currentLevel; // hook for later
+            this.visibleLevels.push( level );
+            this.currentLevel = level;
+          }
+          else {
+
+            // reached the last level, cycle back to level 1, but faster
+            numberOfReplays++;
+            this.running = false;
+            this.restartEntireGame( 1 );
+            return;
+          }
         }
 
         var cupcakeArray = this.currentLevel.cupcakes.getArray();
@@ -84,7 +98,7 @@ define( function( require ) {
           var distance = Math.sqrt( dx * dx + dy * dy );
           if ( distance < 30 ) {
             toRemove.push( cupcake );
-            this.remainingLengthToGrow += 100;
+            this.remainingLengthToGrow += 100; // for debugging, make this larger
           }
         }
         this.currentLevel.cupcakes.removeAll( toRemove );
