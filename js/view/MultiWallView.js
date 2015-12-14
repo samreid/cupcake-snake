@@ -78,7 +78,7 @@ define( function( require ) {
 
       // context.fillStyle = '#fff';
       context.fillStyle = backgroundPattern;
-      context.strokeStyle = '#666';
+      context.strokeStyle = '#333';
       context.lineWidth = 1;
       context.lineCap = 'round';
       context.fill();
