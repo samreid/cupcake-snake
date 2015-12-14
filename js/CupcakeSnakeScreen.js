@@ -11,11 +11,11 @@ define( function( require ) {
   /**
    * @constructor
    */
-  function CupcakeSnakeScreen() {
+  function CupcakeSnakeScreen( level, restart ) {
     Screen.call( this, 'Cupcake Snake', new Text( 'hello' ),
-      function() { return new CupcakeSnakeModel(); },
+      function() { return new CupcakeSnakeModel( level, restart ); },
       function( model ) {
-        return new CupcakeSnakeScreenView( model );
+        return new CupcakeSnakeScreenView( model, level, restart );
       }, {
         backgroundColor: 'white'
       }

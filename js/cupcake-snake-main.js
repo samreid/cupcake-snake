@@ -11,8 +11,23 @@ define( function( require ) {
     credits: {}
   };
 
+  var level = 0;
+  if ( phet.chipper.getQueryParameter( 'level' ) ) {
+    level = parseInt( phet.chipper.getQueryParameter( 'level' ), 10 );
+  }
+  var app = null;
+
   SimLauncher.launch( function() {
-    var app = new App( 'Cupcake Snake', [ new CupcakeSnakeScreen() ], simOptions );
+
+    // After the user pressed restart level or go to homescreen, this function is called
+    // level = 0 is homescreen
+    var restart = function( level ) {
+      app.destroy();
+      app = new App( 'Cupcake Snake', [ new CupcakeSnakeScreen( level, restart ) ], simOptions );
+      app.start();
+    };
+
+    app = new App( 'Cupcake Snake', [ new CupcakeSnakeScreen( level, restart ) ], simOptions );
     app.start();
   } );
 } );

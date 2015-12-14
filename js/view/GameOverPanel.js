@@ -17,7 +17,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
 
-  function GameOverPanel() {
+  function GameOverPanel( cupcakeSnakeModel, restart ) {
     Node.call( this );
 
     var restartLevelButton = new RectangularPushButton( {
@@ -25,7 +25,9 @@ define( function( require ) {
         font: new PhetFont( { size: 40 } )
       } ),
       baseColor: '#f8515d',
-      listener: function() {}
+      listener: function() {
+        restart( cupcakeSnakeModel.level );
+      }
     } );
 
     var homeScreenButton = new RectangularPushButton( {
@@ -33,7 +35,9 @@ define( function( require ) {
         font: new PhetFont( { size: 40 } )
       } ),
       baseColor: '#f8515d',
-      listener: function() {}
+      listener: function() {
+        restart( 0 );
+      }
     } );
 
     var contents = new VBox( {

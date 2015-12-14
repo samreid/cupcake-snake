@@ -23,7 +23,7 @@ define( function( require ) {
 
   var scratchVector = new Vector2();
 
-  function CupcakeSnakeScreenView( cupcakeSnakeModel ) {
+  function CupcakeSnakeScreenView( cupcakeSnakeModel, level, restart ) {
     var cupcakeSnakeScreenView = this;
     this.cupcakeSnakeModel = cupcakeSnakeModel;
 
@@ -82,13 +82,12 @@ define( function( require ) {
         cupcakeSnakeModel.right = false;
       }
     } );
-    if ( phet.chipper.getQueryParameter( 'level' ) ) {
-      var level = parseInt( phet.chipper.getQueryParameter( 'level' ), 10 );
+    if ( level !== 0 ) {
       this.closeHomeScreenAndStartLevel( level );
     }
 
     cupcakeSnakeModel.deathEmitter.addListener( function() {
-      var gameOverPanel = new GameOverPanel();
+      var gameOverPanel = new GameOverPanel( cupcakeSnakeScreenView.cupcakeSnakeModel, restart );
       gameOverPanel.centerBottom = cupcakeSnakeScreenView.layoutBounds.center.plusXY( 0, -100 );
       cupcakeSnakeScreenView.addChild( gameOverPanel );
       cupcakeSnakeScreenView.playArea.opacity = 0.6;
@@ -113,6 +112,7 @@ define( function( require ) {
     },
 
     startLevel: function( levelNumber ) {
+      this.cupcakeSnakeModel.level = levelNumber;
       var model = this.cupcakeSnakeModel;
       var level = Level.levels[ levelNumber - 1 ];
 

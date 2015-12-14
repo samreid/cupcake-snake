@@ -19,10 +19,10 @@ define( function( require ) {
       right: false,
       remainingLengthToGrow: 0,
       motion: Snake.STRAIGHT,
-      alive: true
+      alive: true,
+      level: 0 // {number} 0 is home screen, 1 is level 1
     } );
     window.model = this;
-
     this.walls = [];
     this.cupcakes = new ObservableArray();
 
