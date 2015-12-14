@@ -12,6 +12,7 @@ define( function( require ) {
   var cupcakeSnake = require( 'CUPCAKE_SNAKE/cupcakeSnake' );
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var Color = require( 'SCENERY/util/Color' );
 
   function BackgroundNode( cupcakeSnakeModel ) {
     CanvasNode.call( this, {
@@ -19,6 +20,9 @@ define( function( require ) {
     } );
 
     this.cupcakeSnakeModel = cupcakeSnakeModel;
+
+    this.targetColor = new Color( 'rgb(255,250,115)' );
+    this.currentColor = this.targetColor;
 
     this.setCanvasBounds( new Bounds2( -10000, -10000, 10000, 10000 ) );
   }
@@ -29,7 +33,7 @@ define( function( require ) {
     paintCanvas: function( context ) {
       context.save();
 
-      context.fillStyle = 'rgb(255,250,115)';
+      context.fillStyle = this.currentColor.toCSS();
       context.fillRect( -10000, -10000, 20000, 20000 );
 
       context.restore();
