@@ -44,7 +44,15 @@ define( function( require ) {
 
   inherit( Object, Level, {
     copy: function() {
-
+      var level = new Level( this.doorLeft, this.doorRight, this.startPosition );
+      level.walls = this.walls;
+      this.cupcakes.forEach( function( cupcake ) {
+        level.cupcakes.push( cupcake.copy() );
+      } );
+      level.number = this.number;
+      level.nextLevel = this.nextLevel;
+      level.previousLevel = this.previousLevel;
+      return level;
     },
 
     // construction
