@@ -107,16 +107,16 @@ define( function( require ) {
           chompSound.play();
         }
 
-        var hitObstable = false;
+        var hitObstacle = false;
         var hitMessage = null;
 
         // Check if the snake hit a wall
-        for ( var k = 0; k < this.currentLevel.walls.length && !hitObstable; k++ ) {
+        for ( var k = 0; k < this.currentLevel.walls.length && !hitObstacle; k++ ) {
           var wall = this.currentLevel.walls[ k ];
 
           var hit = this.snake.intersectsSegments( wall.segments, true );
           if ( hit ) {
-            hitObstable = true;
+            hitObstacle = true;
             hitMessage = 'Thou hast been slain by a mere wall!';
             break;
           }
@@ -129,7 +129,7 @@ define( function( require ) {
           if ( headOverDoor ) {
             if ( previousLevel.headOut ) {
               hitMessage = 'My mother always said to not dwell in the past.';
-              hitObstable = true;
+              hitObstacle = true;
             }
           }
           else {
@@ -151,7 +151,7 @@ define( function( require ) {
         // Comment out to make it easy to transition
         if ( ( !this.currentLevel.bluePressed && this.snake.intersectsSegments( this.currentLevel.door.blueSegments, false ) ) ||
              ( !this.currentLevel.yellowPressed && this.snake.intersectsSegments( this.currentLevel.door.yellowSegments, false ) ) ) {
-          hitObstable = true;
+          hitObstacle = true;
           if ( this.currentLevel.everPressed ) {
             hitMessage = 'Looks like there\'s no open-door policy here.';
           }
@@ -173,7 +173,7 @@ define( function( require ) {
             if ( hit ) {
               // head hit?
               if ( this.snake.endLength - hit.length < 4 ) {
-                hitObstable = true;
+                hitObstacle = true;
                 hitMessage = obstacle.message;
               }
               // otherwise cut body
@@ -184,7 +184,7 @@ define( function( require ) {
           }
         }
 
-        if ( hitObstable ) {
+        if ( hitObstacle ) {
           if ( !this.everTurned && this.currentLevel.number === 1 ) {
             hitMessage = 'Try the left/right arrow keys or the on-screen buttons';
           }
