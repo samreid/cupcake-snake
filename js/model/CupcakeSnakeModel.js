@@ -12,6 +12,7 @@ define( function( require ) {
 
   var Sound = require( 'VIBE/Sound' );
 
+  var lastPlaySound = Date.now();
   var numberOfReplays = 0;
 
   // audio
@@ -183,7 +184,11 @@ define( function( require ) {
               else {
                 this.snake.cut( hit.length );
 
-                cutSound.play();
+                if ( Date.now() - lastPlaySound > 500 ) {
+                  cutSound.play();
+                  lastPlaySound = Date.now();
+                }
+
                 this.snake.cutEmitter.emit1( hit.point );
               }
             }
