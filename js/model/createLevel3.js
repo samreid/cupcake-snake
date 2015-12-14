@@ -14,7 +14,7 @@ define( function() {
     var b = 200;
     var d = 50;
     var h = 100;
-    var m = 1500;
+    var m = 1200;
     var cupcakeAt = function( vector ) {
       return new Cupcake( vector.x, vector.y );
     };
