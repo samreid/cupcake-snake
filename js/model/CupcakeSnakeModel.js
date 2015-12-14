@@ -18,6 +18,9 @@ define( function( require ) {
   var chomp = require( 'audio!CUPCAKE_SNAKE/chomp' );
   var chompSound = new Sound( chomp );
 
+  var cut = require( 'audio!CUPCAKE_SNAKE/cut' );
+  var cutSound = new Sound( cut );
+
   var INITIAL_SNAKE_LENGTH = 150;
   var INITIAL_SNAKE_RADIUS = 30;
 
@@ -179,6 +182,8 @@ define( function( require ) {
               // otherwise cut body
               else {
                 this.snake.cut( hit.length );
+
+                cutSound.play();
                 this.snake.cutEmitter.emit1( hit.point );
               }
             }

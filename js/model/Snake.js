@@ -101,6 +101,7 @@ define( function( require ) {
 
       if ( selfIntersection ) {
         this.cut( selfIntersection.length );
+        chompSound.play();
         this.cutEmitter.emit1( selfIntersection.point );
       }
 
@@ -111,6 +112,7 @@ define( function( require ) {
                   // cut a bit more so it is not contiunal cut
                   0.01 );
         this.cutEmitter.emit1( this.position );
+        chompSound.play();
       }
     },
 
@@ -136,8 +138,6 @@ define( function( require ) {
       this.totalLengthCut += amountToCut;
 
       this.shrink( amountToCut );
-
-      chompSound.play();
     },
 
     triggerTongue: function() {
