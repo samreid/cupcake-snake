@@ -172,7 +172,7 @@ define( function( require ) {
             var hit = this.snake.intersectRange( segment, 0, this.snake.segments.length );
             if ( hit ) {
               // head hit?
-              if ( this.snake.endLength - hit.length < 4 ) {
+              if ( this.snake.endLength - hit.length < 7 ) {
                 hitObstacle = true;
                 hitMessage = obstacle.message;
               }
