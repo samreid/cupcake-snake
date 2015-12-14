@@ -18,11 +18,11 @@ define( function( require ) {
     this.left = left; // Vector2
     this.right = right; // Vector2
     this.segment = new Line( left, right );
-    var doorVector = left.minus( right ).perpendicular().normalized().timesScalar( DOOR_THICKNESS );
-    var left1 = left.plus( doorVector );
-    var right1 = right.plus( doorVector );
-    var left2 = left1.plus( doorVector );
-    var right2 = right1.plus( doorVector );
+    this.doorVector = left.minus( right ).perpendicular().normalized().timesScalar( DOOR_THICKNESS );
+    var left1 = left.plus( this.doorVector );
+    var right1 = right.plus( this.doorVector );
+    var left2 = left1.plus( this.doorVector );
+    var right2 = right1.plus( this.doorVector );
 
     this.yellowSegments = [
       new Line( left, left1 ),

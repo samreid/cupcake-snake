@@ -12,6 +12,8 @@ define( function( require ) {
   var cupcakeSnake = require( 'CUPCAKE_SNAKE/cupcakeSnake' );
   var Intersection = require( 'CUPCAKE_SNAKE/model/Intersection' );
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var CupcakeNode = require( 'CUPCAKE_SNAKE/view/CupcakeNode' );
 
@@ -44,6 +46,18 @@ define( function( require ) {
 
     level.cupcakes.addItemAddedListener( this.addCupcakeNode.bind( this ) );
     level.cupcakes.addItemRemovedListener( this.removeCupcakeNode.bind( this ) );
+
+    var exitLabel = new Text( 'Exit', {
+      renderer: 'dom',
+      font: new PhetFont( 22 ),
+      center: level.door.left.average( level.door.right ).plus( level.door.doorVector.timesScalar( -1.5 ) ),
+      rotation: level.door.doorVector.perpendicular().angle()
+    } );
+    this.addChild( exitLabel );
+
+    level.activeProperty.onValue( false, function() {
+      exitLabel.parents[ 0 ].removeChild( exitLabel );
+    } );
   }
 
   cupcakeSnake.register( 'LevelView', LevelView );
