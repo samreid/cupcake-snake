@@ -339,21 +339,45 @@ define( function( require ) {
   }
 
   var level5Offset = level4.door.center;
-  var level5 = new Level( level4.door.left.plus( v( 0, -800 ) ), level4.door.right.plus( v( 0, -800 ) ), level5Offset.plus( v( 0, -30 ) ), v( 0, -1 ) );
+  var level5 = new Level( level4.door.left.plus( v( 0, -1200 ) ), level4.door.right.plus( v( 0, -1200 ) ), level5Offset.plus( v( 0, -30 ) ), v( 0, -1 ) );
   {
+    var firstRadius = 70;
+    var secondRadius = 50;
     level5.addWall( new Wall( smooth( [
       v( -50, 0, level5Offset ),
       v( -150, -200, level5Offset ),
-      v( -50, -400, level5Offset ),
-      v( -50, -800, level5Offset ),
-      v( 50, -800, level5Offset ),
-      v( 50, -400, level5Offset ),
+      v( -firstRadius, -400, level5Offset ),
+      v( -firstRadius, -900, level5Offset ),
+      c( -250, -900, 50, level5Offset ),
+      c( -250, -1150, 50, level5Offset ),
+      v( -50, -1150, level5Offset ),
+      v( -50, -1200, level5Offset ),
+      v( 50, -1200, level5Offset ),
+      v( 50, -1150, level5Offset ),
+      c( 250, -1150, 50, level5Offset ),
+      c( 250, -900, 50, level5Offset ),
+      v( firstRadius, -900, level5Offset ),
+      v( firstRadius, -400, level5Offset ),
       v( 150, -200, level5Offset ),
       v( 50, 0, level5Offset )
     ] ) ) );
-    level5.addBlueButton( Shape.circle( level5Offset.x, level5Offset.y - 600, 30 ) );
-    level5.addYellowButton( Shape.circle( level5Offset.x, level5Offset.y - 700, 30 ) );
-    level5.addObstacle( new Spinner( level5Offset.plus( v( 0, -400 ) ), 50, 20, 3 ) )
+    level5.addObstacle( new Spinner( level5Offset.plus( v( 0, -400 ) ), firstRadius, 20, 2 ) );
+    level5.addObstacle( new Spinner( level5Offset.plus( v( 0, -700 ) ), firstRadius, 20, -2 ) );
+
+
+    level5.addBlueButton( Shape.circle( level5Offset.x - 100, level5Offset.y - 1025, secondRadius ) );
+    level5.addYellowButton( Shape.circle( level5Offset.x + 100, level5Offset.y - 1025, secondRadius ) );
+
+    // covering buttons
+    level5.addObstacle( new Spinner( level5Offset.plus( v( -100, -1025 ) ), firstRadius, 20, 0.2 ) );
+    level5.addObstacle( new Spinner( level5Offset.plus( v( 100, -1025 ) ), firstRadius, 20, -0.2 ) );
+
+    level5.addCupcake( new Cupcake( level5Offset.x, level5Offset.y - 850 ) );
+    level5.addCupcake( new Cupcake( level5Offset.x, level5Offset.y - 950 ) );
+    level5.addCupcake( new Cupcake( level5Offset.x, level5Offset.y - 1050 ) );
+
+    level5.addCupcake( new Cupcake( level5Offset.x - 225, level5Offset.y - 1025 ) );
+    level5.addCupcake( new Cupcake( level5Offset.x + 225, level5Offset.y - 1025 ) );
   }
 
   Level.levels = [
