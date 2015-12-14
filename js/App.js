@@ -197,7 +197,6 @@ define( function( require ) {
     // @private
     this.destroyed = false;
 
-    assert && assert( !window.phet.joist.sim, 'Only supports one sim at a time' );
     window.phet.joist.sim = sim;
 
     // Make ScreenshotGenerator available globally so it can be used in preload files such as together.
