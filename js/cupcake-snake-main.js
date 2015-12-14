@@ -5,6 +5,7 @@ define( function( require ) {
   var CupcakeSnakeScreen = require( 'CUPCAKE_SNAKE/CupcakeSnakeScreen' );
   var App = require( 'CUPCAKE_SNAKE/App' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
+  var titleString = require( 'string!CUPCAKE_SNAKE/cupcake-snake.title' );
 
   // strings
   var simOptions = {
@@ -23,11 +24,11 @@ define( function( require ) {
     // level = 0 is homescreen
     var restart = function( level ) {
       app.destroy();
-      app = new App( 'Cupcake Snake', [ new CupcakeSnakeScreen( level, restart ) ], simOptions );
+      app = new App( titleString, [ new CupcakeSnakeScreen( level, restart ) ], simOptions );
       app.start();
     };
 
-    app = new App( 'Cupcake Snake', [ new CupcakeSnakeScreen( level, restart ) ], simOptions );
+    app = new App( titleString, [ new CupcakeSnakeScreen( level, restart ) ], simOptions );
     app.start();
   } );
 } );
