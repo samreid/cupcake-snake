@@ -89,6 +89,7 @@ define( function( require ) {
         }
         this.currentLevel.cupcakes.removeAll( toRemove );
         if ( toRemove.length > 0 ) {
+          this.snake.triggerTongue();
           chompSound.play();
         }
 

@@ -126,6 +126,7 @@ define( function( require ) {
 
     triggerTongue: function() {
       if ( this.tongueExtension === 0 ) {
+        this.tongueExtension = 2; // start it a bit further out
         this.tongueExtending = true;
       }
     },
