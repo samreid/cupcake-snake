@@ -47,6 +47,10 @@ define( function( require ) {
 
   return inherit( PropertySet, CupcakeSnakeModel, {
     step: function( dt ) {
+      if ( dt > 0.5 ) {
+        dt = 0.5;
+      }
+
       var cupcakeSnakeModel = this;
 
       if ( this.running && this.alive ) {
@@ -57,7 +61,7 @@ define( function( require ) {
 
         // Door intersection
         if ( Intersection.intersect( this.snake.currentSegment.segment, this.currentLevel.door.segment ) ) {
-          var level = this.currentLevel.nextLevel;
+          var level = this.currentLevel.nextLevel.copy();
           this.visibleLevels.push( level );
           this.currentLevel = level;
         }
@@ -106,6 +110,8 @@ define( function( require ) {
     },
 
     startLevel: function( level ) {
+      level = level.copy();
+
       this.visibleLevels.clear();
       this.visibleLevels.push( level );
       this.currentLevel = level;
