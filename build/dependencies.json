@@ -1,0 +1,63 @@
+{
+  "comment": "# cupcake-snake 1.0.0-dev.1 Sun Dec 13 2015 20:29:42 GMT-0700 (MST)",
+  "assert": {
+    "sha": "d4909677d27ed571d5d859d709a0612bf7811db8",
+    "branch": "master"
+  },
+  "axon": {
+    "sha": "60075be97fdf9b4b312311c5e6902de2dca78f3e",
+    "branch": "master"
+  },
+  "brand": {
+    "sha": "c9282935819904d033c0e22d9d36e3590019f38b",
+    "branch": "master"
+  },
+  "chipper": {
+    "sha": "d18a2538e68fff26d80d6e0cfa2beca4b032dc79",
+    "branch": "master"
+  },
+  "cupcake-snake": {
+    "sha": "9b4c90195d25b0069865c6fa43dff7ad9a0843eb",
+    "branch": "gh-pages"
+  },
+  "dot": {
+    "sha": "7a28b1a92733cee778e2cf5d22ca45042884d416",
+    "branch": "master"
+  },
+  "joist": {
+    "sha": "da85d96ae4683ca0f6e6ffcb70692b211d89cf9e",
+    "branch": "master"
+  },
+  "kite": {
+    "sha": "a4907ccc07cc80d6d3c9c1e240ba7664e32db56b",
+    "branch": "master"
+  },
+  "phet-core": {
+    "sha": "73a034c676ee7b14b99aeeb1e7aad79f579b91b1",
+    "branch": "master"
+  },
+  "phetcommon": {
+    "sha": "d712ace0fd0fa47ab617934aec8721228aefc0fc",
+    "branch": "master"
+  },
+  "scenery": {
+    "sha": "98ea2eeb998282b37da86e961bc939c3942265aa",
+    "branch": "master"
+  },
+  "scenery-phet": {
+    "sha": "956aff92df92cc0d004e46299e06387edc2cb153",
+    "branch": "master"
+  },
+  "sherpa": {
+    "sha": "be8c4fc917f1644586ba4459351eade68e3bc0d2",
+    "branch": "master"
+  },
+  "sun": {
+    "sha": "abfd2cc76b4502845c3c7739abe7ee3c64bf4d7c",
+    "branch": "master"
+  },
+  "tandem": {
+    "sha": "87f3d2ab6435081cfe062e3b8e81afac2cbb970b",
+    "branch": "master"
+  }
+}
