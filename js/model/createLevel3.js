@@ -19,12 +19,15 @@ define( function() {
       return new Cupcake( vector.x, vector.y );
     };
 
-    return new Level( origin.plusXY( a - d - 100, -m + 50 ), origin.plusXY( a + d - 100, -m + 50 ), v( 900, -1300 ), v( 1, 0 ) )
+    var doorOpening = origin.plusXY( -100 + a - b + b - d, 0 - m - 50 );
+    return new Level( doorOpening, doorOpening.plusXY( d + d, 0 ), v( 900, -1300 ), v( 1, 0 ) )
       .addWall( new Wall( shapeToSegments( new Shape()
         .lineTo( origin.x - 100, origin.y )
         .lineToRelative( a - b, 0 )
         .lineToRelative( b - d, -m )
+        .lineToRelative( 0, -50 )
         .lineToRelative( d + d, 0 )
+        .lineToRelative( 0, +50 )
         .lineToRelative( b, m + h )
         .lineTo( origin.x - 100, origin.y + h )
       ) ) )
