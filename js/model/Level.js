@@ -337,7 +337,7 @@ define( function( require ) {
       .addBlueButton( Shape.circle( 470, -1300, 30 ) )
       .addYellowButton( Shape.circle( 630, -1300, 30 ) ),
 
-    createLevel3( v, c, smooth, Level, Wall, Shape, shapeToSegments, Slicer )
+    createLevel3( v, c, smooth, Level, Wall, Shape, shapeToSegments, Slicer, Cupcake )
   ];
 
   // Defines level.nextLevel, level.previousLevel
