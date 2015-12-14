@@ -16,6 +16,12 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
+  var Sound = require( 'VIBE/Sound' );
+
+  var played = false;
+
+  var jewelCrusher = require( 'audio!CUPCAKE_SNAKE/jewel-crusher' );
+  var jewelCrusherSound = new Sound( jewelCrusher );
 
   // images
   var snakeImage = require( 'image!CUPCAKE_SNAKE/snake.png' );
@@ -88,6 +94,17 @@ define( function( require ) {
 
         cupcake
       ]
+    } );
+
+    var musak = function() {
+      if ( !played ) {
+        jewelCrusherSound.play();
+        played = true;
+      }
+    };
+    this.addInputListener( {
+      down: musak,
+      move: musak
     } );
   }
 
