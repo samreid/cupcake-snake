@@ -146,7 +146,7 @@ define( function( require ) {
         }
 
         if ( hitObstable ) {
-          if ( !this.everTurned ) {
+          if ( !this.everTurned && this.currentLevel.number === 1 ) {
             hitMessage = 'Try the left/right arrow keys or the on-screen buttons';
           }
 
