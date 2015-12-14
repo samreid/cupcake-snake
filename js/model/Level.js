@@ -59,7 +59,9 @@ define( function( require ) {
     PropertySet.call( this, {
       bluePressed: false,
       yellowPressed: false,
-      active: true
+      active: true,
+      headOut: false,
+      snakeFullyOut: false,
     } );
     this.door = new Door( doorLeft, doorRight );
     this.walls = [];

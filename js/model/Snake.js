@@ -17,6 +17,9 @@ define( function( require ) {
 
   function Snake( initialPosition, initialDirection, initialLength, initialRadius ) {
     this.initialize( initialPosition, initialDirection, initialLength, initialRadius );
+
+    this.initialLength = initialLength;
+    this.initialRadius = initialRadius;
   }
   cupcakeSnake.register( 'Snake', Snake );
 

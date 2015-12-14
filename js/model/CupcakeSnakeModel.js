@@ -67,6 +67,7 @@ define( function( require ) {
         if ( Intersection.intersect( this.snake.currentSegment.segment, this.currentLevel.door.segment ) ) {
           this.currentLevel.active = false;
           var level = this.currentLevel.nextLevel.copy();
+          level.previousLevel = this.currentLevel; // hook for later
           this.visibleLevels.push( level );
           this.currentLevel = level;
         }
@@ -99,6 +100,30 @@ define( function( require ) {
           if ( hit ) {
             hitObstable = true;
             break;
+          }
+        }
+
+        var previousLevel = this.currentLevel.previousLevel;
+        if ( previousLevel ) {
+          // hit-test against the closed door (if we passed it)
+          var headOverDoor = Intersection.intersect( this.snake.currentSegment.segment, previousLevel.door.segment );
+          if ( headOverDoor ) {
+            if ( previousLevel.headOut ) {
+              hitObstable = true;
+            }
+          }
+          else {
+            previousLevel.headOut = true;
+          }
+
+          // see if we can make the previous level invisible
+          if ( this.visibleLevels.contains( previousLevel ) ) {
+            var bodyOverDoor = this.snake.intersectsSegments( [ previousLevel.door.segment ] );
+
+            if ( !bodyOverDoor ) {
+              previousLevel.snakeFullyOut = true;
+              this.visibleLevels.remove( previousLevel );
+            }
           }
         }
 
