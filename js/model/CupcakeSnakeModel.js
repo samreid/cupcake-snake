@@ -135,16 +135,16 @@ define( function( require ) {
 
         // Check if the snake hit the doors
         // Comment out to make it easy to transition
-        if ( ( !this.currentLevel.bluePressed && this.snake.intersectsSegments( this.currentLevel.door.blueSegments, false ) ) ||
-             ( !this.currentLevel.yellowPressed && this.snake.intersectsSegments( this.currentLevel.door.yellowSegments, false ) ) ) {
-          hitObstable = true;
-          if ( this.currentLevel.everPressed ) {
-            hitMessage = 'Looks like there\'s no open-door policy here.';
-          }
-          else {
-            hitMessage = 'Try slithering over a button to open this door.';
-          }
-        }
+        //if ( ( !this.currentLevel.bluePressed && this.snake.intersectsSegments( this.currentLevel.door.blueSegments, false ) ) ||
+        //     ( !this.currentLevel.yellowPressed && this.snake.intersectsSegments( this.currentLevel.door.yellowSegments, false ) ) ) {
+        //  hitObstable = true;
+        //  if ( this.currentLevel.everPressed ) {
+        //    hitMessage = 'Looks like there\'s no open-door policy here.';
+        //  }
+        //  else {
+        //    hitMessage = 'Try slithering over a button to open this door.';
+        //  }
+        //}
 
         // check obstacles
         for ( var m = 0; m < this.currentLevel.obstacles.length; m++ ) {
