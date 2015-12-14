@@ -433,7 +433,8 @@ define( function( require ) {
 
       // .addWallShape( Shape.roundRect( 500, -1500, 100, 400 ), false )
       .addObstacle( new Slicer( v( 100, -800 ), v( -100, -800 ), 2 ) )
-      .addObstacle( new Slicer( v( 100, -1000 ), v( -100, -1000 ), 2 ) )
+      .addObstacle( new Slicer( v( 100, -950 ), v( -100, -950 ), 2 ) )
+      .addObstacle( new Slicer( v( 100, -1100 ), v( -100, -1100 ), 2 ) )
       .addCupcake( new Cupcake( -200, -1300 ) )
 
       .addCupcake( new Cupcake( 410 - 50, -1480 ) )
