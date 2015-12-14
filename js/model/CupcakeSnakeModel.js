@@ -179,6 +179,7 @@ define( function( require ) {
               // otherwise cut body
               else {
                 this.snake.cut( hit.length );
+                this.snake.cutEmitter.emit1( hit.point );
               }
             }
           }
