@@ -13,6 +13,7 @@ define( function( require ) {
   var PropertySet = require( 'AXON/PropertySet' );
   var cupcakeSnake = require( 'CUPCAKE_SNAKE/cupcakeSnake' );
   var Cupcake = require( 'CUPCAKE_SNAKE/model/Cupcake' );
+  var Spinner = require( 'CUPCAKE_SNAKE/model/Spinner' );
   var Slicer = require( 'CUPCAKE_SNAKE/model/Slicer' );
   var Door = require( 'CUPCAKE_SNAKE/model/Door' );
   var Wall = require( 'CUPCAKE_SNAKE/model/Wall' );
@@ -337,17 +338,46 @@ define( function( require ) {
     level4.addCupcake( new Cupcake( level4Offset.x + horizontalOffset * 2, level4Offset.y - 350 - verticalOffset * 0 ) );
   }
 
-  var level5Offset = level3.door.center;
-  var level5 = new Level( v( 850, -13050 ), v( 850, -12500 ), level5Offset.plus( v( 0, -30 ) ), v( 0, -1 ) );
+  var level5Offset = level4.door.center;
+  var level5 = new Level( level4.door.left.plus( v( 0, -1200 ) ), level4.door.right.plus( v( 0, -1200 ) ), level5Offset.plus( v( 0, -30 ) ), v( 0, -1 ) );
   {
+    var firstRadius = 70;
+    var secondRadius = 50;
     level5.addWall( new Wall( smooth( [
-      level5Offset.plus( v( -50, 0 ) ),
-      level5Offset.plus( v( -50, -400 ) ),
-      level5Offset.plus( v( 50, -400 ) ),
-      level5Offset.plus( v( 50, 0 ) )
+      v( -50, 0, level5Offset ),
+      v( -150, -200, level5Offset ),
+      v( -firstRadius, -400, level5Offset ),
+      v( -firstRadius, -900, level5Offset ),
+      c( -250, -900, 50, level5Offset ),
+      c( -250, -1150, 50, level5Offset ),
+      v( -50, -1150, level5Offset ),
+      v( -50, -1200, level5Offset ),
+      v( 50, -1200, level5Offset ),
+      v( 50, -1150, level5Offset ),
+      c( 250, -1150, 50, level5Offset ),
+      c( 250, -900, 50, level5Offset ),
+      v( firstRadius, -900, level5Offset ),
+      v( firstRadius, -400, level5Offset ),
+      v( 150, -200, level5Offset ),
+      v( 50, 0, level5Offset )
     ] ) ) );
-    level5.addBlueButton( Shape.circle( level5Offset.x, level5Offset.y - 300, 30 ) );
-    level5.addYellowButton( Shape.circle( level5Offset.x, level5Offset.y - 360, 30 ) );
+    level5.addObstacle( new Spinner( level5Offset.plus( v( 0, -400 ) ), firstRadius, 20, 2 ) );
+    level5.addObstacle( new Spinner( level5Offset.plus( v( 0, -700 ) ), firstRadius, 20, -2 ) );
+
+
+    level5.addBlueButton( Shape.circle( level5Offset.x - 100, level5Offset.y - 1025, secondRadius ) );
+    level5.addYellowButton( Shape.circle( level5Offset.x + 100, level5Offset.y - 1025, secondRadius ) );
+
+    // covering buttons
+    level5.addObstacle( new Spinner( level5Offset.plus( v( -100, -1025 ) ), firstRadius, 20, 0.2 ) );
+    level5.addObstacle( new Spinner( level5Offset.plus( v( 100, -1025 ) ), firstRadius, 20, -0.2 ) );
+
+    level5.addCupcake( new Cupcake( level5Offset.x, level5Offset.y - 850 ) );
+    level5.addCupcake( new Cupcake( level5Offset.x, level5Offset.y - 950 ) );
+    level5.addCupcake( new Cupcake( level5Offset.x, level5Offset.y - 1050 ) );
+
+    level5.addCupcake( new Cupcake( level5Offset.x - 225, level5Offset.y - 1025 ) );
+    level5.addCupcake( new Cupcake( level5Offset.x + 225, level5Offset.y - 1025 ) );
   }
 
   Level.levels = [
@@ -427,7 +457,8 @@ define( function( require ) {
 
       // .addWallShape( Shape.roundRect( 500, -1500, 100, 400 ), false )
       .addObstacle( new Slicer( v( 100, -800 ), v( -100, -800 ), 2 ) )
-      .addObstacle( new Slicer( v( 100, -1000 ), v( -100, -1000 ), 2 ) )
+      .addObstacle( new Slicer( v( 100, -950 ), v( -100, -950 ), 2 ) )
+      .addObstacle( new Slicer( v( 100, -1100 ), v( -100, -1100 ), 2 ) )
       .addCupcake( new Cupcake( -200, -1300 ) )
 
       .addCupcake( new Cupcake( 410 - 50, -1480 ) )
@@ -441,7 +472,8 @@ define( function( require ) {
       .addYellowButton( Shape.circle( 630, -1300, 30 ) ),
 
     level3,
-    level4
+    level4,
+    level5
   ];
 
   // Defines level.nextLevel, level.previousLevel
