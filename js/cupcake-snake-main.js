@@ -3,6 +3,8 @@ define( function( require ) {
 
   // modules
   var CupcakeSnakeScreen = require( 'CUPCAKE_SNAKE/CupcakeSnakeScreen' );
+  var platform = require( 'PHET_CORE/platform' );
+  //var BackgroundMusic = require( 'CUPCAKE_SNAKE/sBackgroundMusic' );
   var App = require( 'CUPCAKE_SNAKE/App' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
   var titleString = require( 'string!CUPCAKE_SNAKE/cupcake-snake.title' );
@@ -30,5 +32,14 @@ define( function( require ) {
 
     app = new App( titleString, [ new CupcakeSnakeScreen( level, restart ) ], simOptions );
     app.start();
+
+    if ( !platform.ie ) {
+      //BackgroundMusic.start();
+    }
+
+    // <audio autoplay="autoplay" preload="preload" loop="loop">
+    //   <source src="audio/jewel-crusher.mp3" type="audio/mpeg" />
+    //   <source src="audio/jewel-crusher.ogg" type="audio/ogg" />
+    // </audio>
   } );
 } );

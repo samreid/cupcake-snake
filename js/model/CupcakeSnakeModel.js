@@ -9,14 +9,22 @@ define( function( require ) {
   var ObservableArray = require( 'AXON/ObservableArray' );
   var Intersection = require( 'CUPCAKE_SNAKE/model/Intersection' );
   var Emitter = require( 'AXON/Emitter' );
+  var Property = require( 'AXON/Property' );
 
   var Sound = require( 'VIBE/Sound' );
 
-  var numberOfReplays = 0;
+  var lastPlaySound = Date.now();
+  var numberOfReplaysProperty = new Property( 0 );
 
   // audio
   var chomp = require( 'audio!CUPCAKE_SNAKE/chomp' );
   var chompSound = new Sound( chomp );
+
+  var cut = require( 'audio!CUPCAKE_SNAKE/cut' );
+  var cutSound = new Sound( cut );
+
+  var cheer = require( 'audio!CUPCAKE_SNAKE/cheer' );
+  var cheerSound = new Sound( cheer );
 
   var INITIAL_SNAKE_LENGTH = 150;
   var INITIAL_SNAKE_RADIUS = 30;
@@ -50,6 +58,7 @@ define( function( require ) {
     this.running = false;
   }
 
+  CupcakeSnakeModel.numberOfReplaysProperty = numberOfReplaysProperty;
   return inherit( PropertySet, CupcakeSnakeModel, {
     step: function( dt ) {
       if ( dt > 0.5 ) {
@@ -59,7 +68,7 @@ define( function( require ) {
       var cupcakeSnakeModel = this;
 
       if ( this.running && this.alive ) {
-        var growLength = (150 + numberOfReplays * 70) * dt;
+        var growLength = ( 110 + numberOfReplaysProperty.get() * 80 ) * dt;
         var shrinkLength = Math.max( growLength - this.remainingLengthToGrow, 0 );
         this.snake.step( growLength, shrinkLength, this.motion );
         this.remainingLengthToGrow = Math.max( this.remainingLengthToGrow - growLength, 0 );
@@ -72,6 +81,8 @@ define( function( require ) {
         if ( Intersection.intersect( this.snake.currentSegment.segment, this.currentLevel.door.segment ) ) {
           this.currentLevel.active = false;
 
+          cheerSound.play();
+
           if ( this.currentLevel.nextLevel ) {
             var level = this.currentLevel.nextLevel.copy();
             level.previousLevel = this.currentLevel; // hook for later
@@ -81,7 +92,7 @@ define( function( require ) {
           else {
 
             // reached the last level, cycle back to level 1, but faster
-            numberOfReplays++;
+            numberOfReplaysProperty.set( numberOfReplaysProperty.get() + 1 );
             this.running = false;
             this.restartEntireGame( 1 );
             return;
@@ -172,13 +183,20 @@ define( function( require ) {
             var hit = this.snake.intersectRange( segment, 0, this.snake.segments.length );
             if ( hit ) {
               // head hit?
-              if ( this.snake.endLength - hit.length < 4 ) {
+              if ( this.snake.endLength - hit.length < 7 ) {
                 hitObstacle = true;
                 hitMessage = obstacle.message;
               }
               // otherwise cut body
               else {
                 this.snake.cut( hit.length );
+
+                if ( Date.now() - lastPlaySound > 500 ) {
+                  cutSound.play();
+                  lastPlaySound = Date.now();
+                }
+
+                this.snake.cutEmitter.emit1( hit.point );
               }
             }
           }

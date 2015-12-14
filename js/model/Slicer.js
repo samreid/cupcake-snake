@@ -42,7 +42,7 @@ define( function( require ) {
       new Line( this.bottom, this.leftTip )
     ];
 
-    this.step( Math.random() * Math.PI * 2 ); // randomly initialize angle
+    this.step( Math.random() * 1000 ); // randomly initialize angle
   }
 
   cupcakeSnake.register( 'Slicer', Slicer );

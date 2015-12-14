@@ -17,6 +17,7 @@ define( function( require ) {
   function Door( left, right ) {
     this.left = left; // Vector2
     this.right = right; // Vector2
+    this.center = this.left.average( this.right );
     this.segment = new Line( left, right );
     this.doorVector = left.minus( right ).perpendicular().normalized().timesScalar( DOOR_THICKNESS );
     var left1 = left.plus( this.doorVector );

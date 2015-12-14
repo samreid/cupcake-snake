@@ -8,6 +8,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var StarNode = require( 'SCENERY_PHET/StarNode' );
   var HomeScreen = require( 'CUPCAKE_SNAKE/HomeScreen' );
   var SnakeView = require( 'CUPCAKE_SNAKE/view/SnakeView' );
   var Wall = require( 'CUPCAKE_SNAKE/model/Wall' );
@@ -22,6 +23,8 @@ define( function( require ) {
   var BackgroundNode = require( 'CUPCAKE_SNAKE/view/BackgroundNode' );
   var Sound = require( 'VIBE/Sound' );
   var Emitter = require( 'AXON/Emitter' );
+  var ObservableArray = require( 'AXON/ObservableArray' );
+  var LevelReadout = require( 'CUPCAKE_SNAKE/view/LevelReadout' );
 
   // audio
   var death = require( 'audio!CUPCAKE_SNAKE/qubodupImpactMeat02' );
@@ -31,6 +34,7 @@ define( function( require ) {
 
   function CupcakeSnakeScreenView( cupcakeSnakeModel, level, restart ) {
     phet.joist.display.backgroundColor = '#000';
+    this.starNodes = new ObservableArray();
 
     window.screenView = this;
 
@@ -44,6 +48,8 @@ define( function( require ) {
 
     // create button controls early so it can register itself for screen size changes
     this.buttonControls = new ButtonControls( this, this.cupcakeSnakeModel.leftProperty, this.cupcakeSnakeModel.rightProperty );
+
+    this.levelReadout = new LevelReadout( this );
 
     this.layoutCenter = bounds.center;
 
@@ -62,11 +68,22 @@ define( function( require ) {
     this.playArea.addChild( this.levelLayer );
     this.playArea.addChild( this.snakeView );
 
+    cupcakeSnakeModel.snake.cutEmitter.addListener( function( point ) {
+      var starNode = new StarNode( {
+        filledFill: 'red',
+        center: point
+      } );
+      cupcakeSnakeScreenView.starNodes.add( starNode );
+      cupcakeSnakeScreenView.playArea.addChild( starNode );
+    } );
+
     this.playArea.visible = false;
     this.buttonControls.visible = false;
+    this.levelReadout.visible = false;
 
     this.addChild( this.playArea );
     this.addChild( this.buttonControls );
+    this.addChild( this.levelReadout );
 
     var KEY_LEFT = 37;
     var KEY_RIGHT = 39;
@@ -136,6 +153,7 @@ define( function( require ) {
 
       this.playArea.visible = true;
       this.buttonControls.visible = true;
+      this.levelReadout.visible = true;
 
       // Listen to the model's visible levels, and add/remove the corresponding level views
       this.levelViews = [];
@@ -164,6 +182,19 @@ define( function( require ) {
     },
 
     step: function( dt ) {
+      var toRemove = [];
+      for ( var i = 0; i < this.starNodes.getArray().length; i++ ) {
+        var starNode = this.starNodes.getArray()[ i ];
+        var center = starNode.center;
+        var m = starNode.getScaleVector().timesScalar( 0.96 );
+        starNode.setScaleMagnitude( m );
+        starNode.center = center;
+        if ( m.magnitude() < 0.1 ) {
+          this.playArea.removeChild( starNode );
+          toRemove.push( starNode );
+        }
+      }
+      this.starNodes.removeAll( toRemove );
       this.playArea.setTranslation( scratchVector.set( this.cupcakeSnakeModel.snake.position ).negate().add( this.layoutCenter ) );
 
       if ( this.snakeView ) {

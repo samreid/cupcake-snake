@@ -14,13 +14,21 @@ define( function( require ) {
   var LineSegment = require( 'CUPCAKE_SNAKE/model/LineSegment' );
   var ArcSegment = require( 'CUPCAKE_SNAKE/model/ArcSegment' );
   var Intersection = require( 'CUPCAKE_SNAKE/model/Intersection' );
+  var Sound = require( 'VIBE/Sound' );
+  var Emitter = require( 'AXON/Emitter' );
+
+  var chomp = require( 'audio!CUPCAKE_SNAKE/chomp' );
+  var chompSound = new Sound( chomp );
 
   function Snake( initialPosition, initialDirection, initialLength, initialRadius ) {
     this.initialize( initialPosition, initialDirection, initialLength, initialRadius );
 
     this.initialLength = initialLength;
     this.initialRadius = initialRadius;
+
+    this.cutEmitter = new Emitter();
   }
+
   cupcakeSnake.register( 'Snake', Snake );
 
   inherit( Object, Snake, {
@@ -90,13 +98,21 @@ define( function( require ) {
 
       // Check self-intersection of the current segment with the parts of the body it can intersect with.
       var selfIntersection = this.intersectRange( this.currentSegment.segment, 0, this.segments.length - 2 );
+
       if ( selfIntersection ) {
         this.cut( selfIntersection.length );
+        chompSound.play();
+        this.cutEmitter.emit1( selfIntersection.point );
       }
 
       // Check for a 360-degree loop, which will cut off everything but one loop's worth
       if ( this.currentSegment.segment.radius && Math.abs( this.currentSegment.segment.startAngle - this.currentSegment.segment.endAngle ) >= Math.PI * 2 - 0.00001 ) {
-        this.cut( this.currentSegment.endLength - 2 * Math.PI * this.currentSegment.segment.radius );
+        this.cut( this.currentSegment.endLength - 2 * Math.PI * this.currentSegment.segment.radius +
+
+                  // cut a bit more so it is not contiunal cut
+                  0.01 );
+        this.cutEmitter.emit1( this.position );
+        chompSound.play();
       }
     },
 

@@ -1,4 +1,20 @@
 {
+  "cheer.mp3": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by the PhET Team"
+  },
+  "cheer.ogg": {
+    "text": [
+      "Copyright 2002-2015 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by the PhET Team"
+  },
   "chomp.mp3": {
     "text": [
       "Public Domain"
@@ -14,6 +30,22 @@
     "projectURL": "http://phet.colorado.edu",
     "license": "Public Domain",
     "notes": "srr"
+  },
+  "cut.mp3": {
+    "text": [
+      "Public Domain"
+    ],
+    "projectURL": "http://opengameart.org/content/2-wooden-squish-splatter-sequences",
+    "license": "Public Domain",
+    "notes": "independent_nu_ljudbank-extreme_splatter.7z"
+  },
+  "cut.ogg": {
+    "text": [
+      "Public Domain"
+    ],
+    "projectURL": "http://opengameart.org/content/2-wooden-squish-splatter-sequences",
+    "license": "Public Domain",
+    "notes": "independent_nu_ljudbank-extreme_splatter.7z"
   },
   "jewel-crusher.mp3": {
     "text": [
@@ -72,6 +104,22 @@
     "notes": "Thanks to Kenney.nl or www.kenney.nl"
   },
   "zapThreeToneUp.ogg": {
+    "text": [
+      "Public Domain"
+    ],
+    "projectURL": "http://opengameart.org/content/63-digital-sound-effects-lasers-phasers-space-etc",
+    "license": "Public Domain",
+    "notes": "Thanks to Kenney.nl or www.kenney.nl"
+  },
+  "zapThreeToneUp2.mp3": {
+    "text": [
+      "Public Domain"
+    ],
+    "projectURL": "http://opengameart.org/content/63-digital-sound-effects-lasers-phasers-space-etc",
+    "license": "Public Domain",
+    "notes": "Thanks to Kenney.nl or www.kenney.nl"
+  },
+  "zapThreeToneUp2.ogg": {
     "text": [
       "Public Domain"
     ],
