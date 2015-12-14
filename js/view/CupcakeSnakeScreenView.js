@@ -29,6 +29,8 @@ define( function( require ) {
   var scratchVector = new Vector2();
 
   function CupcakeSnakeScreenView( cupcakeSnakeModel, level, restart ) {
+    phet.joist.display.backgroundColor = '#000';
+
     var cupcakeSnakeScreenView = this;
     this.cupcakeSnakeModel = cupcakeSnakeModel;
 
@@ -97,7 +99,7 @@ define( function( require ) {
       var gameOverPanel = new GameOverPanel( cupcakeSnakeScreenView.cupcakeSnakeModel, restart );
       gameOverPanel.centerBottom = cupcakeSnakeScreenView.layoutBounds.center.plusXY( 0, -75 );
       cupcakeSnakeScreenView.addChild( gameOverPanel );
-      cupcakeSnakeScreenView.playArea.opacity = 0.6;
+      cupcakeSnakeScreenView.playArea.opacity = 0.7;
     } );
   }
 
