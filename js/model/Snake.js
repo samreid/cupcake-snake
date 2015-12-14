@@ -14,6 +14,10 @@ define( function( require ) {
   var LineSegment = require( 'CUPCAKE_SNAKE/model/LineSegment' );
   var ArcSegment = require( 'CUPCAKE_SNAKE/model/ArcSegment' );
   var Intersection = require( 'CUPCAKE_SNAKE/model/Intersection' );
+  var Sound = require( 'VIBE/Sound' );
+
+  var chomp = require( 'audio!CUPCAKE_SNAKE/chomp' );
+  var chompSound = new Sound( chomp );
 
   function Snake( initialPosition, initialDirection, initialLength, initialRadius ) {
     this.initialize( initialPosition, initialDirection, initialLength, initialRadius );
@@ -92,6 +96,7 @@ define( function( require ) {
       var selfIntersection = this.intersectRange( this.currentSegment.segment, 0, this.segments.length - 2 );
       if ( selfIntersection ) {
         this.cut( selfIntersection.length );
+        chompSound.play();
       }
 
       // Check for a 360-degree loop, which will cut off everything but one loop's worth
