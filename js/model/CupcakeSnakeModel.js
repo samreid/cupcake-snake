@@ -136,7 +136,12 @@ define( function( require ) {
         if ( ( !this.currentLevel.bluePressed && this.snake.intersectsSegments( this.currentLevel.door.blueSegments, false ) ) ||
              ( !this.currentLevel.yellowPressed && this.snake.intersectsSegments( this.currentLevel.door.yellowSegments, false ) ) ) {
           hitObstable = true;
-          hitMessage = 'Looks like there\'s no open-door policy here.';
+          if ( this.currentLevel.everPressed ) {
+            hitMessage = 'Looks like there\'s no open-door policy here.';
+          }
+          else {
+            hitMessage = 'Try slithering over a button to open this door.';
+          }
         }
 
         if ( hitObstable ) {

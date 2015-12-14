@@ -56,9 +56,12 @@ define( function( require ) {
   }
 
   function Level( doorLeft, doorRight, startPosition ) {
+    var self = this;
+
     PropertySet.call( this, {
       bluePressed: false,
       yellowPressed: false,
+      everPressed: false,
       active: true,
       headOut: false,
       snakeFullyOut: false,
@@ -69,6 +72,10 @@ define( function( require ) {
     this.doorLeft = doorLeft; // Vector2
     this.doorRight = doorRight; // Vector2
     this.startPosition = startPosition; // Vector2
+
+    this.multilink( [ 'bluePressed', 'yellowPressed' ], function() {
+      self.everPressed = self.everPressed || self.bluePressed || self.yellowPressed;
+    } );
   }
 
   inherit( PropertySet, Level, {
