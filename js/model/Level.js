@@ -42,7 +42,7 @@ define( function( require ) {
     shape.subpaths.forEach( function( subpath ) {
       if ( subpath.segments.length ) {
         var segments = subpath.segments.slice();
-        if ( subpath.hasClosingSegment() ) {
+        if ( subpath.isClosed() && subpath.hasClosingSegment() ) {
           segments.push( subpath.getClosingSegment() );
         }
         if ( reverse ) {
@@ -295,44 +295,45 @@ define( function( require ) {
       ] ) ) )
 
       .addWall( new Wall( smooth( [
-        v( 450, -1500 ),
-        v( 490, -1500 ),
-        v( 490, -1460 ),
-        v( 450, -1460 ),
-        v( 450, -1500 )
+        v( 450 - 50, -1500 ),
+        v( 490 - 50, -1500 ),
+        v( 490 - 50, -1460 ),
+        v( 450 - 50, -1460 ),
+        v( 450 - 50, -1500 )
       ] ) ) )
       .addWall( new Wall( smooth( [
-        v( 450, -1140 ),
-        v( 490, -1140 ),
-        v( 490, -1100 ),
-        v( 450, -1100 ),
-        v( 450, -1140 )
+        v( 450 - 50, -1140 ),
+        v( 490 - 50, -1140 ),
+        v( 490 - 50, -1100 ),
+        v( 450 - 50, -1100 ),
+        v( 450 - 50, -1140 )
       ] ) ) )
       .addWall( new Wall( smooth( [
-        v( 610, -1500 ),
-        v( 650, -1500 ),
-        v( 650, -1460 ),
-        v( 610, -1460 ),
-        v( 610, -1500 )
+        v( 610 + 50, -1500 ),
+        v( 650 + 50, -1500 ),
+        v( 650 + 50, -1460 ),
+        v( 610 + 50, -1460 ),
+        v( 610 + 50, -1500 )
       ] ) ) )
       .addWall( new Wall( smooth( [
-        v( 610, -1140 ),
-        v( 650, -1140 ),
-        v( 650, -1100 ),
-        v( 610, -1100 ),
-        v( 610, -1140 )
+        v( 610 + 50, -1140 ),
+        v( 650 + 50, -1140 ),
+        v( 650 + 50, -1100 ),
+        v( 610 + 50, -1100 ),
+        v( 610 + 50, -1140 )
       ] ) ) )
+
       // .addWallShape( Shape.roundRect( 500, -1500, 100, 400 ), false )
       .addObstacle( new Slicer( v( 100, -800 ), v( -100, -800 ), 2 ) )
       .addObstacle( new Slicer( v( 100, -1000 ), v( -100, -1000 ), 2 ) )
       .addCupcake( new Cupcake( -200, -1300 ) )
 
-      .addCupcake( new Cupcake( 410, -1480 ) )
-      .addCupcake( new Cupcake( 690, -1480 ) )
-      .addCupcake( new Cupcake( 370, -1300 ) )
-      .addCupcake( new Cupcake( 730, -1300 ) )
-      .addCupcake( new Cupcake( 410, -1120 ) )
-      .addCupcake( new Cupcake( 690, -1120 ) )
+      .addCupcake( new Cupcake( 410 - 50, -1480 ) )
+      .addCupcake( new Cupcake( 690 + 50, -1480 ) )
+      .addCupcake( new Cupcake( 370 - 50, -1300 ) )
+      .addCupcake( new Cupcake( 730 + 50, -1300 ) )
+      .addCupcake( new Cupcake( 410 - 50, -1120 ) )
+      .addCupcake( new Cupcake( 690 + 50, -1120 ) )
 
       .addBlueButton( Shape.circle( 470, -1300, 30 ) )
       .addYellowButton( Shape.circle( 630, -1300, 30 ) ),

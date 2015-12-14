@@ -9,7 +9,7 @@ define( function() {
 
   return function( v, c, smooth, Level, Wall, Shape, shapeToSegments, Slicer, Cupcake ) {
 
-    var origin = v( 800, -1350 );
+    var origin = v( 950, -1350 );
     var a = 1000;
     var b = 200;
     var d = 50;
