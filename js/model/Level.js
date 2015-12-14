@@ -22,6 +22,7 @@ define( function( require ) {
   var Arc = require( 'KITE/segments/Arc' );
   var Shape = require( 'KITE/Shape' );
   var ObservableArray = require( 'AXON/ObservableArray' );
+  var createLevel3 = require( 'CUPCAKE_SNAKE/model/createLevel3' );
 
   // TODO: add to Kite?
   function reverseSegment( segment ) {
@@ -56,7 +57,7 @@ define( function( require ) {
     return result;
   }
 
-  function Level( doorLeft, doorRight, startPosition ) {
+  function Level( doorLeft, doorRight, startPosition, startAngle ) {
     var self = this;
 
     PropertySet.call( this, {
@@ -74,6 +75,7 @@ define( function( require ) {
     this.doorLeft = doorLeft; // Vector2
     this.doorRight = doorRight; // Vector2
     this.startPosition = startPosition; // Vector2
+    this.startAngle = startAngle; // Vector2
 
     this.multilink( [ 'bluePressed', 'yellowPressed' ], function() {
       self.everPressed = self.everPressed || self.bluePressed || self.yellowPressed;
@@ -94,7 +96,7 @@ define( function( require ) {
     },
 
     copy: function() {
-      var level = new Level( this.doorLeft, this.doorRight, this.startPosition );
+      var level = new Level( this.doorLeft, this.doorRight, this.startPosition, this.startAngle );
       level.walls = this.walls;
       level.obstacles = this.obstacles.map( function( obstacle ) { return obstacle.copy(); } );
       level.blueButton = this.blueButton;
@@ -221,7 +223,7 @@ define( function( require ) {
 
   // A large square level with random circular obstacles and cupcakes
   var level3Size = 1000;
-  var level3 = new Level( v( -50, -10000 ), v( 50, -10000 ), v( 0, -450 ) )
+  var level3 = new Level( v( -50, -10000 ), v( 50, -10000 ), v( 0, -450 ), v( 0, -1 ) )
     .addWall( new Wall( smooth( [
       v( -level3Size, -level3Size ),
       v( -level3Size, level3Size ),
@@ -247,7 +249,7 @@ define( function( require ) {
   }
 
   Level.levels = [
-    new Level( v( -50, -450 ), v( 50, -450 ), v( 0, 0 ) ).addWall( new Wall( smooth( [
+    new Level( v( -50, -450 ), v( 50, -450 ), v( 0, 0 ), v( 0, -1 ) ).addWall( new Wall( smooth( [
         v( -50, -450 ),
         c( -50, -400, 10 ),
         c( -200, -400, 40 ),
@@ -263,7 +265,7 @@ define( function( require ) {
       .addBlueButton( Shape.circle( -100, -300, 30 ) )
       .addYellowButton( Shape.circle( 100, -300, 30 ) ),
 
-    new Level( v( 850, -1350 ), v( 850, -1250 ), v( 0, -450 ) )
+    new Level( v( 850, -1350 ), v( 850, -1250 ), v( 0, -450 ), v( 0, -1 ) )
       .addWall( new Wall( smooth( [
         v( 50, -450 ),
         c( 100, -500, 20 ),
@@ -333,7 +335,9 @@ define( function( require ) {
       .addCupcake( new Cupcake( 690, -1120 ) )
 
       .addBlueButton( Shape.circle( 470, -1300, 30 ) )
-      .addYellowButton( Shape.circle( 630, -1300, 30 ) )
+      .addYellowButton( Shape.circle( 630, -1300, 30 ) ),
+
+    createLevel3( v, c, smooth, Level, Wall, Slicer, Cupcake, Shape )
   ];
 
   // Defines level.nextLevel, level.previousLevel

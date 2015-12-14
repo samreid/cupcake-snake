@@ -134,6 +134,7 @@ define( function( require ) {
         }
 
         // Check if the snake hit the doors
+        // Comment out to make it easy to transition
         if ( ( !this.currentLevel.bluePressed && this.snake.intersectsSegments( this.currentLevel.door.blueSegments, false ) ) ||
              ( !this.currentLevel.yellowPressed && this.snake.intersectsSegments( this.currentLevel.door.yellowSegments, false ) ) ) {
           hitObstable = true;
@@ -188,7 +189,7 @@ define( function( require ) {
       this.visibleLevels.push( level );
       this.currentLevel = level;
 
-      this.snake.reinitialize( level.startPosition.copy(), new Vector2( 0, -1 ), INITIAL_SNAKE_LENGTH, INITIAL_SNAKE_RADIUS );
+      this.snake.reinitialize( level.startPosition.copy(), level.startAngle.copy(), INITIAL_SNAKE_LENGTH, INITIAL_SNAKE_RADIUS );
     }
   } );
 } );
