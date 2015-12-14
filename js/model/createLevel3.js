@@ -19,7 +19,7 @@ define( function() {
       return new Cupcake( vector.x, vector.y );
     };
 
-    return new Level( v( 850 + 1200 + 200, -1350 ), v( 850 + 1200 + 200, -1250 ), v( 900, -1300 ), v( 1, 0 ) )
+    return new Level( origin.plusXY( a - d, -m + 50 ), origin.plusXY( a + d, -m + 50 ), v( 900, -1300 ), v( 1, 0 ) )
       .addWall( new Wall( shapeToSegments( new Shape()
         .lineTo( origin.x, origin.y )
         .lineToRelative( a - b, 0 )
@@ -46,6 +46,26 @@ define( function() {
       .addCupcake( cupcakeAt( origin.plusXY( 500, h - 20 ) ) )
       .addCupcake( cupcakeAt( origin.plusXY( 700, h - 20 ) ) )
       .addCupcake( cupcakeAt( origin.plusXY( 900, h - 20 ) ) )
+
+      .addCupcake( cupcakeAt( origin.plusXY( a - 150, -200 ) ) )
+      .addCupcake( cupcakeAt( origin.plusXY( a - 100, -200 ) ) )
+      .addCupcake( cupcakeAt( origin.plusXY( a - 50, -200 ) ) )
+      .addCupcake( cupcakeAt( origin.plusXY( a - 0, -200 ) ) )
+      .addCupcake( cupcakeAt( origin.plusXY( a + 50, -200 ) ) )
+      .addCupcake( cupcakeAt( origin.plusXY( a + 100, -200 ) ) )
+      .addCupcake( cupcakeAt( origin.plusXY( a + 150, -200 ) ) )
+
+      .addCupcake( cupcakeAt( origin.plusXY( a - 100, -200 - 200 ) ) )
+      .addCupcake( cupcakeAt( origin.plusXY( a - 50, -200 - 200 ) ) )
+      .addCupcake( cupcakeAt( origin.plusXY( a - 0, -200 - 200 ) ) )
+      .addCupcake( cupcakeAt( origin.plusXY( a + 50, -200 - 200 ) ) )
+      .addCupcake( cupcakeAt( origin.plusXY( a + 100, -200 - 200 ) ) )
+
+      .addCupcake( cupcakeAt( origin.plusXY( a - 100, -200 - 200 - 200 ) ) )
+      .addCupcake( cupcakeAt( origin.plusXY( a - 50, -200 - 200 - 200 ) ) )
+      .addCupcake( cupcakeAt( origin.plusXY( a - 0, -200 - 200 - 200 ) ) )
+      .addCupcake( cupcakeAt( origin.plusXY( a + 50, -200 - 200 - 200 ) ) )
+      .addCupcake( cupcakeAt( origin.plusXY( a + 100, -200 - 200 - 200 ) ) )
       //
       //.addCupcake( new Cupcake( 410, -1480 ) )
       //.addCupcake( new Cupcake( 690, -1480 ) )
@@ -54,8 +74,8 @@ define( function() {
       //.addCupcake( new Cupcake( 410, -1120 ) )
       //.addCupcake( new Cupcake( 690, -1120 ) )
       //
-      .addBlueButton( Shape.circle( origin.x + a, origin.y - m + 500, 30 ) )
-      .addYellowButton( Shape.circle( origin.x + a, origin.y - m + 800, 30 ) );
+      .addBlueButton( Shape.circle( origin.x + a, origin.y - m + 300, 30 ) )
+      .addYellowButton( Shape.circle( origin.x + a, origin.y - m + 600, 30 ) );
 
   };
 } );
