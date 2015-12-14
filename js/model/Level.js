@@ -163,6 +163,32 @@ define( function( require ) {
     return new Vector2( x, y );
   }
 
+  // A large square level with random circular obstacles and cupcakes
+  var level3Size = 1000;
+  var level3 = new Level( v( -50, -10000 ), v( 50, -10000 ), v( 0, -450 ) )
+    .addWall( new Wall( smooth( [
+      v( -level3Size, -level3Size ),
+      v( -level3Size, level3Size ),
+      v( level3Size, level3Size ),
+      v( level3Size, -level3Size )
+    ] ) ) );
+
+  for ( var i = 0; i < 100; i++ ) {
+    level3.addCupcake( new Cupcake( Math.random() * level3Size * 2 - level3Size, Math.random() * level3Size * 2 - level3Size ) );
+  }
+  for ( var i = 0; i < 50; i++ ) {
+    var centerX = Math.random() * level3Size * 2 - level3Size;
+    if ( Math.abs( centerX ) < 200 ) {
+      centerX = centerX * 2;
+    }
+
+    var centerY = Math.random() * level3Size * 2 - level3Size;
+    if ( Math.abs( centerY ) < 200 ) {
+      centerY = centerY * 2;
+    }
+
+    level3.addWallShape( Shape.circle( centerX, centerY, Math.random() * 100 + 50 ) );
+  }
 
   Level.levels = [
     new Level( v( -50, -450 ), v( 50, -450 ), v( 0, 0 ) ).addWall( new Wall( smooth( [
