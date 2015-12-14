@@ -52,6 +52,7 @@ define( function( require ) {
 
       context.beginPath();
 
+      // This was copied to CupcakeSnakeModel.js
       var hits = [];
 
       for ( var i = 0; i < this.walls.length; i++ ) {

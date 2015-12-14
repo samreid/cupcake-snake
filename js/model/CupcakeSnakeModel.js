@@ -7,15 +7,19 @@ define( function( require ) {
   var Snake = require( 'CUPCAKE_SNAKE/model/Snake' );
   var Vector2 = require( 'DOT/Vector2' );
   var ObservableArray = require( 'AXON/ObservableArray' );
+  var Intersection = require( 'CUPCAKE_SNAKE/model/Intersection' );
+  var Emitter = require( 'AXON/Emitter' );
 
   function CupcakeSnakeModel() {
     var self = this;
+    this.deathEmitter = new Emitter();
 
     PropertySet.call( this, {
       left: false,
       right: false,
       remainingLengthToGrow: 0,
-      motion: Snake.STRAIGHT
+      motion: Snake.STRAIGHT,
+      alive: true
     } );
     window.model = this;
 
@@ -33,7 +37,9 @@ define( function( require ) {
 
   return inherit( PropertySet, CupcakeSnakeModel, {
     step: function( dt ) {
-      if ( this.running ) {
+      var cupcakeSnakeModel = this;
+
+      if ( this.running && this.alive ) {
         var growLength = 150 * dt;
         var shrinkLength = Math.max( growLength - this.remainingLengthToGrow, 0 );
         this.snake.step( growLength, shrinkLength, this.motion );
@@ -53,6 +59,29 @@ define( function( require ) {
           }
         }
         this.cupcakes.removeAll( toRemove );
+
+        // Check if the snake hit a wall
+        var wallHits = [];
+        for ( var k = 0; k < this.walls.length; k++ ) {
+          var wall = this.walls[ k ];
+
+          wall.segments.forEach( function( wallSegment ) {
+            cupcakeSnakeModel.snake.segments.forEach( function( snakeSegment ) {
+              var segmentHits = Intersection.intersect( wallSegment, snakeSegment.segment );
+              if ( segmentHits ) {
+                // debugger;
+                // Intersection.intersect( wallSegment, snakeSegment.segment );
+                wallHits = wallHits.concat( segmentHits );
+              }
+            } );
+          } );
+        }
+        if ( wallHits.length > 0 ) {
+
+          // snake died (perhaps in the future)
+          this.deathEmitter.emit();
+          this.alive = false;
+        }
       }
     }
   } );
