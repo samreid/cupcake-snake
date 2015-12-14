@@ -10,6 +10,12 @@ define( function( require ) {
   var Intersection = require( 'CUPCAKE_SNAKE/model/Intersection' );
   var Emitter = require( 'AXON/Emitter' );
 
+  var Sound = require( 'VIBE/Sound' );
+
+  // audio
+  var chomp = require( 'audio!CUPCAKE_SNAKE/chomp' );
+  var chompSound = new Sound( chomp );
+
   function CupcakeSnakeModel() {
     var self = this;
     this.deathEmitter = new Emitter();
@@ -59,6 +65,9 @@ define( function( require ) {
           }
         }
         this.cupcakes.removeAll( toRemove );
+        if ( toRemove.length > 0 ) {
+          chompSound.play();
+        }
 
         // Check if the snake hit a wall
         var wallHits = [];
