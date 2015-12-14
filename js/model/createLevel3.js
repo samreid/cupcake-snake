@@ -27,7 +27,6 @@ define( function() {
         .lineToRelative( d + d, 0 )
         .lineToRelative( b, m + h )
         .lineTo( origin.x, origin.y + h )
-        .close()
       ) ) )
 
       .addObstacle( new Slicer( origin.plusXY( a - 200, -100 ), origin.plusXY( a + 50 + 200, -100 + 50 ), 3 ) )
