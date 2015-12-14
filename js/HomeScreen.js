@@ -3,6 +3,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var platform = require( 'PHET_CORE/platform' );
   var Panel = require( 'SUN/Panel' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -98,7 +99,9 @@ define( function( require ) {
 
     var musak = function() {
       if ( !played ) {
-        jewelCrusherSound.play();
+        if ( platform.ie ) {
+          // jewelCrusherSound.play();
+        }
         played = true;
       }
     };
