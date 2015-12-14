@@ -12,11 +12,13 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var cupcakeSnake = require( 'CUPCAKE_SNAKE/cupcakeSnake' );
   var Cupcake = require( 'CUPCAKE_SNAKE/model/Cupcake' );
+  var Door = require( 'CUPCAKE_SNAKE/model/Door' );
   var Wall = require( 'CUPCAKE_SNAKE/model/Wall' );
   var Vector2 = require( 'DOT/Vector2' );
   var Line = require( 'KITE/segments/Line' );
   var Arc = require( 'KITE/segments/Arc' );
   var Shape = require( 'KITE/Shape' );
+  var ObservableArray = require( 'AXON/ObservableArray' );
 
   // TODO: add to Kite?
   function reverseSegment( segment ) {
@@ -31,14 +33,21 @@ define( function( require ) {
     }
   }
 
-  function Level( doorLeft, doorRight ) {
+  function Level( doorLeft, doorRight, startPosition ) {
+    this.door = new Door( doorLeft, doorRight );
     this.walls = [];
-    this.cupcakes = [];
+    this.cupcakes = new ObservableArray();
     this.doorLeft = doorLeft; // Vector2
     this.doorRight = doorRight; // Vector2
+    this.startPosition = startPosition; // Vector2
   }
 
   inherit( Object, Level, {
+    copy: function() {
+
+    },
+
+    // construction
     addWall: function( wall ) {
       // TODO: handle coordinate offsets between levels (snake for levels starts at (0,0?)?
       this.walls.push( wall );
@@ -46,6 +55,7 @@ define( function( require ) {
       return this; // chaining
     },
 
+    // construction
     // {kite.Shape}
     addWallShape: function( shape, isInteriorWall ) {
       var self = this;
@@ -68,6 +78,7 @@ define( function( require ) {
       return this; // chaining
     },
 
+    // construction
     addCupcake: function( cupcake ) {
       // TODO: handle coordinate offsets between levels (snake for levels starts at (0,0?)?
       this.cupcakes.push( cupcake );
@@ -145,22 +156,41 @@ define( function( require ) {
 
 
   Level.levels = [
-    new Level( v( -50, 650 ), v( 50, -650 ) ).addWall( new Wall( smooth( [
-      v( -50, -650 ),
-      v( -100, -600 ),
-      c( -200, -600, 40 ),
-      c( -200, 100, 40 ),
-      c( 200, 100, 40 ),
-      c( 200, -600, 40 ),
-      v( 100, -600 ),
-      v( 50, -650 ),
-    ] ) ) )
-               .addCupcake( new Cupcake( 0, -400 ) ),
-    new Level().addWallShape( Shape.roundRect( -400, -600, 800, 700, 80, 80 ) )
-               .addWallShape( Shape.roundRect( -200, -400, 400, 80, 40, 40 ), true )
-               .addCupcake( new Cupcake( 200, -500 ) )
-               .addCupcake( new Cupcake( -200, -500 ) )
+    new Level( v( -50, -450 ), v( 50, -450 ), v( 0, 0 ) ).addWall( new Wall( smooth( [
+        v( -50, -450 ),
+        v( -50, -400 ),
+        c( -200, -400, 40 ),
+        c( -200, 0, 40 ),
+        c( 200, 0, 40 ),
+        c( 200, -400, 40 ),
+        v( 50, -400 ),
+        v( 50, -450 ),
+      ] ) ) )
+      .addCupcake( new Cupcake( 0, -300 ) ),
+
+    new Level( v( -50, -10000 ), v( 50, -10000 ), v( 0, -450 ) )
+      .addWall( new Wall( smooth( [
+        v( -50, -450 ),
+        c( -500, -1000, 100 ),
+        c( 0, -1500, 100 ),
+        c( 500, -1000, 100 ),
+        v( 50, -450 )
+      ] ) ) )
+     .addWallShape( Shape.circle( 0, -1000, 200 ), true )
+     .addCupcake( new Cupcake( 300, -1000 ) )
+     .addCupcake( new Cupcake( -300, -1000 ) )
   ];
+
+  // Defines level.nextLevel, level.previousLevel
+  for ( var i = 1; i < Level.levels.length; i++ ) {
+    Level.levels[ i ].previousLevel = Level.levels[ i - 1 ];
+    Level.levels[ i - 1 ].nextLevel = Level.levels[ i ];
+  }
+
+  // Defines level.number
+  for ( var k = 0; k < Level.levels.length; k++ ) {
+    Level.levels[ k ].number = k + 1;
+  }
 
   return Level;
 } );

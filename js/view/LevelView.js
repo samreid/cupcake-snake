@@ -13,8 +13,9 @@ define( function( require ) {
   var Intersection = require( 'CUPCAKE_SNAKE/model/Intersection' );
   var CanvasNode = require( 'SCENERY/nodes/CanvasNode' );
   var Bounds2 = require( 'DOT/Bounds2' );
+  var CupcakeNode = require( 'CUPCAKE_SNAKE/view/CupcakeNode' );
 
-  var checkerSize = 30;
+  var checkerSize = 25;
   var backgroundPatternCanvas = document.createElement( 'canvas' );
   backgroundPatternCanvas.width = checkerSize * 2;
   backgroundPatternCanvas.height = checkerSize * 2;
@@ -28,55 +29,43 @@ define( function( require ) {
 
   var showDebugIntersections = !!phet.chipper.getQueryParameter( 'debugIntersections' );
 
-  function MultiWallView( snake, walls ) {
-    this.snake = snake;
+  function LevelView( level ) {
     CanvasNode.call( this, {
       preventFit: true
     } );
 
-    this.walls = walls;
+    this.level = level;
 
     this.setCanvasBounds( new Bounds2( -10000, -10000, 10000, 10000 ) );
+
+    this.cupcakeNodes = [];
+
+    level.cupcakes.forEach( this.addCupcakeNode.bind( this ) );
+
+    level.cupcakes.addItemAddedListener( this.addCupcakeNode.bind( this ) );
+    level.cupcakes.addItemRemovedListener( this.removeCupcakeNode.bind( this ) );
   }
 
-  cupcakeSnake.register( 'MultiWallView', MultiWallView );
+  cupcakeSnake.register( 'LevelView', LevelView );
 
-  inherit( CanvasNode, MultiWallView, {
+  inherit( CanvasNode, LevelView, {
     paintCanvas: function( context ) {
-      var snake = this.snake;
-
       context.save();
-
-      context.fillStyle = 'rgb(255,250,115)';
-      context.fillRect( -10000, -10000, 20000, 20000 );
 
       context.beginPath();
 
-      // This was copied to CupcakeSnakeModel.js
-      var hits = [];
+      var walls = this.level.walls;
 
-      for ( var i = 0; i < this.walls.length; i++ ) {
-        var wall = this.walls[ i ];
+      for ( var i = 0; i < walls.length; i++ ) {
+        var wall = walls[ i ];
 
         context.moveTo( wall.segments[ 0 ].start.x, wall.segments[ 0 ].start.y );
 
         wall.segments.forEach( function( wallSegment ) {
           wallSegment.writeToContext( context );
-
-          if ( showDebugIntersections ) {
-            snake.segments.forEach( function( snakeSegment ) {
-              var segmentHits = Intersection.intersect( wallSegment, snakeSegment.segment );
-              if ( segmentHits ) {
-                // debugger;
-                // Intersection.intersect( wallSegment, snakeSegment.segment );
-                hits = hits.concat( segmentHits );
-              }
-            } );
-          }
         } );
       }
 
-      // context.fillStyle = '#fff';
       context.fillStyle = backgroundPattern;
       context.strokeStyle = '#333';
       context.lineWidth = 1;
@@ -84,19 +73,26 @@ define( function( require ) {
       context.fill();
       context.stroke();
 
-      if ( showDebugIntersections ) {
-        hits.forEach( function( hit ) {
-          context.beginPath();
-          context.arc( hit.intersection.x, hit.intersection.y, 8, 0, Math.PI * 2, false );
-          context.closePath();
-          context.fillStyle = 'red';
-          context.fill();
-        } );
-      }
-
       context.restore();
+    },
+
+    addCupcakeNode: function( cupcake ) {
+      var cupcakeNode = new CupcakeNode( cupcake );
+      this.cupcakeNodes.push( cupcakeNode );
+      this.addChild( cupcakeNode );
+    },
+
+    removeCupcakeNode: function( cupcake ) {
+      for ( var i = 0; i < this.cupcakeNodes.length; i++ ) {
+        var cupcakeNode = this.cupcakeNodes[ i ];
+        if ( cupcakeNode.cupcake === cupcake ) {
+          this.cupcakeNodes.splice( i, 1 );
+          this.removeChild( cupcakeNode );
+          break;
+        }
+      }
     }
   } );
 
-  return MultiWallView;
+  return LevelView;
 } );

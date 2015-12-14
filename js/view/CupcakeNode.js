@@ -16,6 +16,9 @@ define( function( require ) {
 
   function CupcakeNode( cupcake ) {
     Node.call( this );
+
+    this.cupcake = cupcake; // @public
+
     this.addChild( new Image( cupcakeImage, { scale: 0.3 } ) );
     this.centerX = cupcake.x;
     this.centerY = cupcake.y;

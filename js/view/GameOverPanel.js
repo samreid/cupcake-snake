@@ -26,7 +26,7 @@ define( function( require ) {
       } ),
       baseColor: '#71f84d',
       listener: function() {
-        restart( cupcakeSnakeModel.level );
+        restart( cupcakeSnakeModel.currentLevel.number );
       }
     } );
 
