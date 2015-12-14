@@ -15,6 +15,7 @@ define( function( require ) {
   var ArcSegment = require( 'CUPCAKE_SNAKE/model/ArcSegment' );
   var Intersection = require( 'CUPCAKE_SNAKE/model/Intersection' );
   var Sound = require( 'VIBE/Sound' );
+  var Emitter = require( 'AXON/Emitter' );
 
   var chomp = require( 'audio!CUPCAKE_SNAKE/chomp' );
   var chompSound = new Sound( chomp );
@@ -24,6 +25,8 @@ define( function( require ) {
 
     this.initialLength = initialLength;
     this.initialRadius = initialRadius;
+
+    this.cutEmitter = new Emitter();
   }
 
   cupcakeSnake.register( 'Snake', Snake );
@@ -95,8 +98,10 @@ define( function( require ) {
 
       // Check self-intersection of the current segment with the parts of the body it can intersect with.
       var selfIntersection = this.intersectRange( this.currentSegment.segment, 0, this.segments.length - 2 );
+
       if ( selfIntersection ) {
         this.cut( selfIntersection.length );
+        this.cutEmitter.emit1( selfIntersection.point );
       }
 
       // Check for a 360-degree loop, which will cut off everything but one loop's worth
@@ -105,7 +110,7 @@ define( function( require ) {
 
                   // cut a bit more so it is not contiunal cut
                   0.01 );
-
+        this.cutEmitter.emit1( this.position );
       }
     },
 
