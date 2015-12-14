@@ -29,6 +29,9 @@ define( function( require ) {
   var toneUp = require( 'audio!CUPCAKE_SNAKE/zapThreeToneUp' );
   var toneUpSound = new Sound( toneUp );
 
+  var toneUp2 = require( 'audio!CUPCAKE_SNAKE/zapThreeToneUp2' );
+  var toneUp2Sound = new Sound( toneUp2 );
+
   var toneDown = require( 'audio!CUPCAKE_SNAKE/zapThreeToneDown' );
   var toneDownSound = new Sound( toneDown );
 
@@ -74,7 +77,7 @@ define( function( require ) {
       everPressed: false,
       active: true,
       headOut: false,
-      snakeFullyOut: false,
+      snakeFullyOut: false
     } );
     this.door = new Door( doorLeft, doorRight );
     this.walls = [];
@@ -91,7 +94,13 @@ define( function( require ) {
 
     this.bluePressedProperty.link( function( bluePressed ) {
       if ( bluePressed ) {
-        toneUpSound.play();
+        if ( self.yellowPressed ) {
+          toneUp2Sound.play();
+        }
+        else {
+          toneUpSound.play();
+
+        }
       }
       else {
         toneDownSound.play();
@@ -100,7 +109,12 @@ define( function( require ) {
 
     this.yellowPressedProperty.link( function( bluePressed ) {
       if ( bluePressed ) {
-        toneUpSound.play();
+        if ( self.yellowPressed ) {
+          toneUp2Sound.play();
+        }
+        else {
+          toneUpSound.play();
+        }
       }
       else {
         toneDownSound.play();
