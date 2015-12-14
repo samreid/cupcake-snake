@@ -10,10 +10,12 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  var PropertySet = require( 'AXON/PropertySet' );
   var cupcakeSnake = require( 'CUPCAKE_SNAKE/cupcakeSnake' );
   var Cupcake = require( 'CUPCAKE_SNAKE/model/Cupcake' );
   var Door = require( 'CUPCAKE_SNAKE/model/Door' );
   var Wall = require( 'CUPCAKE_SNAKE/model/Wall' );
+  var Button = require( 'CUPCAKE_SNAKE/model/Button' );
   var Vector2 = require( 'DOT/Vector2' );
   var Line = require( 'KITE/segments/Line' );
   var Arc = require( 'KITE/segments/Arc' );
@@ -33,7 +35,32 @@ define( function( require ) {
     }
   }
 
+  function shapeToSegments( shape, reverse ) {
+    var result = [];
+    shape.subpaths.forEach( function( subpath ) {
+      if ( subpath.segments.length ) {
+        var segments = subpath.segments.slice();
+        if ( subpath.hasClosingSegment() ) {
+          segments.push( subpath.getClosingSegment() );
+        }
+        if ( reverse ) {
+          // reverse order of segments, and the segments individually
+          segments = segments.slice();
+          segments.reverse();
+          segments = segments.map( reverseSegment );
+        }
+        result = result.concat( segments );
+      }
+    } );
+    return result;
+  }
+
   function Level( doorLeft, doorRight, startPosition ) {
+    PropertySet.call( this, {
+      bluePressed: false,
+      yellowPressed: false,
+      active: true
+    } );
     this.door = new Door( doorLeft, doorRight );
     this.walls = [];
     this.cupcakes = new ObservableArray();
@@ -42,10 +69,24 @@ define( function( require ) {
     this.startPosition = startPosition; // Vector2
   }
 
-  inherit( Object, Level, {
+  inherit( PropertySet, Level, {
+    isPressingBlue: function( pressing ) {
+      if ( this.active ) {
+        this.bluePressed = pressing;
+      }
+    },
+
+    isPressingYellow: function( pressing ) {
+      if ( this.active ) {
+        this.yellowPressed = pressing;
+      }
+    },
+
     copy: function() {
       var level = new Level( this.doorLeft, this.doorRight, this.startPosition );
       level.walls = this.walls;
+      level.blueButton = this.blueButton;
+      level.yellowButton = this.yellowButton;
       this.cupcakes.forEach( function( cupcake ) {
         level.cupcakes.push( cupcake.copy() );
       } );
@@ -53,6 +94,18 @@ define( function( require ) {
       level.nextLevel = this.nextLevel;
       level.previousLevel = this.previousLevel;
       return level;
+    },
+
+    addBlueButton: function( shape ) {
+      this.blueButton = new Button( shapeToSegments( shape, false ) );
+
+      return this;
+    },
+
+    addYellowButton: function( shape ) {
+      this.yellowButton = new Button( shapeToSegments( shape, false ) );
+
+      return this;
     },
 
     // construction
@@ -66,24 +119,9 @@ define( function( require ) {
     // construction
     // {kite.Shape}
     addWallShape: function( shape, isInteriorWall ) {
-      var self = this;
-      shape.subpaths.forEach( function( subpath ) {
-        if ( subpath.segments.length ) {
-          var segments = subpath.segments.slice();
-          if ( subpath.hasClosingSegment() ) {
-            segments.push( subpath.getClosingSegment() );
-          }
-          if ( isInteriorWall ) {
-            // reverse order of segments, and the segments individually
-            segments = segments.slice();
-            segments.reverse();
-            segments = segments.map( reverseSegment );
-          }
-          self.addWall( new Wall( segments ) );
-        }
-      } );
+      this.addWall( new Wall( shapeToSegments( shape, isInteriorWall ) ) );
 
-      return this; // chaining
+      return this;
     },
 
     // construction
@@ -193,15 +231,19 @@ define( function( require ) {
   Level.levels = [
     new Level( v( -50, -450 ), v( 50, -450 ), v( 0, 0 ) ).addWall( new Wall( smooth( [
         v( -50, -450 ),
-        v( -50, -400 ),
+        c( -50, -400, 10 ),
         c( -200, -400, 40 ),
         c( -200, 0, 40 ),
         c( 200, 0, 40 ),
         c( 200, -400, 40 ),
-        v( 50, -400 ),
+        c( 50, -400, 10 ),
         v( 50, -450 ),
       ] ) ) )
-      .addCupcake( new Cupcake( 0, -300 ) ),
+      .addCupcake( new Cupcake( 0, -300 ) )
+      .addCupcake( new Cupcake( -100, -100 ) )
+      .addCupcake( new Cupcake( 100, -100 ) )
+      .addBlueButton( Shape.circle( -100, -300, 30 ) )
+      .addYellowButton( Shape.circle( 100, -300, 30 ) ),
 
     new Level( v( -50, -10000 ), v( 50, -10000 ), v( 0, -450 ) )
       .addWall( new Wall( smooth( [
@@ -211,9 +253,11 @@ define( function( require ) {
         c( 500, -1000, 100 ),
         v( 50, -450 )
       ] ) ) )
-     .addWallShape( Shape.circle( 0, -1000, 200 ), true )
-     .addCupcake( new Cupcake( 300, -1000 ) )
-     .addCupcake( new Cupcake( -300, -1000 ) )
+      .addWallShape( Shape.circle( 0, -1000, 200 ), true )
+      .addCupcake( new Cupcake( 300, -1000 ) )
+      .addCupcake( new Cupcake( -300, -1000 ) )
+      .addBlueButton( Shape.circle( -100, -10000, 50 ) )
+      .addYellowButton( Shape.circle( 100, -10000, 50 ) )
   ];
 
   // Defines level.nextLevel, level.previousLevel

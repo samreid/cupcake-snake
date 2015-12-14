@@ -73,6 +73,62 @@ define( function( require ) {
       context.fill();
       context.stroke();
 
+      var blueDoorSegments = this.level.door.blueSegments;
+      context.fillStyle = this.level.bluePressed ? 'rgba(255,128,255,0.2)' : 'rgb(255,128,255)';
+      context.strokeStyle = this.level.bluePressed ? 'transparent' : 'rgb(40,40,40)';
+      context.lineWidth = 1;
+      context.beginPath();
+      context.moveTo( blueDoorSegments[ 0 ].start.x, blueDoorSegments[ 0 ].start.y );
+      for ( var i = 0; i < blueDoorSegments.length; i++ ) {
+        blueDoorSegments[ i ].writeToContext( context );
+      }
+      context.closePath();
+      context.fill();
+      context.stroke();
+
+      var yellowDoorSegments = this.level.door.yellowSegments;
+      context.fillStyle = this.level.yellowPressed ? 'rgba(128,255,255,0.2)' : 'rgb(128,255,255)';
+      context.strokeStyle = this.level.yellowPressed ? 'transparent' : 'rgb(40,40,40)';
+      context.lineWidth = 1;
+      context.beginPath();
+      context.moveTo( yellowDoorSegments[ 0 ].start.x, yellowDoorSegments[ 0 ].start.y );
+      for ( var i = 0; i < yellowDoorSegments.length; i++ ) {
+        yellowDoorSegments[ i ].writeToContext( context );
+      }
+      context.closePath();
+      context.fill();
+      context.stroke();
+
+      var blueButtonSegments = this.level.blueButton.segments;
+      context.fillStyle = 'rgba(255,128,255,0.5)';
+      context.strokeStyle = 'rgb(40,40,40)';
+      context.lineWidth = 1;
+      context.setLineDash( [ 3, 3 ] );
+      context.beginPath();
+      context.moveTo( blueButtonSegments[ 0 ].start.x, blueButtonSegments[ 0 ].start.y );
+      for ( var i = 0; i < blueButtonSegments.length; i++ ) {
+        blueButtonSegments[ i ].writeToContext( context );
+      }
+      context.closePath();
+      context.fill();
+      context.stroke();
+      context.setLineDash( [] );
+
+      var yellowButtonSegments = this.level.yellowButton.segments;
+      context.fillStyle = 'rgba(128,255,255,0.5)';
+      context.strokeStyle = 'rgb(40,40,40)';
+      context.lineWidth = 1;
+      context.setLineDash( [ 3, 3 ] );
+      context.beginPath();
+      context.moveTo( yellowButtonSegments[ 0 ].start.x, yellowButtonSegments[ 0 ].start.y );
+      for ( var i = 0; i < yellowButtonSegments.length; i++ ) {
+        yellowButtonSegments[ i ].writeToContext( context );
+      }
+      context.closePath();
+      context.fill();
+      context.stroke();
+      context.setLineDash( [] );
+
       context.restore();
     },
 

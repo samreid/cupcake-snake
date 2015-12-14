@@ -59,8 +59,13 @@ define( function( require ) {
         this.snake.step( growLength, shrinkLength, this.motion );
         this.remainingLengthToGrow = Math.max( this.remainingLengthToGrow - growLength, 0 );
 
+        // Button intersection
+        this.currentLevel.bluePressed = this.snake.intersectsSegments( this.currentLevel.blueButton.segments );
+        this.currentLevel.yellowPressed = this.snake.intersectsSegments( this.currentLevel.yellowButton.segments );
+
         // Door intersection
         if ( Intersection.intersect( this.snake.currentSegment.segment, this.currentLevel.door.segment ) ) {
+          this.currentLevel.active = false;
           var level = this.currentLevel.nextLevel.copy();
           this.visibleLevels.push( level );
           this.currentLevel = level;
@@ -84,24 +89,24 @@ define( function( require ) {
           chompSound.play();
         }
 
+        var hitObstable = false;
+
         // Check if the snake hit a wall
-        var wallHits = [];
-        for ( var k = 0; k < this.currentLevel.walls.length; k++ ) {
+        for ( var k = 0; k < this.currentLevel.walls.length && !hitObstable; k++ ) {
           var wall = this.currentLevel.walls[ k ];
 
-          wall.segments.forEach( function( wallSegment ) {
-            cupcakeSnakeModel.snake.segments.forEach( function( snakeSegment ) {
-              var segmentHits = Intersection.intersect( wallSegment, snakeSegment.segment );
-              if ( segmentHits ) {
-                // debugger;
-                // Intersection.intersect( wallSegment, snakeSegment.segment );
-                wallHits = wallHits.concat( segmentHits );
-              }
-            } );
-          } );
+          var hit = this.snake.intersectsSegments( wall.segments, true );
+          if ( hit ) {
+            hitObstable = true;
+            break;
+          }
         }
-        if ( wallHits.length > 0 ) {
 
+        // Check if the snake hit the doors
+        hitObstable = hitObstable || ( !this.currentLevel.bluePressed && this.snake.intersectsSegments( this.currentLevel.door.blueSegments, false ) );
+        hitObstable = hitObstable || ( !this.currentLevel.yellowPressed && this.snake.intersectsSegments( this.currentLevel.door.yellowSegments, false ) );
+
+        if ( hitObstable ) {
           // snake died (perhaps in the future)
           this.deathEmitter.emit();
           this.alive = false;

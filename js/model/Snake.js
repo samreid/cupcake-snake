@@ -141,6 +141,20 @@ define( function( require ) {
       this.segments.shift();
     },
 
+    intersectsSegments: function( segments, headOnly ) {
+      var hit = false;
+      var myLength = this.segments.length;
+      for ( var i = 0; i < segments.length; i++ ) {
+        var segment = segments[ i ];
+        var hits = this.intersectRange( segment, headOnly ? ( myLength - 1 ) : 0, myLength );
+        if ( hits ) {
+          hit = true;
+          break;
+        }
+      }
+      return hit;
+    },
+
     // only concerned with the intersection closest to the snake head
     intersectRange: function( segment, firstIndex, beforeIndex ) {
       assert && assert( firstIndex >= 0 );
