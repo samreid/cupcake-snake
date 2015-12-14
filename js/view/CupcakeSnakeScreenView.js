@@ -20,6 +20,11 @@ define( function( require ) {
   var CupcakeNode = require( 'CUPCAKE_SNAKE/view/CupcakeNode' );
   var Level = require( 'CUPCAKE_SNAKE/model/Level' );
   var GameOverPanel = require( 'CUPCAKE_SNAKE/view/GameOverPanel' );
+  var Sound = require( 'VIBE/Sound' );
+
+  // audio
+  var death = require( 'audio!CUPCAKE_SNAKE/qubodupImpactMeat02' );
+  var deathSound = new Sound( death );
 
   var scratchVector = new Vector2();
 
@@ -87,6 +92,8 @@ define( function( require ) {
     }
 
     cupcakeSnakeModel.deathEmitter.addListener( function() {
+      deathSound.play();
+
       var gameOverPanel = new GameOverPanel( cupcakeSnakeScreenView.cupcakeSnakeModel, restart );
       gameOverPanel.centerBottom = cupcakeSnakeScreenView.layoutBounds.center.plusXY( 0, -100 );
       cupcakeSnakeScreenView.addChild( gameOverPanel );

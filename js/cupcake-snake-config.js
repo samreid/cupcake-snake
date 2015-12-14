@@ -20,6 +20,7 @@ require.config( {
 
     // PhET plugins
     image: '../../chipper/js/requirejs-plugins/image',
+    audio: '../../chipper/js/requirejs-plugins/audio',
     mipmap: '../../chipper/js/requirejs-plugins/mipmap',
     string: '../../chipper/js/requirejs-plugins/string',
 
@@ -35,6 +36,7 @@ require.config( {
     SCENERY: '../../scenery/js',
     SCENERY_PHET: '../../scenery-phet/js',
     SUN: '../../sun/js',
+    VIBE: '../../vibe/js',
 
     // this sim
     CUPCAKE_SNAKE: '.'
