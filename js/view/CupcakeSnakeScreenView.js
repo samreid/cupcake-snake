@@ -62,6 +62,12 @@ define( function( require ) {
     this.playArea.addChild( this.levelLayer );
     this.playArea.addChild( this.snakeView );
 
+    this.playArea.visible = false;
+    this.buttonControls.visible = false;
+
+    this.addChild( this.playArea );
+    this.addChild( this.buttonControls );
+
     var KEY_LEFT = 37;
     var KEY_RIGHT = 39;
     var KEY_A = 65;
@@ -128,8 +134,8 @@ define( function( require ) {
       this.removeChild( this.homeScreen );
       this.homeScreen = null;
 
-      this.addChild( this.playArea );
-      this.addChild( this.buttonControls );
+      this.playArea.visible = true;
+      this.buttonControls.visible = true;
 
       // Listen to the model's visible levels, and add/remove the corresponding level views
       this.levelViews = [];

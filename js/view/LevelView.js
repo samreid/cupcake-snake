@@ -84,8 +84,8 @@ define( function( require ) {
 
       if ( this.level.active ) {
         var blueDoorSegments = this.level.door.blueSegments;
-        context.fillStyle = this.level.bluePressed ? 'rgba(255,128,255,0.2)' : 'rgb(255,128,255)';
-        context.strokeStyle = this.level.bluePressed ? 'transparent' : 'rgb(40,40,40)';
+        context.fillStyle = this.level.bluePressed ? 'rgba(128,128,128,0.1)' : 'rgb(255,128,255)';
+        context.strokeStyle = this.level.bluePressed ? 'rgba(128,128,128,0.2)' : 'rgb(40,40,40)';
         context.lineWidth = 1;
         context.beginPath();
         context.moveTo( blueDoorSegments[ 0 ].start.x, blueDoorSegments[ 0 ].start.y );
@@ -97,8 +97,8 @@ define( function( require ) {
         context.stroke();
 
         var yellowDoorSegments = this.level.door.yellowSegments;
-        context.fillStyle = this.level.yellowPressed ? 'rgba(128,255,255,0.2)' : 'rgb(128,255,255)';
-        context.strokeStyle = this.level.yellowPressed ? 'transparent' : 'rgb(40,40,40)';
+        context.fillStyle = this.level.yellowPressed ? 'rgba(128,128,128,0.1)' : 'rgb(128,255,255)';
+        context.strokeStyle = this.level.yellowPressed ? 'rgba(128,128,128,0.2)' : 'rgb(40,40,40)';
         context.lineWidth = 1;
         context.beginPath();
         context.moveTo( yellowDoorSegments[ 0 ].start.x, yellowDoorSegments[ 0 ].start.y );
