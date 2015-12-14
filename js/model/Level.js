@@ -24,6 +24,14 @@ define( function( require ) {
   var ObservableArray = require( 'AXON/ObservableArray' );
   var createLevel3 = require( 'CUPCAKE_SNAKE/model/createLevel3' );
 
+  var Sound = require( 'VIBE/Sound' );
+
+  var toneUp = require( 'audio!CUPCAKE_SNAKE/zapThreeToneUp' );
+  var toneUpSound = new Sound( toneUp );
+
+  var toneDown = require( 'audio!CUPCAKE_SNAKE/zapThreeToneDown' );
+  var toneDownSound = new Sound( toneDown );
+
   // TODO: add to Kite?
   function reverseSegment( segment ) {
     if ( segment instanceof Line ) {
@@ -79,6 +87,24 @@ define( function( require ) {
 
     this.multilink( [ 'bluePressed', 'yellowPressed' ], function() {
       self.everPressed = self.everPressed || self.bluePressed || self.yellowPressed;
+    } );
+
+    this.bluePressedProperty.link( function( bluePressed ) {
+      if ( bluePressed ) {
+        toneUpSound.play();
+      }
+      else {
+        toneDownSound.play();
+      }
+    } );
+
+    this.yellowPressedProperty.link( function( bluePressed ) {
+      if ( bluePressed ) {
+        toneUpSound.play();
+      }
+      else {
+        toneDownSound.play();
+      }
     } );
   }
 
