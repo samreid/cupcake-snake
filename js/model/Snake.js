@@ -25,6 +25,7 @@ define( function( require ) {
     this.initialLength = initialLength;
     this.initialRadius = initialRadius;
   }
+
   cupcakeSnake.register( 'Snake', Snake );
 
   inherit( Object, Snake, {
@@ -96,12 +97,15 @@ define( function( require ) {
       var selfIntersection = this.intersectRange( this.currentSegment.segment, 0, this.segments.length - 2 );
       if ( selfIntersection ) {
         this.cut( selfIntersection.length );
-        chompSound.play();
       }
 
       // Check for a 360-degree loop, which will cut off everything but one loop's worth
       if ( this.currentSegment.segment.radius && Math.abs( this.currentSegment.segment.startAngle - this.currentSegment.segment.endAngle ) >= Math.PI * 2 - 0.00001 ) {
-        this.cut( this.currentSegment.endLength - 2 * Math.PI * this.currentSegment.segment.radius );
+        this.cut( this.currentSegment.endLength - 2 * Math.PI * this.currentSegment.segment.radius +
+
+                  // cut a bit more so it is not contiunal cut
+                  0.01 );
+
       }
     },
 
@@ -127,6 +131,8 @@ define( function( require ) {
       this.totalLengthCut += amountToCut;
 
       this.shrink( amountToCut );
+
+      chompSound.play();
     },
 
     triggerTongue: function() {
