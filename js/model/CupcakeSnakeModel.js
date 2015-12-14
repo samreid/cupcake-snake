@@ -26,6 +26,7 @@ define( function( require ) {
     PropertySet.call( this, {
       left: false,
       right: false,
+      everTurned: false,
       remainingLengthToGrow: 0,
       motion: Snake.STRAIGHT,
       currentLevel: null, // Level
@@ -40,6 +41,7 @@ define( function( require ) {
 
     this.multilink( [ 'left', 'right' ], function() {
       self.motion = ( self.left === self.right ) ? Snake.STRAIGHT : ( self.left ? Snake.LEFT : Snake.RIGHT );
+      self.everTurned = self.everTurned || self.left || self.right;
     } );
 
     this.running = false;
@@ -91,6 +93,7 @@ define( function( require ) {
         }
 
         var hitObstable = false;
+        var hitMessage = null;
 
         // Check if the snake hit a wall
         for ( var k = 0; k < this.currentLevel.walls.length && !hitObstable; k++ ) {
@@ -99,6 +102,7 @@ define( function( require ) {
           var hit = this.snake.intersectsSegments( wall.segments, true );
           if ( hit ) {
             hitObstable = true;
+            hitMessage = 'Bumping into a wall didn\'t seem that dangerous!';
             break;
           }
         }
@@ -109,6 +113,7 @@ define( function( require ) {
           var headOverDoor = Intersection.intersect( this.snake.currentSegment.segment, previousLevel.door.segment );
           if ( headOverDoor ) {
             if ( previousLevel.headOut ) {
+              hitMessage = 'My mother always said to not dwell in the past.';
               hitObstable = true;
             }
           }
@@ -128,12 +133,19 @@ define( function( require ) {
         }
 
         // Check if the snake hit the doors
-        hitObstable = hitObstable || ( !this.currentLevel.bluePressed && this.snake.intersectsSegments( this.currentLevel.door.blueSegments, false ) );
-        hitObstable = hitObstable || ( !this.currentLevel.yellowPressed && this.snake.intersectsSegments( this.currentLevel.door.yellowSegments, false ) );
+        if ( ( !this.currentLevel.bluePressed && this.snake.intersectsSegments( this.currentLevel.door.blueSegments, false ) ) ||
+             ( !this.currentLevel.yellowPressed && this.snake.intersectsSegments( this.currentLevel.door.yellowSegments, false ) ) ) {
+          hitObstable = true;
+          hitMessage = 'Looks like there\'s no open-door policy here.';
+        }
 
         if ( hitObstable ) {
+          if ( !this.everTurned ) {
+            hitMessage = 'Try the left/right arrow keys or the on-screen buttons';
+          }
+
           // snake died (perhaps in the future)
-          this.deathEmitter.emit();
+          this.deathEmitter.emit1( hitMessage );
           this.alive = false;
         }
       }

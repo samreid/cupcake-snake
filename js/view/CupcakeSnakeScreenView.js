@@ -105,11 +105,11 @@ define( function( require ) {
     }
 
     cupcakeSnakeScreenView.gameOverPanelShowing = false;
-    cupcakeSnakeModel.deathEmitter.addListener( function() {
+    cupcakeSnakeModel.deathEmitter.addListener( function( message ) {
       deathSound.play();
 
       cupcakeSnakeScreenView.gameOverPanelShowing = true;
-      var gameOverPanel = new GameOverPanel( cupcakeSnakeScreenView.cupcakeSnakeModel, restart );
+      var gameOverPanel = new GameOverPanel( message, cupcakeSnakeScreenView.cupcakeSnakeModel, restart );
       gameOverPanel.centerBottom = cupcakeSnakeScreenView.layoutBounds.center.plusXY( 0, -75 );
       cupcakeSnakeScreenView.addChild( gameOverPanel );
       cupcakeSnakeScreenView.playArea.opacity = 0.7;

@@ -17,12 +17,12 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
 
-  function GameOverPanel( cupcakeSnakeModel, restart ) {
+  function GameOverPanel( message, cupcakeSnakeModel, restart ) {
     Node.call( this );
 
     var restartLevelButton = new RectangularPushButton( {
       content: new Text( 'Restart Level', {
-        font: new PhetFont( { size: 40 } )
+        font: new PhetFont( { size: 25 } )
       } ),
       baseColor: '#71f84d',
       listener: function() {
@@ -32,7 +32,7 @@ define( function( require ) {
 
     var homeScreenButton = new RectangularPushButton( {
       content: new Text( 'Home', {
-        font: new PhetFont( { size: 40 } )
+        font: new PhetFont( { size: 25 } )
       } ),
       baseColor: 'rgb(255,250,115)',
       listener: function() {
@@ -41,11 +41,13 @@ define( function( require ) {
     } );
 
     var contents = new VBox( {
-      spacing: 50,
+      spacing: 20,
       children: [
-        new Text( 'Game Over', {
-          font: new PhetFont( { size: 76, weight: 'bold' } )
-
+        new Text( 'Ouch!', {
+          font: new PhetFont( { size: 60, weight: 'bold' } )
+        } ),
+        new Text( message, {
+          font: new PhetFont( { size: 30 } )
         } ),
         new HBox( {
           spacing: 25,
@@ -54,7 +56,7 @@ define( function( require ) {
       ]
     } );
     this.addChild( new Panel( contents, {
-      xMargin: 15,
+      xMargin: 20,
       yMargin: 15
     } ) );
   }
