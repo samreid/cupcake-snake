@@ -13,6 +13,7 @@ define( function( require ) {
   var PropertySet = require( 'AXON/PropertySet' );
   var cupcakeSnake = require( 'CUPCAKE_SNAKE/cupcakeSnake' );
   var Cupcake = require( 'CUPCAKE_SNAKE/model/Cupcake' );
+  var Spinner = require( 'CUPCAKE_SNAKE/model/Spinner' );
   var Slicer = require( 'CUPCAKE_SNAKE/model/Slicer' );
   var Door = require( 'CUPCAKE_SNAKE/model/Door' );
   var Wall = require( 'CUPCAKE_SNAKE/model/Wall' );
@@ -337,17 +338,22 @@ define( function( require ) {
     level4.addCupcake( new Cupcake( level4Offset.x + horizontalOffset * 2, level4Offset.y - 350 - verticalOffset * 0 ) );
   }
 
-  var level5Offset = level3.door.center;
-  var level5 = new Level( v( 850, -13050 ), v( 850, -12500 ), level5Offset.plus( v( 0, -30 ) ), v( 0, -1 ) );
+  var level5Offset = level4.door.center;
+  var level5 = new Level( level4.door.left.plus( v( 0, -800 ) ), level4.door.right.plus( v( 0, -800 ) ), level5Offset.plus( v( 0, -30 ) ), v( 0, -1 ) );
   {
     level5.addWall( new Wall( smooth( [
-      level5Offset.plus( v( -50, 0 ) ),
-      level5Offset.plus( v( -50, -400 ) ),
-      level5Offset.plus( v( 50, -400 ) ),
-      level5Offset.plus( v( 50, 0 ) )
+      v( -50, 0, level5Offset ),
+      v( -150, -200, level5Offset ),
+      v( -50, -400, level5Offset ),
+      v( -50, -800, level5Offset ),
+      v( 50, -800, level5Offset ),
+      v( 50, -400, level5Offset ),
+      v( 150, -200, level5Offset ),
+      v( 50, 0, level5Offset )
     ] ) ) );
-    level5.addBlueButton( Shape.circle( level5Offset.x, level5Offset.y - 300, 30 ) );
-    level5.addYellowButton( Shape.circle( level5Offset.x, level5Offset.y - 360, 30 ) );
+    level5.addBlueButton( Shape.circle( level5Offset.x, level5Offset.y - 600, 30 ) );
+    level5.addYellowButton( Shape.circle( level5Offset.x, level5Offset.y - 700, 30 ) );
+    level5.addObstacle( new Spinner( level5Offset.plus( v( 0, -400 ) ), 50, 20, 3 ) )
   }
 
   Level.levels = [
@@ -441,7 +447,8 @@ define( function( require ) {
       .addYellowButton( Shape.circle( 630, -1300, 30 ) ),
 
     level3,
-    level4
+    level4,
+    level5
   ];
 
   // Defines level.nextLevel, level.previousLevel
