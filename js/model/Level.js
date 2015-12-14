@@ -92,7 +92,7 @@ define( function( require ) {
       self.everPressed = self.everPressed || self.bluePressed || self.yellowPressed;
     } );
 
-    this.bluePressedProperty.link( function( bluePressed ) {
+    this.bluePressedProperty.lazyLink( function( bluePressed ) {
       if ( bluePressed ) {
         if ( self.yellowPressed ) {
           toneUp2Sound.play();
@@ -107,9 +107,9 @@ define( function( require ) {
       }
     } );
 
-    this.yellowPressedProperty.link( function( bluePressed ) {
-      if ( bluePressed ) {
-        if ( self.yellowPressed ) {
+    this.yellowPressedProperty.lazyLink( function( yellowPressed ) {
+      if ( yellowPressed ) {
+        if ( self.bluePressed ) {
           toneUp2Sound.play();
         }
         else {
