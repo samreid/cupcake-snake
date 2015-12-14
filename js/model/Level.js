@@ -24,6 +24,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var createLevel3 = require( 'CUPCAKE_SNAKE/model/createLevel3' );
+  var Color = require( 'SCENERY/util/Color' );
 
   var Sound = require( 'VIBE/Sound' );
 
@@ -69,7 +70,7 @@ define( function( require ) {
     return result;
   }
 
-  function Level( doorLeft, doorRight, startPosition, startAngle ) {
+  function Level( doorLeft, doorRight, startPosition, startAngle, color ) {
     var self = this;
 
     PropertySet.call( this, {
@@ -84,6 +85,7 @@ define( function( require ) {
     this.walls = [];
     this.obstacles = [];
     this.cupcakes = new ObservableArray();
+    this.color = color;
     this.doorLeft = doorLeft; // Vector2
     this.doorRight = doorRight; // Vector2
     this.startPosition = startPosition; // Vector2
@@ -137,7 +139,7 @@ define( function( require ) {
     },
 
     copy: function() {
-      var level = new Level( this.doorLeft, this.doorRight, this.startPosition, this.startAngle );
+      var level = new Level( this.doorLeft, this.doorRight, this.startPosition, this.startAngle, this.color );
       level.walls = this.walls;
       level.obstacles = this.obstacles.map( function( obstacle ) { return obstacle.copy(); } );
       level.blueButton = this.blueButton;
@@ -272,7 +274,8 @@ define( function( require ) {
   var level3 = createLevel3( v, c, smooth, Level, Wall, Shape, shapeToSegments, Slicer, Cupcake );
 
   var level4Offset = level3.door.center;
-  var level4 = new Level( level3.door.left.plus( v( 0, -1050 ) ), level3.door.right.plus( v( 0, -1050 ) ), level4Offset.plus( v( 0, -30 ) ), v( 0, -1 ) );
+  var level4 = new Level( level3.door.left.plus( v( 0, -1050 ) ), level3.door.right.plus( v( 0, -1050 ) ), level4Offset.plus( v( 0, -30 ) ), v( 0, -1 ),
+                          new Color( 'rgb(180,180,250)' ) );
   {
     var verticalOffset = 100 + 30;
     var horizontalOffset = verticalOffset * Math.sqrt( 3 ) / 2;
@@ -339,7 +342,8 @@ define( function( require ) {
   }
 
   var level5Offset = level4.door.center;
-  var level5 = new Level( level4.door.left.plus( v( 0, -1200 ) ), level4.door.right.plus( v( 0, -1200 ) ), level5Offset.plus( v( 0, -30 ) ), v( 0, -1 ) );
+  var level5 = new Level( level4.door.left.plus( v( 0, -1200 ) ), level4.door.right.plus( v( 0, -1200 ) ), level5Offset.plus( v( 0, -30 ) ), v( 0, -1 ),
+                          new Color( 'rgb(255,110,110)' ) );
   {
     var firstRadius = 70;
     var secondRadius = 50;
@@ -381,7 +385,7 @@ define( function( require ) {
   }
 
   Level.levels = [
-    new Level( v( -50, -450 ), v( 50, -450 ), v( 0, 0 ), v( 0, -1 ) ).addWall( new Wall( smooth( [
+    new Level( v( -50, -450 ), v( 50, -450 ), v( 0, 0 ), v( 0, -1 ), new Color( 'rgb(255,250,115)' ) ).addWall( new Wall( smooth( [
         v( -50, -450 ),
         c( -50, -400, 10 ),
         c( -200, -400, 40 ),
@@ -397,7 +401,7 @@ define( function( require ) {
       .addBlueButton( Shape.circle( -100, -300, 30 ) )
       .addYellowButton( Shape.circle( 100, -300, 30 ) ),
 
-    new Level( v( 850, -1350 ), v( 850, -1250 ), v( 0, -450 ), v( 0, -1 ) )
+    new Level( v( 850, -1350 ), v( 850, -1250 ), v( 0, -450 ), v( 0, -1 ), new Color( 'rgb(140,250,160)' ) )
       .addWall( new Wall( smooth( [
         v( 50, -450 ),
         c( 100, -500, 20 ),

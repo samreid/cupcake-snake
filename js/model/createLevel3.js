@@ -4,8 +4,10 @@
  *
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function() {
+define( function( require ) {
   'use strict';
+
+  var Color = require( 'SCENERY/util/Color' );
 
   return function( v, c, smooth, Level, Wall, Shape, shapeToSegments, Slicer, Cupcake ) {
 
@@ -20,7 +22,7 @@ define( function() {
     };
 
     var doorOpening = origin.plusXY( -100 + a - b + b - d, 0 - m - 50 );
-    return new Level( doorOpening, doorOpening.plusXY( d + d, 0 ), v( 900, -1300 ), v( 1, 0 ) )
+    return new Level( doorOpening, doorOpening.plusXY( d + d, 0 ), v( 900, -1300 ), v( 1, 0 ), new Color( 'rgb(160,255,80)' ) )
       .addWall( new Wall( shapeToSegments( new Shape()
         .lineTo( origin.x - 100, origin.y )
         .lineToRelative( a - b, 0 )
