@@ -138,6 +138,12 @@ define( function( require ) {
         cupcakeSnakeScreenView.closeHomeScreenAndStartLevel( 1 );
       }
       else if ( cupcakeSnakeScreenView.gameOverPanelShowing ) {
+
+        cupcakeSnakeScreenView.gameOverPanelShowing = false;
+
+        keyEnterEmitter.removeListener(buttonListener);
+        keySpacebarEmitter.removeListener(buttonListener);
+
         restart( cupcakeSnakeModel.currentLevel.number );
       }
     };
