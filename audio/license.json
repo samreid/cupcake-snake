@@ -1,0 +1,34 @@
+{
+  "chomp.mp3": {
+    "text": [
+      "Public Domain"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "Public Domain",
+    "notes": "srr"
+  },
+  "chomp.ogg": {
+    "text": [
+      "Public Domain"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "Public Domain",
+    "notes": "srr"
+  },
+  "qubodupImpactMeat02.mp3": {
+    "text": [
+      "Public Domain"
+    ],
+    "projectURL": "http://opengameart.org/content/impact",
+    "license": "Public Domain",
+    "notes": "http://opengameart.org/content/impact"
+  },
+  "qubodupImpactMeat02.ogg": {
+    "text": [
+      "Public Domain"
+    ],
+    "projectURL": "http://opengameart.org/content/impact",
+    "license": "Public Domain",
+    "notes": "http://opengameart.org/content/impact"
+  }
+}
