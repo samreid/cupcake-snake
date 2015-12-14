@@ -19,7 +19,7 @@ define( function( require ) {
 
     this.cupcake = cupcake; // @public
 
-    var image = new Image( cupcakeImage, { scale: 0.3, renderer: 'webgl' } );
+    var image = new Image( cupcakeImage, { scale: 0.3 } );
     this.addChild( image );
     this.centerX = cupcake.x;
     this.centerY = cupcake.y;
