@@ -15,11 +15,12 @@ define( function( require ) {
   var cupcakeImage = require( 'image!CUPCAKE_SNAKE/cupcake-small.png' );
 
   function CupcakeNode( cupcake ) {
-    Node.call( this );
+    Node.call( this, { renderer: 'canvas' } );
 
     this.cupcake = cupcake; // @public
 
-    this.addChild( new Image( cupcakeImage, { scale: 0.3 } ) );
+    var image = new Image( cupcakeImage, { scale: 0.3, renderer: 'webgl' } );
+    this.addChild( image );
     this.centerX = cupcake.x;
     this.centerY = cupcake.y;
   }
