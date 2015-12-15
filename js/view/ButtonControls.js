@@ -23,26 +23,28 @@ define( function( require ) {
     var leftButton = new RectangularMomentaryButton( false, true, leftButtonProperty, {
       content: new ArrowNode( 0, 0, -20, -0, {
         scale: buttonScaleVector
-      } )
+      } ),
+      scale: 1.7
     } );
-    var dilationTouchAreaDelta = 250;
+    var dilationTouchAreaDelta = 210;
     leftButton.touchArea = leftButton.localBounds.dilatedXY( dilationTouchAreaDelta, dilationTouchAreaDelta );
 
     var rightButton = new RectangularMomentaryButton( false, true, rightButtonProperty, {
       content: new ArrowNode( 0, 0, 20, -0, {
         scale: buttonScaleVector
-      } )
+      } ),
+      scale: 1.7
     } );
     rightButton.touchArea = rightButton.localBounds.dilatedXY( dilationTouchAreaDelta, dilationTouchAreaDelta );
 
     this.addChild( leftButton );
     this.addChild( rightButton );
     cupcakeSnakeScreenView.events.on( 'layoutFinished', function( dx, dy, width, height ) {
-        leftButton.left = -dx + 10;
-        leftButton.bottom = -dy - 10 + height;
+        leftButton.left = -dx + 20;
+        leftButton.bottom = -dy - 20 + height;
 
-        rightButton.right = -dx - 10 + width;
-        rightButton.bottom = -dy - 10 + height;
+        rightButton.right = -dx - 20 + width;
+        rightButton.bottom = -dy - 20 + height;
       }
     );
   }
