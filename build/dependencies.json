@@ -1,5 +1,5 @@
 {
-  "comment": "# cupcake-snake 1.0.0-dev.1 Mon Dec 14 2015 18:06:56 GMT-0700 (MST)",
+  "comment": "# cupcake-snake 1.0.0-dev.1 Mon Dec 14 2015 18:41:50 GMT-0700 (MST)",
   "assert": {
     "sha": "d4909677d27ed571d5d859d709a0612bf7811db8",
     "branch": "master"
@@ -17,7 +17,7 @@
     "branch": "master"
   },
   "cupcake-snake": {
-    "sha": "5464b1b4459b2df4bc17c4445c5a895b7f1d29ba",
+    "sha": "8fd1cc86574297d8d780d9eae1e2a923b0c9ff17",
     "branch": "gh-pages"
   },
   "dot": {
