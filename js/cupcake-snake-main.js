@@ -4,7 +4,7 @@ define( function( require ) {
   // modules
   var CupcakeSnakeScreen = require( 'CUPCAKE_SNAKE/CupcakeSnakeScreen' );
   var platform = require( 'PHET_CORE/platform' );
-  //var BackgroundMusic = require( 'CUPCAKE_SNAKE/sBackgroundMusic' );
+  var BackgroundMusic = require( 'CUPCAKE_SNAKE/BackgroundMusic' );
   var App = require( 'CUPCAKE_SNAKE/App' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
   var titleString = require( 'string!CUPCAKE_SNAKE/cupcake-snake.title' );
@@ -34,7 +34,7 @@ define( function( require ) {
     app.start();
 
     if ( !platform.ie ) {
-      //BackgroundMusic.start();
+      BackgroundMusic.start();
     }
 
     // <audio autoplay="autoplay" preload="preload" loop="loop">
