@@ -64,7 +64,8 @@ define( function( require ) {
     this.playArea = new Node();
     this.levelLayer = new Node();
     this.snakeView = new SnakeView( this.cupcakeSnakeModel.snake ); // The snake is always there, he just navigates to different levels.
-    this.playArea.addChild( new BackgroundNode( cupcakeSnakeModel ) );
+    this.backgroundNode = new BackgroundNode( cupcakeSnakeModel );
+    this.playArea.addChild( this.backgroundNode );
     this.playArea.addChild( this.levelLayer );
     this.playArea.addChild( this.snakeView );
 
@@ -185,6 +186,7 @@ define( function( require ) {
 
     startLevel: function( levelNumber ) {
       this.cupcakeSnakeModel.startLevel( Level.levels[ levelNumber - 1 ] );
+      this.backgroundNode.sync();
     },
 
     step: function( dt ) {
@@ -210,6 +212,8 @@ define( function( require ) {
       if ( this.homeScreen ) {
         this.homeScreen.step( dt );
       }
+
+      this.backgroundNode.step( dt );
     }
   } );
 } );

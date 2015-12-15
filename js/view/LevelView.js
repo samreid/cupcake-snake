@@ -89,6 +89,7 @@ define( function( require ) {
       context.strokeStyle = '#333';
       context.lineWidth = 1;
       context.lineCap = 'round';
+      context.lineJoin = 'round';
       if ( !this.level.active ) {
         context.globalAlpha = 0.5;
       }

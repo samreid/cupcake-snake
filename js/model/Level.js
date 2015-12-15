@@ -24,6 +24,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var createLevel3 = require( 'CUPCAKE_SNAKE/model/createLevel3' );
+  var Color = require( 'SCENERY/util/Color' );
 
   var Sound = require( 'VIBE/Sound' );
 
@@ -69,7 +70,7 @@ define( function( require ) {
     return result;
   }
 
-  function Level( doorLeft, doorRight, startPosition, startAngle ) {
+  function Level( doorLeft, doorRight, startPosition, startAngle, color ) {
     var self = this;
 
     PropertySet.call( this, {
@@ -84,6 +85,7 @@ define( function( require ) {
     this.walls = [];
     this.obstacles = [];
     this.cupcakes = new ObservableArray();
+    this.color = color;
     this.doorLeft = doorLeft; // Vector2
     this.doorRight = doorRight; // Vector2
     this.startPosition = startPosition; // Vector2
@@ -137,7 +139,7 @@ define( function( require ) {
     },
 
     copy: function() {
-      var level = new Level( this.doorLeft, this.doorRight, this.startPosition, this.startAngle );
+      var level = new Level( this.doorLeft, this.doorRight, this.startPosition, this.startAngle, this.color );
       level.walls = this.walls;
       level.obstacles = this.obstacles.map( function( obstacle ) { return obstacle.copy(); } );
       level.blueButton = this.blueButton;
@@ -272,7 +274,8 @@ define( function( require ) {
   var level3 = createLevel3( v, c, smooth, Level, Wall, Shape, shapeToSegments, Slicer, Cupcake );
 
   var level4Offset = level3.door.center;
-  var level4 = new Level( level3.door.left.plus( v( 0, -1050 ) ), level3.door.right.plus( v( 0, -1050 ) ), level4Offset.plus( v( 0, -30 ) ), v( 0, -1 ) );
+  var level4 = new Level( level3.door.left.plus( v( 0, -1050 ) ), level3.door.right.plus( v( 0, -1050 ) ), level4Offset.plus( v( 0, -30 ) ), v( 0, -1 ),
+                          new Color( 'rgb(180,180,250)' ) );
   {
     var verticalOffset = 100 + 30;
     var horizontalOffset = verticalOffset * Math.sqrt( 3 ) / 2;
@@ -339,7 +342,8 @@ define( function( require ) {
   }
 
   var level5Offset = level4.door.center;
-  var level5 = new Level( level4.door.left.plus( v( 0, -1200 ) ), level4.door.right.plus( v( 0, -1200 ) ), level5Offset.plus( v( 0, -30 ) ), v( 0, -1 ) );
+  var level5 = new Level( level4.door.left.plus( v( 0, -1200 ) ), level4.door.right.plus( v( 0, -1200 ) ), level5Offset.plus( v( 0, -30 ) ), v( 0, -1 ),
+                          new Color( 'rgb(255,110,110)' ) );
   {
     var firstRadius = 70;
     var secondRadius = 50;
@@ -380,8 +384,61 @@ define( function( require ) {
     level5.addCupcake( new Cupcake( level5Offset.x + 225, level5Offset.y - 1025 ) );
   }
 
+  var level6Offset = level5.door.center;
+  var level6 = new Level( level5.door.left.plus( v( 0, -1100 ) ), level5.door.right.plus( v( 0, -1100 ) ), level6Offset.plus( v( 0, -30 ) ), v( 0, -1 ),
+                          new Color( 'rgb(255,110,0)' ) );
+  {
+    var angle = Math.asin( 50 / 250 );
+    var cos = Math.cos( angle );
+    var sin = Math.sin( angle );
+
+    var r1 = 210;
+    var r2 = 180;
+    var r3 = 140;
+    var r4 = 110;
+    level6.addWall( new Wall( [
+      new Line( v( -50, 0, level6Offset ), v( -50, -750 + cos * 250, level6Offset ) ),
+      new Arc( v( 0, -750, level6Offset ), 250, Math.PI / 2 + angle, -Math.PI / 2 - angle, false ),
+      new Line( v( -50, -750 - cos * 250, level6Offset ), v( -50, -1100, level6Offset ) ),
+      new Line( v( -50, -1100, level6Offset ), v( 50, -1100, level6Offset ) ),
+      new Line( v( 50, -1100, level6Offset ), v( 50, -750 - cos * 250, level6Offset ) ),
+      new Arc( v( 0, -750, level6Offset ), 250, -Math.PI / 2 + angle, Math.PI / 2 - angle, false ),
+      new Line( v( 50, -750 + cos * 250, level6Offset ), v( 50, 0, level6Offset ) )
+    ] ) );
+
+    var arc1 = new Arc( v( 0, -750, level6Offset ), r1, -angle, +angle, true );
+    var arc2 = new Arc( v( 0, -750, level6Offset ), r2, +angle, -angle, false );
+    level6.addWall( new Wall( [
+      arc1,
+      new Line( arc1.end, arc2.start ),
+      arc2,
+      new Line( arc2.end, arc1.start )
+    ] ) );
+
+    var arc3 = new Arc( v( 0, -750, level6Offset ), r3, Math.PI - angle, Math.PI + angle, true );
+    var arc4 = new Arc( v( 0, -750, level6Offset ), r4, Math.PI + angle, Math.PI - angle, false );
+    level6.addWall( new Wall( [
+      arc3,
+      new Line( arc3.end, arc4.start ),
+      arc4,
+      new Line( arc4.end, arc3.start )
+    ] ) );
+    level6.addObstacle( new Spinner( level6Offset.plus( v( 0, -400 ) ), 50, 20, 2 ) );
+
+    level6.addBlueButton( Shape.circle( level6Offset.x, level6Offset.y - 750, 30 ) );
+    level6.addYellowButton( Shape.circle( level6Offset.x, level6Offset.y - 1000, 30 ) );
+
+    var numCupcakes = 7;
+    for ( var i = 0; i < numCupcakes; i++ ) {
+      var cupcakeAngle1 = i / numCupcakes * Math.PI * 2;
+      var cupcakeAngle2 = ( i + 0.5 ) / numCupcakes * Math.PI * 2;
+      level6.addCupcake( new Cupcake( 60 * Math.cos( cupcakeAngle1 ) + level6Offset.x, 60 * Math.sin( cupcakeAngle1 ) + level6Offset.y - 750 ) );
+      level6.addCupcake( new Cupcake( 80 * Math.cos( cupcakeAngle2 ) + level6Offset.x, 80 * Math.sin( cupcakeAngle2 ) + level6Offset.y - 750 ) );
+    }
+  }
+
   Level.levels = [
-    new Level( v( -50, -450 ), v( 50, -450 ), v( 0, 0 ), v( 0, -1 ) ).addWall( new Wall( smooth( [
+    new Level( v( -50, -450 ), v( 50, -450 ), v( 0, 0 ), v( 0, -1 ), new Color( 'rgb(255,250,115)' ) ).addWall( new Wall( smooth( [
         v( -50, -450 ),
         c( -50, -400, 10 ),
         c( -200, -400, 40 ),
@@ -397,7 +454,7 @@ define( function( require ) {
       .addBlueButton( Shape.circle( -100, -300, 30 ) )
       .addYellowButton( Shape.circle( 100, -300, 30 ) ),
 
-    new Level( v( 850, -1350 ), v( 850, -1250 ), v( 0, -450 ), v( 0, -1 ) )
+    new Level( v( 850, -1350 ), v( 850, -1250 ), v( 0, -450 ), v( 0, -1 ), new Color( 'rgb(140,250,160)' ) )
       .addWall( new Wall( smooth( [
         v( 50, -450 ),
         c( 100, -500, 20 ),
@@ -473,7 +530,8 @@ define( function( require ) {
 
     level3,
     level4,
-    level5
+    level5,
+    level6
   ];
 
   // Defines level.nextLevel, level.previousLevel

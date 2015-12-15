@@ -71,17 +71,19 @@ define( function( require ) {
 
       // tongue
       // console.log( snake.tongueExtension );
-      var tongueOffset = snake.tongueExtension - 9;
-      context.fillStyle = '#f00';
-      context.beginPath();
-      context.moveTo( px + dx * ( tongueOffset + 9 ) - dy * 1, py + dy * ( tongueOffset + 9 ) + dx * 1 );
-      context.lineTo( px + dx * ( tongueOffset + 12 ) - dy * 1, py + dy * ( tongueOffset + 12 ) + dx * 1 );
-      context.lineTo( px + dx * ( tongueOffset + 16 ) - dy * 3, py + dy * ( tongueOffset + 16 ) + dx * 3 );
-      context.lineTo( px + dx * ( tongueOffset + 13 ) - dy * 0, py + dy * ( tongueOffset + 13 ) + dx * 0 );
-      context.lineTo( px + dx * ( tongueOffset + 16 ) + dy * 3, py + dy * ( tongueOffset + 16 ) - dx * 3 );
-      context.lineTo( px + dx * ( tongueOffset + 12 ) + dy * 1, py + dy * ( tongueOffset + 12 ) - dx * 1 );
-      context.lineTo( px + dx * ( tongueOffset + 9 ) + dy * 1, py + dy * ( tongueOffset + 9 ) - dx * 1 );
-      context.fill();
+      if ( snake.tongueExtension !== 0 ) {
+        var tongueOffset = snake.tongueExtension - 9;
+        context.fillStyle = '#f00';
+        context.beginPath();
+        context.moveTo( px + dx * ( tongueOffset + 9 ) - dy * 1, py + dy * ( tongueOffset + 9 ) + dx * 1 );
+        context.lineTo( px + dx * ( tongueOffset + 12 ) - dy * 1, py + dy * ( tongueOffset + 12 ) + dx * 1 );
+        context.lineTo( px + dx * ( tongueOffset + 16 ) - dy * 3, py + dy * ( tongueOffset + 16 ) + dx * 3 );
+        context.lineTo( px + dx * ( tongueOffset + 13 ) - dy * 0, py + dy * ( tongueOffset + 13 ) + dx * 0 );
+        context.lineTo( px + dx * ( tongueOffset + 16 ) + dy * 3, py + dy * ( tongueOffset + 16 ) - dx * 3 );
+        context.lineTo( px + dx * ( tongueOffset + 12 ) + dy * 1, py + dy * ( tongueOffset + 12 ) - dx * 1 );
+        context.lineTo( px + dx * ( tongueOffset + 9 ) + dy * 1, py + dy * ( tongueOffset + 9 ) - dx * 1 );
+        context.fill();
+      }
 
       // head
       context.beginPath();
@@ -114,6 +116,7 @@ define( function( require ) {
       var faceAngle = this.snake.direction.angle();
       var center;
 
+      // whites
       center = scratchVector.setPolar( eyeOffsetMagnitude, faceAngle + eyeOffsetAngle ).add( this.snake.position );
       context.beginPath();
       context.arc( center.x, center.y, eyeRadius, 0, Math.PI * 2, false );
@@ -127,6 +130,7 @@ define( function( require ) {
       context.fill();
       context.stroke();
 
+      // pupils
       context.fillStyle = '#000';
       var pupilOffset = scratchVector2.setPolar( pupilOffsetMagnitude, faceAngle );
       center = scratchVector.setPolar( eyeOffsetMagnitude, faceAngle + eyeOffsetAngle ).add( pupilOffset ).add( this.snake.position );
