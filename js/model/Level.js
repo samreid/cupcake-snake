@@ -384,6 +384,59 @@ define( function( require ) {
     level5.addCupcake( new Cupcake( level5Offset.x + 225, level5Offset.y - 1025 ) );
   }
 
+  var level6Offset = level5.door.center;
+  var level6 = new Level( level5.door.left.plus( v( 0, -1100 ) ), level5.door.right.plus( v( 0, -1100 ) ), level6Offset.plus( v( 0, -30 ) ), v( 0, -1 ),
+                          new Color( 'rgb(255,110,0)' ) );
+  {
+    var angle = Math.asin( 50 / 250 );
+    var cos = Math.cos( angle );
+    var sin = Math.sin( angle );
+
+    var r1 = 210;
+    var r2 = 180;
+    var r3 = 140;
+    var r4 = 110;
+    level6.addWall( new Wall( [
+      new Line( v( -50, 0, level6Offset ), v( -50, -750 + cos * 250, level6Offset ) ),
+      new Arc( v( 0, -750, level6Offset ), 250, Math.PI / 2 + angle, -Math.PI / 2 - angle, false ),
+      new Line( v( -50, -750 - cos * 250, level6Offset ), v( -50, -1100, level6Offset ) ),
+      new Line( v( -50, -1100, level6Offset ), v( 50, -1100, level6Offset ) ),
+      new Line( v( 50, -1100, level6Offset ), v( 50, -750 - cos * 250, level6Offset ) ),
+      new Arc( v( 0, -750, level6Offset ), 250, -Math.PI / 2 + angle, Math.PI / 2 - angle, false ),
+      new Line( v( 50, -750 + cos * 250, level6Offset ), v( 50, 0, level6Offset ) )
+    ] ) );
+
+    var arc1 = new Arc( v( 0, -750, level6Offset ), r1, -angle, +angle, true );
+    var arc2 = new Arc( v( 0, -750, level6Offset ), r2, +angle, -angle, false );
+    level6.addWall( new Wall( [
+      arc1,
+      new Line( arc1.end, arc2.start ),
+      arc2,
+      new Line( arc2.end, arc1.start )
+    ] ) );
+
+    var arc3 = new Arc( v( 0, -750, level6Offset ), r3, Math.PI - angle, Math.PI + angle, true );
+    var arc4 = new Arc( v( 0, -750, level6Offset ), r4, Math.PI + angle, Math.PI - angle, false );
+    level6.addWall( new Wall( [
+      arc3,
+      new Line( arc3.end, arc4.start ),
+      arc4,
+      new Line( arc4.end, arc3.start )
+    ] ) );
+    level6.addObstacle( new Spinner( level6Offset.plus( v( 0, -400 ) ), 50, 20, 2 ) );
+
+    level6.addBlueButton( Shape.circle( level6Offset.x, level6Offset.y - 750, 30 ) );
+    level6.addYellowButton( Shape.circle( level6Offset.x, level6Offset.y - 1000, 30 ) );
+
+    var numCupcakes = 7;
+    for ( var i = 0; i < numCupcakes; i++ ) {
+      var cupcakeAngle1 = i / numCupcakes * Math.PI * 2;
+      var cupcakeAngle2 = ( i + 0.5 ) / numCupcakes * Math.PI * 2;
+      level6.addCupcake( new Cupcake( 60 * Math.cos( cupcakeAngle1 ) + level6Offset.x, 60 * Math.sin( cupcakeAngle1 ) + level6Offset.y - 750 ) );
+      level6.addCupcake( new Cupcake( 80 * Math.cos( cupcakeAngle2 ) + level6Offset.x, 80 * Math.sin( cupcakeAngle2 ) + level6Offset.y - 750 ) );
+    }
+  }
+
   Level.levels = [
     new Level( v( -50, -450 ), v( 50, -450 ), v( 0, 0 ), v( 0, -1 ), new Color( 'rgb(255,250,115)' ) ).addWall( new Wall( smooth( [
         v( -50, -450 ),
@@ -477,7 +530,8 @@ define( function( require ) {
 
     level3,
     level4,
-    level5
+    level5,
+    level6
   ];
 
   // Defines level.nextLevel, level.previousLevel
