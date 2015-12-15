@@ -57,7 +57,7 @@ define( function( require ) {
     } );
 
     var cupcake = new Image( cupcakeImage, { scale: 0.8, left: bounds.minX + 200, bottom: startGameButton.top - 10 } );
-    var circle = new Circle( 1000, {
+    var circle = new Circle( 3000, {
       centerX: cupcake.centerX,
       centerY: cupcake.centerY + cupcake.height / 4,
       fill: new Color( 255, 250, 115, 1 )
